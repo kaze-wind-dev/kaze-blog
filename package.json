@@ -13,6 +13,8 @@
     "lint:fix": "eslint . --fix"
   },
   "dependencies": {
+    "@fontsource-variable/outfit": "^5.2.8",
+    "@fontsource/zen-kaku-gothic-new": "^5.2.7",
     "astro": "^5.16.4",
     "sass": "^1.94.2"
   },

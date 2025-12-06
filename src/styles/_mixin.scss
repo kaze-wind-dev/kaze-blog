@@ -1,0 +1,28 @@
+@use "sass:map";
+
+// メディアクエリ
+$breakpoints: (
+  "sm": "screen and (min-width: 480px)",
+  "md": "screen and (min-width: 768px)",
+  "lg": "screen and (min-width: 1024px)",
+  "xl": "screen and (min-width: 1200px)",
+  "2xl": "screen and (min-width: 1440px)",
+) !default;
+@mixin mq($breakpoint) {
+  @media #{map.get($breakpoints, $breakpoint)} {
+    @content;
+  }
+}
+// テキストがはみ出た文の3点処理
+@mixin lineClamp($row) {
+  @if $row ==1 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  } @else if $row >1 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: $row;
+  }
+}

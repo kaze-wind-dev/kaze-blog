@@ -1,0 +1,67 @@
+@use "mixin" as *;
+@use "functions" as *;
+
+:root {
+  --viewport-width: 100vw; //ビューポート幅
+  --window-width: tan(atan2(var(--viewport-width), 1px)); //画面幅
+  --base-width: max(1512px, 94.5rem); //基準＋最大幅
+  --max: tan(atan2(var(--base-width), 1px)); //最大幅
+  --scale: max(
+    1,
+    var(--window-width) / var(--max)
+  ); //基準の画面幅に対してのスケール（最小値1）
+  --px: calc(1px * var(--scale)); //スケールを考慮したpx
+  --rem: calc(1rem * var(--scale)); //スケールを考慮したrem
+  --max-width: max(calc(1512 * var(--px)), calc(94.5 * var(--rem))); //最大幅
+  --primary-color: #056ee6;
+  --secondary-color: #2b7ddb;
+  --bg-primary-color: #e8f4ff;
+  --bg-secondary-color: #eeeeee;
+  --black-color: #000;
+  --white-color: #fff;
+  --text-primary: #222;
+  --text-secondary: #666;
+  --gray-color: #9ca3af;
+  --light-gray-color: #e5e7eb;
+  --dark-gray-color: #374151;
+  --border-color: #e0e0e0;
+  --font-size-xs: #{calcClamp(11, 12, 375, 1024)};
+  --font-size-sm: #{calcClamp(13, 14, 375, 1024)};
+  --font-size-base: #{calcClamp(14, 15, 375, 1024)};
+  --font-size-md: #{calcClamp(16, 17, 375, 1024)};
+  --font-size-lg: #{calcClamp(18, 20, 375, 1024)};
+  --font-size-xl: #{calcClamp(20, 22, 375, 1024)};
+  --font-size-2xl: #{calcClamp(22, 24, 375, 1024)};
+  --font-size-3xl: #{calcClamp(24, 26, 375, 1024)};
+  --font-size-3xl: #{calcClamp(28, 30, 375, 1024)};
+  --font-size-5xl: #{calcClamp(32, 34, 375, 1024)};
+  --heading-1: #{calcClamp(36, 56, 375, 1024)};
+  --heading-2: #{calcClamp(32, 40, 375, 1024)};
+  --heading-3: #{calcClamp(22, 28, 375, 1024)};
+  --heading-4: #{calcClamp(20, 22, 375, 1024)};
+  --heading-5: #{calcClamp(18, 20, 375, 1024)};
+  --heading-6: #{calcClamp(16, 17, 375, 1024)};
+  --font-primary: 'Zen Kaku Gothic New', sans-serif;
+  --font-secondary: 'Outfit Variable', sans-serif;
+}
+
+@include mq("lg") {
+  :root {
+    --font-size-xs: #{rem(13)};
+    --font-size-sm: #{rem(14)};
+    --font-size-base: #{rem(16)};
+    --font-size-md: #{rem(18)};
+    --font-size-lg: #{rem(20)};
+    --font-size-xl: #{rem(24)};
+    --font-size-2xl: #{rem(28)};
+    --font-size-3xl: #{rem(32)};
+    --font-size-3xl: #{rem(40)};
+    --font-size-5xl: #{rem(48)};
+    --heading-1: #{rem(64)};
+    --heading-2: #{rem(48)};
+    --heading-3: #{rem(32)};
+    --heading-4: #{rem(24)};
+    --heading-5: #{rem(22)};
+    --heading-6: #{rem(20)};
+  }
+}

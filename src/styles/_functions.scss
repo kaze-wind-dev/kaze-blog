@@ -1,0 +1,76 @@
+@use "sass:map";
+@use "sass:string";
+@use "sass:math";
+@use "sass:list";
+
+@function em($fontSize, $baseSize) {
+  @return calc(math.div($fontSize, $baseSize) * 1em);
+}
+
+// remの自動計算
+@function rem($fontSize, $baseSize: 16) {
+  @return calc(math.div($fontSize, $baseSize) * 1rem);
+}
+
+// vwの自動計算
+@function vw($width, $containerWidth) {
+  @return calc(math.div($width, $containerWidth) * 100vw);
+}
+
+// %の自動計算
+@function percent($width, $containerWidth) {
+  @return calc(math.div($width, $containerWidth) * 100%);
+}
+
+@function roundRem($value, $precision: 3) {
+  // 小数第 $precision 位で丸めて rem に変換
+  $factor: math.pow(10, $precision);
+  @return math.div(math.round($value * $factor), $factor) * 1rem;
+}
+
+// clampを使いたい際の自動計算用関数
+// 下記ジェネレータとほぼ同じ結果になります
+// https://min-max-calculator.9elements.com/
+// 主にSP用のフォントサイズの調整に使用します。
+// 初期は計算元となる画面幅は350px～767pxの間で$minSize～$maxSizeの間で可変するようになります。
+
+@function calcClamp(
+  $minSize,
+  $maxSize,
+  $minWidth: 375,
+  $maxWidth: 1280,
+  $remSize: 16
+) {
+  // px → rem に変換
+  $cminSize: math.div($minSize, $remSize);
+  $cmaxSize: math.div($maxSize, $remSize);
+  $cminWidth: math.div($minWidth, $remSize);
+  $cmaxWidth: math.div($maxWidth, $remSize);
+
+  // スロープ計算
+  $slope: math.div($cmaxSize - $cminSize, $cmaxWidth - $cminWidth);
+
+  // y切片計算
+  $a: (-1 * $cminWidth * $slope + $cminSize);
+
+  // 小数点丸め
+  $a: math.div(math.round($a * 1000), 1000);
+  $slope: math.div(
+    math.round($slope * 1000000),
+    1000000
+  ); // 微小値なので精度高めに
+
+  // clamp を返す
+  @return clamp(
+    roundRem($cminSize),
+    string.unquote("calc(#{$a}rem + #{$slope} * 100vw)"),
+    roundRem($cmaxSize)
+  );
+}
+
+@function scaledPx($number) {
+  @return calc($number * var(--px));
+}
+@function scaledRem($number) {
+  @return calc($number * var(--rem));
+}
