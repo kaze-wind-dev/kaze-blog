@@ -1,0 +1,35 @@
+---
+import type { Navigation } from '@/types/navigation';
+type Props = Navigation;
+const { items, className, ariaLabel } = Astro.props;
+const currentUrl = Astro.request.url;
+
+function isCurrent(pathname: string, hrefPath: string) {
+  if (hrefPath === "/") {
+    return pathname === hrefPath;
+  } else {
+    return pathname.includes(hrefPath);
+  }
+}
+---
+
+<nav class="header__navigation" aria-label={ariaLabel}>
+  <ul class={className.list}>
+    {
+      items.map((item) => {
+        const isCurrentPath = isCurrent(currentUrl, item.href);
+        return (
+          <li class={className.item}>
+            <a
+              href={item.href}
+              class:list={[className.link, isCurrentPath && "is-current"]}
+              aria-current={isCurrentPath ? "page" : undefined}
+            >
+              {item.name}
+            </a>
+          </li>
+        );
+      })
+    }
+  </ul>
+</nav>
