@@ -41,8 +41,10 @@
   --heading-4: #{calcClamp(20, 22, 375, 1024)};
   --heading-5: #{calcClamp(18, 20, 375, 1024)};
   --heading-6: #{calcClamp(16, 17, 375, 1024)};
-  --font-primary: 'Zen Kaku Gothic New', sans-serif;
-  --font-secondary: 'Outfit Variable', sans-serif;
+  --font-primary: "Zen Kaku Gothic New", sans-serif;
+  --font-secondary: "Outfit Variable", sans-serif;
+  --inner-inline-padding: 5%;
+  --header-height: 80px;
 }
 
 @include mq("lg") {
@@ -65,3 +67,4 @@
     --heading-6: #{rem(20)};
   }
 }
+

@@ -1,0 +1,57 @@
+@use "../mixin" as *;
+@use "../functions" as *;
+@use "../extends" as *;
+.header {
+}
+.header__logo {
+  font-size: calcClamp(24, 36);
+  @extend .font-secondary;
+  line-height: 1;
+}
+.header__inner {
+  @extend .inner;
+  padding-block: calc(var(--px) * 5);
+  display: flex;
+  align-items: center;
+  height: var(--header-height);
+}
+.header__navigation {
+  margin-left: auto;
+  display: none;
+  @include mq("lg") {
+    display: block;
+  }
+}
+.header__navigation__list {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+.header__navigation__list__item {
+}
+.header__navigation__list__link {
+  font-size: var(--font-size-base);
+  @extend .font-secondary;
+  display: block;
+  width: fit-content;
+  position: relative;
+  z-index: 1;
+  // transition: 0.3s;
+  &::after {
+    content: "";
+    width: 0;
+    height: 2px;
+    background-color: var(--primary-color);
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    translate: -50% 0.125em;
+    transition: width 0.3s;
+  }
+  &:hover,
+  &.is-current {
+    &::after {
+      width: 1em;
+    }
+  }
+}

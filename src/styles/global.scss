@@ -2,13 +2,5 @@
 @use "functions" as *;
 @use "variables";
 
-body {
-  font-size: var(--font-size-base);
-  overflow-wrap: anywhere;
-  word-break: normal;
-  line-break: strict;
-  font-family: var(--font-primary);
-  line-height: 1.5;
-  letter-spacing: 0.05em;
-  font-weight: 500;
-}
+@use "base";
+@use "components/header";

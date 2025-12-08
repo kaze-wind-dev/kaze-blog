@@ -1,0 +1,25 @@
+---
+import { MAIN_NAVIGATION_LIST } from "@/constants";
+import type { Navigation as NavigationProps } from "@/types/navigation";
+import Navigation from "./Navigation.astro";
+const headerClasses : NavigationProps["className"] = {
+  nav: "header__navigation",
+  list: "header__navigation__list",
+item: "header__navigation__list__item",
+link: "header__navigation__list__link",
+}
+---
+
+<header class="header">
+  <div class="header__inner">
+    <h1 class="header__logo">
+      <a href="/">Kaze Notes</a>
+    </h1>
+    <Navigation items={MAIN_NAVIGATION_LIST} className={headerClasses} ariaLabel="ヘッダーナビゲーション">
+    <!-- <button class="mobile-menu-button" aria-label="メニューを開く">
+      <span></span>
+      <span></span>
+    </button> -->
+  </div>
+</header>
+
