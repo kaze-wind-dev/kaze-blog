@@ -1,5 +1,5 @@
 ---
-import type { Navigation } from '@/types/navigation';
+import type { Navigation } from "@/types/navigation";
 type Props = Navigation;
 const { items, className, ariaLabel } = Astro.props;
 const currentUrl = Astro.request.url;
@@ -13,7 +13,7 @@ function isCurrent(pathname: string, hrefPath: string) {
 }
 ---
 
-<nav class="header__navigation" aria-label={ariaLabel}>
+<nav class={className.nav} aria-label={ariaLabel}>
   <ul class={className.list}>
     {
       items.map((item) => {
