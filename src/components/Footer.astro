@@ -1,0 +1,25 @@
+---
+import { ALL_NAVIGATION_LIST } from "@/constants";
+import type { Navigation as NavigationProps } from "@/types/navigation";
+import Navigation from "./Navigation.astro";
+const footerClasses: NavigationProps["className"] = {
+  nav: "footer__navigation",
+  list: "footer__navigation__list",
+  item: "footer__navigation__list__item",
+  link: "footer__navigation__list__link",
+};
+---
+
+<footer class="footer">
+  <div class="footer__inner">
+    <div class="footer__logo">
+      <a href="/">Kaze Notes</a>
+    </div>
+    <Navigation
+      items={ALL_NAVIGATION_LIST}
+      className={footerClasses}
+      ariaLabel="フッターナビゲーション"
+    />
+    <small class="copyright">&copy; Kaze Notes</small>
+  </div>
+</footer>
