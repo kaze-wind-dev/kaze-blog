@@ -1,0 +1,101 @@
+@use "../mixin" as *;
+@use "../functions" as *;
+@use "../extends" as *;
+
+.drawer-button {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: var(--primary-color);
+  position: relative;
+  z-index: 1;
+  position: fixed;
+  right: 5%;
+  z-index: 10001;
+  @include mq("lg") {
+    display: none;
+  }
+  > span {
+    height: 2px;
+    border-radius: 1px;
+    background-color: var(--white-color);
+    display: block;
+    width: 28px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    transition:
+      top 0.3s,
+      transform 0.3s;
+    &:nth-child(1) {
+      top: 20px;
+    }
+    &:nth-child(2) {
+      top: 28px;
+    }
+  }
+  &.is-open > span {
+    &:nth-child(1) {
+      top: 50%;
+      transform: translate(-50%, -50%) rotate(210deg);
+    }
+    &:nth-child(2) {
+      top: 50%;
+      transform: translate(-50%, -50%) rotate(-30deg);
+    }
+  }
+}
+.drawer-overlay {
+  transition:
+    opacity 0.3s,
+    visibility 0.3s;
+  background-color: rgb(0 0 0 / 0.8);
+  position: fixed;
+  z-index: 5001;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  visibility: hidden;
+  cursor: pointer;
+  &.is-active {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+.drawer {
+  background-color: var(--text-primary);
+  position: fixed;
+  width: 80%;
+  height: 100%;
+  z-index: 9999;
+  overflow: auto;
+  top: 0;
+  left: 0;
+  transform: translateX(-100%);
+  opacity: 0;
+  transition:
+    transform 0.3s,
+    opacity 0.3s;
+  padding: 64px 24px;
+  &.is-open {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  &__navigation {
+    &__list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    &__list__item {
+      color: var(--white-color);
+      font-size: var(--font-size-2xl);
+    }
+  }
+}
+
+body.is-open {
+  overflow: hidden;
+}

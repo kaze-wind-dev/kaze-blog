@@ -2,7 +2,7 @@
 export interface NavigationItem {
   href: string;
   name: string;
-};
+}
 export interface Navigation {
   items: NavigationItem[];
   className: {
@@ -12,4 +12,4 @@ export interface Navigation {
     link?: string;
   };
   ariaLabel?: string;
-};
+}

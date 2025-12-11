@@ -25,12 +25,14 @@ export default [
     },
     rules: jsxA11y.configs.recommended.rules,
   },
-    {
+  {
     files: ["**/*.astro"],
     languageOptions: {
-      parser: await import("astro-eslint-parser").then(m => m.default),
+      parser: await import("astro-eslint-parser").then((m) => m.default),
       parserOptions: {
-        parser: await import("@typescript-eslint/parser").then(m => m.default),
+        parser: await import("@typescript-eslint/parser").then(
+          (m) => m.default,
+        ),
         extraFileExtensions: [".astro"],
       },
     },
