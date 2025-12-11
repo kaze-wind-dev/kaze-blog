@@ -1,0 +1,13 @@
+---
+import DrawerNavigation from "./DrawerNavigation.astro";
+import DrawerOverlay from "./DrawerOverlay.astro";
+---
+
+<div class="drawer" aria-hidden="true" id="drawer">
+  <DrawerNavigation />
+</div>
+<DrawerOverlay />
+
+<script src="./drawer.ts">
+  document.addEventListener("DOMContentLoaded", () => drawer);
+</script>

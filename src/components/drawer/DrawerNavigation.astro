@@ -1,0 +1,17 @@
+---
+import { ALL_NAVIGATION_LIST } from "@/constants";
+import type { Navigation as NavigationProps } from "@/types/navigation";
+import Navigation from "../Navigation.astro";
+const drawerClasses: NavigationProps["className"] = {
+  nav: "drawer__navigation",
+  list: "drawer__navigation__list",
+  item: "drawer__navigation__list__item",
+  link: "drawer__navigation__list__link",
+};
+---
+
+<Navigation
+  items={ALL_NAVIGATION_LIST}
+  className={drawerClasses}
+  ariaLabel="ドロワーナビゲーション"
+/>

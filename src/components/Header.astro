@@ -2,12 +2,13 @@
 import { MAIN_NAVIGATION_LIST } from "@/constants";
 import type { Navigation as NavigationProps } from "@/types/navigation";
 import Navigation from "./Navigation.astro";
-const headerClasses : NavigationProps["className"] = {
+import DrawerButton from "./drawer/DrawerButton.astro";
+const headerClasses: NavigationProps["className"] = {
   nav: "header__navigation",
   list: "header__navigation__list",
-item: "header__navigation__list__item",
-link: "header__navigation__list__link",
-}
+  item: "header__navigation__list__item",
+  link: "header__navigation__list__link",
+};
 ---
 
 <header class="header">
@@ -15,11 +16,12 @@ link: "header__navigation__list__link",
     <h1 class="header__logo">
       <a href="/">Kaze Notes</a>
     </h1>
-    <Navigation items={MAIN_NAVIGATION_LIST} className={headerClasses} ariaLabel="ヘッダーナビゲーション">
-    <!-- <button class="mobile-menu-button" aria-label="メニューを開く">
-      <span></span>
-      <span></span>
-    </button> -->
+
+    <Navigation
+      items={MAIN_NAVIGATION_LIST}
+      className={headerClasses}
+      ariaLabel="ヘッダーナビゲーション"
+    />
+    <DrawerButton />
   </div>
 </header>
-
