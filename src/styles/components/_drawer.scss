@@ -80,13 +80,11 @@
     transform 0.3s,
     opacity 0.3s;
   padding: 64px 24px;
-  display: none;
-  visibility: visible;
+  visibility: hidden;
   opacity: 0;
   &.is-open {
     transform: translateX(0);
     opacity: 1;
-    display: block;
     visibility: visible;
   }
   &__navigation {
