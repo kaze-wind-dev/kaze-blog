@@ -14,6 +14,7 @@
   z-index: 10001;
   @include mq("lg") {
     display: none;
+    visibility: hidden;
   }
   > span {
     height: 2px;
@@ -79,9 +80,14 @@
     transform 0.3s,
     opacity 0.3s;
   padding: 64px 24px;
+  display: none;
+  visibility: visible;
+  opacity: 0;
   &.is-open {
     transform: translateX(0);
     opacity: 1;
+    display: block;
+    visibility: visible;
   }
   &__navigation {
     &__list {
