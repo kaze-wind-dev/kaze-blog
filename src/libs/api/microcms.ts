@@ -1,3 +1,5 @@
+import { MICROCMS_API_KEY, MICROCMS_SERVICE_DOMAIN } from "astro:env/server";
+
 import type {
   GetListRequest,
   GetListDetailRequest,
@@ -6,18 +8,16 @@ import type {
   CustomRequestInit,
 } from "microcms-js-sdk";
 import type { Notes } from "@/types/microcms";
+
 import { createClient } from "microcms-js-sdk";
 
-const apiKey = import.meta.env.MICROCMS_API_KEY;
-const serviceDomain = import.meta.env.MICROCMS_SEARVICE_DOMAIN;
-
-if (!apiKey || !serviceDomain) {
+if (!MICROCMS_API_KEY || !MICROCMS_SERVICE_DOMAIN) {
   throw new Error("MICROCMS_SERVICE_DOMAIN or MICROCMS_API_KEY is not set");
 }
 
 const client = createClient({
-  serviceDomain,
-  apiKey,
+  serviceDomain: MICROCMS_SERVICE_DOMAIN,
+  apiKey: MICROCMS_API_KEY,
 });
 
 // 記事の一覧取得用の共通関数
