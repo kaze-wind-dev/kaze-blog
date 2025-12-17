@@ -1,0 +1,15 @@
+---
+import { dateFormat } from "@/libs/utils";
+
+interface Props {
+  date: string;
+  className?: string;
+}
+const { date, className } = Astro.props;
+---
+
+<p class:list={["date", className]}>
+  <time datetime={dateFormat(date)}>
+    {dateFormat(date)}
+  </time>
+</p>
