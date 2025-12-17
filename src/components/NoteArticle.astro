@@ -1,0 +1,70 @@
+---
+import Date from "./Date.astro";
+import Category from "./Category.astro";
+import type { Notes } from "@/types/microcms";
+
+interface Props {
+  note: Notes;
+}
+
+const { note } = Astro.props;
+---
+
+<article class="article">
+  <a href={`/note/${note.id}`} class="article__link">
+    <header class="article__header">
+      <h2 class="article__title">{note.title}</h2>
+      <div class="article__header__meta">
+        <Date
+          date={note.publishedAt || note.createdAt}
+          className={"article__date"}
+        />
+        <Category category={note.category} className={"article__category"} />
+      </div>
+    </header>
+    <p class="article__description">{note.description}</p>
+  </a>
+</article>
+
+<style lang="scss">
+  @use "../styles/mixin" as *;
+  @use "../styles/functions" as *;
+  @use "../styles/extends" as *;
+  .article {
+    &__link {
+      display: block;
+      padding: var(--spacing-lg);
+      border: 2px solid var(--light-gray-color);
+      border-radius: rem(8);
+      transition: border-color 0.3s;
+      &:hover {
+        border-color: var(--primary-color);
+      }
+    }
+    &__header {
+      margin-block-end: var(--spacing-sm);
+      display: grid;
+      gap: var(--spacing-sm);
+      &__meta {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        gap: var(--spacing-sm);
+        order: -1;
+      }
+    }
+    &__title {
+      font-weight: 700;
+      font-size: var(--font-size-xl);
+    }
+    &__date {
+      font-family: var(--font-secondary);
+      font-weight: 700;
+    }
+    &__category {
+    }
+    &__description {
+      @include lineClamp(3);
+    }
+  }
+</style>

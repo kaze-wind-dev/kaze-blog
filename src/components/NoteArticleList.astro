@@ -1,0 +1,24 @@
+---
+import type { NotesList } from "@/types/microcms";
+import NoteArticle from "./NoteArticle.astro";
+
+interface Props {
+  notesList: NotesList;
+}
+const { notesList } = Astro.props;
+---
+
+<div class="note-list">
+  {
+    notesList.map((note) => {
+      return <NoteArticle note={note} />;
+    })
+  }
+</div>
+
+<style lang="scss">
+  .note-list {
+    display: grid;
+    gap: var(--spacing-lg);
+  }
+</style>
