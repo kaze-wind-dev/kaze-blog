@@ -12,7 +12,7 @@ export type Notes = {
   title: string;
   description: string;
   content: string;
-  category: Category[];
+  category: Category;
 } & MicroCMSListContent;
 
 export type NotesList = Notes[];
