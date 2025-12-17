@@ -1,0 +1,57 @@
+---
+type Props = {
+  href: string;
+  text: string;
+  variant?: "primary" | "secondary";
+  size?: "sm" | "md" | "lg";
+  className?: string;
+};
+const { href, text, variant = "primary", size = "md", className } = Astro.props;
+---
+
+<a
+  href={href}
+  class:list={["button", `button--${variant}`, `button--${size}`, className]}
+>
+  {text}
+</a>
+
+<style lang="scss">
+  @use "../styles/mixin" as *;
+  @use "../styles/functions" as *;
+  @use "../styles/extends" as *;
+  .button {
+    padding: 1em;
+    border-radius: rem(4);
+    display: block;
+    width: fit-content;
+    text-align: center;
+    font-weight: 700;
+    transition:
+      color 0.3s,
+      background-color 0.3s;
+    &--primary {
+      background-color: var(--primary-color);
+      color: var(--white-color);
+      &:hover {
+        background-color: var(--dark-gray-color);
+      }
+    }
+    &--secondary {
+      background-color: var(--text-primary);
+      color: var(--white-color);
+      &:hover {
+        background-color: var(--primary-color);
+      }
+    }
+    &--lg {
+      width: min(360px, 100%);
+    }
+    &--md {
+      width: min(240px, 100%);
+    }
+    &--sm {
+      width: min(200px, 100%);
+    }
+  }
+</style>
