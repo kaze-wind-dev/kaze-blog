@@ -45,6 +45,15 @@
   --font-secondary: "Outfit Variable", sans-serif;
   --inner-inline-padding: 5%;
   --header-height: 80px;
+  --spacing-xs: #{rem(8)};
+  --spacing-sm: #{rem(12)};
+  --spacing-md: #{rem(20)};
+  --spacing-lg: #{rem(24)};
+  --spacing-2xl: #{rem(28)};
+  --spacing-3xl: #{rem(32)};
+  --spacing-4xl: #{rem(48)};
+  --spacing-5xl: #{rem(56)};
+  --spacing-6xl: #{rem(64)};
 }
 
 @include mq("lg") {
@@ -65,5 +74,15 @@
     --heading-4: #{rem(24)};
     --heading-5: #{rem(22)};
     --heading-6: #{rem(20)};
+
+    --spacing-xs: #{rem(12)};
+    --spacing-sm: #{rem(16)};
+    --spacing-md: #{rem(24)};
+    --spacing-lg: #{rem(32)};
+    --spacing-2xl: #{rem(36)};
+    --spacing-3xl: #{rem(48)};
+    --spacing-4xl: #{rem(56)};
+    --spacing-5xl: #{rem(64)};
+    --spacing-6xl: #{rem(72)};
   }
 }

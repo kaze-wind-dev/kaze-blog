@@ -1,3 +1,6 @@
+@use "mixin" as *;
+@use "functions" as *;
+
 body {
   font-size: var(--font-size-base);
   font-family: var(--font-primary);
@@ -20,12 +23,12 @@ h6 {
   margin: 0;
 }
 
-:focus-visible,
 a:focus,
 button:focus {
   outline: none;
 }
 
+:focus-visible,
 a:focus-visible,
 button:focus-visible {
   outline: 2px solid var(--primary-color);
@@ -33,4 +36,23 @@ button:focus-visible {
 
 button {
   border: none;
+}
+
+.category {
+  font-weight: 700;
+  padding: rem(4) rem(8);
+  border-radius: rem(4);
+  background-color: var(--light-gray-color);
+  color: var(--dark-gray-color);
+}
+
+.category-link {
+  transition:
+    color 0.3s,
+    border-color 0.3s,
+    background-color 0.3s;
+    &:hover{
+      color: var(--light-gray-color);
+      background-color: var(--dark-gray-color);
+    }
 }

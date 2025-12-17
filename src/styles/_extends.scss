@@ -1,5 +1,7 @@
 .inner {
-  padding-inline: var(--inner-inline-padding);
+  max-width: 1240px;
+  width: 90%;
+  margin-inline: auto;
 }
 
 .font-secondary {
