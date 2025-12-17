@@ -1,5 +1,7 @@
 import type { MicroCMSListContent } from "microcms-js-sdk";
 
+export type MicroCMSEndPoint = "notes" | "works";
+
 export type Category = {
   name: string;
   category_id: string;
