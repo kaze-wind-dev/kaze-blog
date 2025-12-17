@@ -1,0 +1,39 @@
+---
+type Props = {
+  heading: string;
+  subText: string;
+  align?: "left" | "center";
+  className?: string;
+};
+const { heading, subText, align = "left", className } = Astro.props;
+---
+
+<hgroup class:list={["section-title", `section-title--${align}`, className]}>
+  <h2 class="section-title__heading">{heading}</h2>
+  <p class="section-title__text">{subText}</p>
+</hgroup>
+
+<style lang="scss">
+  .section-title {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: var(--spacing-sm);
+    margin-block-end: var(--spacing-4xl);
+    &__text {
+      font-size: var(--heading-2);
+      font-family: var(--font-secondary);
+      font-weight: 700;
+      line-height: 1;
+    }
+    &__heading {
+      font-size: calc(var(--heading-2) * 0.5);
+      line-height: 1;
+    }
+    &--left {
+      align-items: flex-start;
+    }
+    &--center {
+      align-items: center;
+    }
+  }
+</style>
