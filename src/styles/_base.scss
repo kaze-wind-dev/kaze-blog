@@ -51,8 +51,13 @@ button {
     color 0.3s,
     border-color 0.3s,
     background-color 0.3s;
-    &:hover{
-      color: var(--light-gray-color);
-      background-color: var(--dark-gray-color);
-    }
+
+  &:hover {
+    color: var(--light-gray-color);
+    background-color: var(--dark-gray-color);
+  }
+}
+
+.date {
+  font-family: var(--font-secondary);
 }
