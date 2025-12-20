@@ -1,0 +1,96 @@
+---
+import type { ZennArticle } from "@/types/zenn";
+import Date from "./Date.astro";
+type Props = {
+  tech: ZennArticle;
+};
+const { tech } = Astro.props;
+const type = tech.article_type === "tech" ? "技術記事" : "アイデア記事";
+const techPath = `https://zenn.dev${tech.path}`;
+---
+
+<div class="tech-article">
+  <a
+    class="tech-article__link"
+    href={techPath}
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    <p class="tech-article__title">
+      {tech.title}<svg
+        class="oin-icon"
+        xmlns="http://www.w3.org/2000/svg"
+        height="1em"
+        viewBox="0 -960 960 960"
+        width="1em"
+        fill="var(--text-primary)"
+        ><path
+          d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h560v-280h80v280q0 33-23.5 56.5T760-120H200Zm188-212-56-56 372-372H560v-80h280v280h-80v-144L388-332Z"
+        ></path></svg
+      >
+    </p>
+    <div class="tech-article__meta">
+      <Date date={tech.published_at} />
+      <p class="tech-article__type category">{type}</p>
+    </div>
+  </a>
+</div>
+
+<style lang="scss">
+  @use "../styles/mixin" as *;
+  @use "../styles/functions" as *;
+  @use "../styles/extends" as *;
+
+  .tech-article {
+    display: grid;
+    min-width: 0;
+    &__link {
+      display: flex;
+      flex-direction: column;
+      padding: var(--spacing-lg);
+      background-color: var(--white-color);
+      border-radius: rem(8);
+      transition: box-shadow 0.3s;
+      box-shadow: 0 0 rem(12) rgb(0 0 0 /0.1);
+      width: 100%;
+      min-width: 0;
+
+      &:hover {
+        box-shadow: 0 0 rem(8) rgb(0 0 0 /0.2);
+        .tech-article__title {
+          @extend %line-hover;
+          .oin-icon {
+            fill: var(--text-primary);
+          }
+        }
+      }
+    }
+    &__meta {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: var(--spacing-sm);
+      order: -1;
+      margin-block-end: var(--spacing-sm);
+    }
+    &__title {
+      font-weight: 700;
+      font-size: var(--font-size-md);
+      width: fit-content;
+      max-width: 100%;
+      padding-inline-end: 1.25em;
+      padding-block-end: 0.25em;
+      position: relative;
+      z-index: 1;
+      @include lineClamp(1);
+      @extend %line;
+      .oin-icon {
+        position: absolute;
+        top: 50%;
+        right: 0;
+        transform: translate(0, -50%);
+        transition: fill 0.3s;
+      }
+    }
+  }
+</style>

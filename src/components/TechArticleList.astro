@@ -1,0 +1,25 @@
+---
+import type { ZennArticleList } from "@/types/zenn";
+import TechArticle from "./TechArticle.astro";
+type Props = {
+  techList: ZennArticleList;
+};
+const { techList } = Astro.props;
+---
+
+<div class="tech-list">
+  {techList.map((tech) => <TechArticle tech={tech} />)}
+</div>
+
+<style lang="scss">
+  @use "../styles/mixin" as *;
+  @use "../styles/functions" as *;
+  @use "../styles/extends" as *;
+  .tech-list {
+    display: grid;
+    gap: var(--spacing-md);
+    @include mq("lg") {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+</style>
