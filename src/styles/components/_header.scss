@@ -48,6 +48,7 @@
     transition: width 0.3s;
   }
   &:hover,
+  &:focus-visible,
   &.is-current {
     &::after {
       width: 1em;

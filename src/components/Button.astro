@@ -33,14 +33,14 @@ const { href, text, variant = "primary", size = "md", className } = Astro.props;
     &--primary {
       background-color: var(--primary-color);
       color: var(--white-color);
-      &:hover {
+      &:hover ,&:focus-visible{
         background-color: var(--dark-gray-color);
       }
     }
     &--secondary {
       background-color: var(--text-primary);
       color: var(--white-color);
-      &:hover {
+      &:hover ,&:focus-visible{
         background-color: var(--primary-color);
       }
     }

@@ -38,7 +38,7 @@ const { note } = Astro.props;
       border-radius: rem(8);
       transition: box-shadow 0.3s;
       box-shadow: 0 0 rem(12) rgb(0 0 0 /0.1);
-      &:hover {
+      &:hover ,&:focus-visible{
         box-shadow: 0 0 rem(8) rgb(0 0 0 /0.2);
         .article__title {
           @extend %line-hover;
@@ -63,6 +63,7 @@ const { note } = Astro.props;
       position: relative;
       z-index: 1;
       padding-block-end: 0.25em;
+      width: fit-content;
       @extend %line;
     }
     &__date {
