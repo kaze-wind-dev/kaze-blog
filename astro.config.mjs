@@ -1,8 +1,10 @@
 // @ts-check
 import { defineConfig, envField } from "astro/config";
+import netlify from '@astrojs/netlify';
 
 // https://astro.build/config
 export default defineConfig({
+  adapter: netlify() ,
   env: {
     schema: {
       MICROCMS_API_KEY: envField.string({

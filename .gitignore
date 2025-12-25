@@ -25,3 +25,6 @@ pnpm-debug.log*
 
 # read only folder
 read-only/
+
+# Local Netlify folder
+.netlify
