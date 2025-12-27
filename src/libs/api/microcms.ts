@@ -7,7 +7,7 @@ import type {
   MicroCMSQueries,
   CustomRequestInit,
 } from "microcms-js-sdk";
-import type { Notes, Works } from "@/types/microcms";
+import type { Notes, Works, Category } from "@/types/microcms";
 
 import { createClient } from "microcms-js-sdk";
 
@@ -99,6 +99,14 @@ export const getAllNotesList = async (
   return getAllPosts<Notes>({ endpoint: "notes", queries, customRequestInit });
 };
 
+export const getNoteDetail = async (
+  contentId: string,
+  queries?: MicroCMSQueries,
+  customRequestInit?: CustomRequestInit,
+) => {
+  return getDetail<Notes>({ endpoint: "notes", contentId, queries, customRequestInit });
+};
+
 export const getWorksList = async (
   queries?: MicroCMSQueries,
   customRequestInit?: CustomRequestInit,
@@ -112,3 +120,18 @@ export const getAllWorksList = async (
 ) => {
   return getAllPosts<Works>({ endpoint: "works", queries, customRequestInit });
 };
+
+export const getCategoryList = async (
+  queries?: MicroCMSQueries,
+  customRequestInit?: CustomRequestInit,
+) => {
+  return getPosts<Category>({ endpoint: "category", queries, customRequestInit });
+};
+
+export const getAllCategoryList = async (
+  queries?: MicroCMSQueries,
+  customRequestInit?: CustomRequestInit,
+) => {
+  return getAllPosts<Category>({ endpoint: "category", queries, customRequestInit });
+};
+
