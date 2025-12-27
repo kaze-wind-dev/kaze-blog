@@ -1,0 +1,116 @@
+---
+import { NOTES_LIMIT } from "@/constants";
+import Layout from "@/layouts/Layout.astro";
+import Pagination from "@/components/Pagination.astro";
+import NoteArticleList from "@/components/NoteArticleList.astro";
+import CategoryFilter from "@/components/CategoryFilter.astro";
+import type { Notes } from "@/types/microcms";
+import { getNotesList, getAllCategoryList } from "@/libs/api/microcms";
+import { calcTotalPages } from "@/libs/pagenation";
+import type { Category } from "@/types/microcms";
+
+type Props = {
+  notesList: Notes[];
+  category: string;
+  currentPage: number;
+  totalPages: number;
+  totalCount: number;
+  categoryList: Category[];
+};
+
+type Paths = {
+  params: { slug: string };
+  props: Props;
+};
+
+export async function getStaticPaths() {
+  const paths: Paths[] = [];
+  const { contents: notesList, totalCount } = await getNotesList({});
+  const categoryList = await getAllCategoryList({
+    filters: "connection[contains]notes",
+  });
+
+  const totalPages = calcTotalPages(totalCount, NOTES_LIMIT);
+
+  const filteredCategoryList = categoryList.filter((category) => {
+    return notesList.some(
+      (note) => note.category.category_id === category.category_id,
+    );
+  });
+
+  for (let page = 1; page <= totalPages; page++) {
+    const offset = (page - 1) * NOTES_LIMIT;
+    const slicedNotesList = notesList.slice(offset, offset + NOTES_LIMIT);
+
+    paths.push({
+      params: {
+        slug: page === 1 ? "first-page" : `page/${page}`,
+      },
+      props: {
+        notesList: slicedNotesList,
+        category: "all",
+        currentPage: page,
+        totalPages,
+        totalCount: totalCount,
+        categoryList: filteredCategoryList,
+      },
+    });
+  }
+
+  categoryList.forEach((category) => {
+    const filteredNotesList = notesList.filter(
+      (note) => note.category.category_id === category.category_id,
+    );
+    const categorySlug = `category/${category.category_id}`;
+    const categoryTotalCount = filteredNotesList.length;
+    const categoryTotalPages = calcTotalPages(categoryTotalCount, NOTES_LIMIT);
+    for (let page = 1; page <= categoryTotalPages; page++) {
+      const offset = (page - 1) * NOTES_LIMIT;
+      const slicedNotesList = filteredNotesList.slice(
+        offset,
+        offset + NOTES_LIMIT,
+      );
+      paths.push({
+        params: {
+          slug: page === 1 ? `${categorySlug}` : `${categorySlug}/page/${page}`,
+        },
+        props: {
+          notesList: slicedNotesList,
+          category: category.category_id,
+          currentPage: page,
+          totalPages: categoryTotalPages,
+          totalCount: categoryTotalCount,
+          categoryList: filteredCategoryList,
+        },
+      });
+    }
+  });
+  // 最初のページ(page/1)は除外
+  return paths.filter((path) => path.params.slug !== "first-page");
+}
+
+const pageTitle = "Notes";
+const { notesList, category, currentPage, totalCount, categoryList } =
+  Astro.props;
+const basePath = category === "all" ? "/notes" : `/notes/category/${category}`;
+---
+
+<Layout>
+  <section class="page-section">
+    <h1 class="page-title">{pageTitle}</h1>
+    <CategoryFilter categoryList={categoryList} currentCategory={category} />
+    {
+      notesList.length > 0 ? (
+        <NoteArticleList notesList={notesList} />
+      ) : (
+        <p>現在投稿はありません</p>
+      )
+    }
+    <Pagination
+      limit={NOTES_LIMIT}
+      totalCount={totalCount}
+      page={currentPage}
+      basePath={basePath}
+    />
+  </section>
+</Layout>
