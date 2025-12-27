@@ -1,0 +1,121 @@
+---
+import {
+  getDisplayPages,
+  paginationUrl,
+  calcTotalPages,
+} from "@/libs/pagenation";
+
+interface PaginationProps {
+  limit: number;
+  totalCount: number;
+  page: number;
+  basePath: string;
+}
+
+const { limit, totalCount, page, basePath }: PaginationProps =
+  Astro.props as PaginationProps;
+const totalPages = calcTotalPages(totalCount, limit);
+const currentPage = isNaN(Number(page)) || page === null ? 1 : Number(page);
+const nextPage = currentPage + 1;
+const prevPage = currentPage - 1;
+const url = Astro.url;
+const prevPageUrl = paginationUrl(url, prevPage);
+const nextPageUrl = paginationUrl(url, nextPage);
+const pageNumbers = getDisplayPages(currentPage, totalPages);
+---
+
+<nav class="pagination" aria-label="ページネーション">
+  <ul class="pagination__list">
+    {
+      currentPage > 1 && (
+        <li class="pagination__item">
+          <a
+            href={prevPage === 1 ? basePath : prevPageUrl}
+            class:list={[
+              "pagination__link",
+              { "is-disabled": currentPage === 1 },
+            ]}
+          >
+            前へ
+          </a>
+        </li>
+      )
+    }
+    {
+      pageNumbers.map((pageNumber) => {
+        const isCurrent = pageNumber === currentPage;
+        return (
+          <li
+            class="pagination__item"
+            aria-current={isCurrent ? "page" : undefined}
+          >
+            {Number.isNaN(pageNumber) ? (
+              <span class="pagination__link" aria-hidden="true">
+                ...
+              </span>
+            ) : (
+              <a
+                href={
+                  pageNumber === 1
+                    ? `${basePath}`
+                    : `${paginationUrl(url, pageNumber)}`
+                }
+                class:list={["pagination__link", { "is-current": isCurrent }]}
+              >
+                {pageNumber}
+              </a>
+            )}
+          </li>
+        );
+      })
+    }
+    {
+      currentPage < totalPages && (
+        <li class="pagination__item">
+          <a href={`${nextPageUrl}`} class:list={["pagination__link"]}>
+            次へ
+          </a>
+        </li>
+      )
+    }
+  </ul>
+</nav>
+
+<style lang="scss">
+  @use "../styles/mixin" as *;
+  @use "../styles/functions" as *;
+  @use "../styles/extends" as *;
+
+  .pagination {
+    margin-block-start: var(--spacing-xl);
+    &__list {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--spacing-sm);
+      flex-wrap: wrap;
+    }
+    &__item {
+    }
+    &__link {
+      font-weight: 700;
+      transition:
+        color 0.3s,
+        border-color 0.3s,
+        background-color 0.3s;
+      padding: rem(8) rem(16);
+      display: block;
+      border-radius: rem(4);
+      background-color: var(--light-gray-color);
+      &[aria-hidden="true"] {
+        pointer-events: none;
+      }
+      &:hover,
+      &:focus-visible,
+      &.is-current {
+        color: var(--light-gray-color);
+        background-color: var(--dark-gray-color);
+      }
+    }
+  }
+</style>
