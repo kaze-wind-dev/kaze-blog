@@ -1,0 +1,56 @@
+---
+import Category from "./Category.astro";
+import type { CategoryList } from "@/types/microcms";
+interface Props {
+  categoryList: CategoryList;
+  className?: string;
+  basePath?: string;
+  currentCategory?: string;
+}
+const {
+  categoryList,
+  className,
+  basePath = "/notes/category",
+  currentCategory = "all",
+} = Astro.props;
+---
+
+<div class:list={["category-filter-list", className]}>
+  <a
+    class:list={[
+      "category",
+      "category-link",
+      "category-filter",
+      currentCategory === "all" ? "is-current" : "",
+    ]}
+    href="/notes">すべて</a
+  >
+  {
+    categoryList.map((category) => {
+      const isCurrent = currentCategory === category.category_id;
+      const className = isCurrent ? "is-current" : "";
+      return (
+        <Category
+          category={category}
+          href={`${basePath}/${category.category_id}`}
+          className={className}
+          type="filter"
+        />
+      );
+    })
+  }
+</div>
+
+<style lang="scss">
+  @use "../styles/mixin" as *;
+  @use "../styles/functions" as *;
+  @use "../styles/extends" as *;
+  .category-filter-list {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: var(--spacing-sm);
+    flex-wrap: wrap;
+    margin-block-end: var(--spacing-xl);
+  }
+</style>
