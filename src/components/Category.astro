@@ -1,20 +1,24 @@
 ---
-import type { Category, MicroCMSEndPoint } from "@/types/microcms";
+import type { Category } from "@/types/microcms";
 
 interface Props {
   category: Category;
   className?: string;
-  link?: boolean;
-  endpoint?: MicroCMSEndPoint;
+  href?: string;
+  type?: "default" | "link" | "filter";
 }
-const { category, className, link = false, endpoint = "notes" } = Astro.props;
+const { category, className, href, type = "default" } = Astro.props;
 ---
-
 {
-  link ? (
+  href && type !== "default" ? (
     <a
-      href={`${endpoint || "notes"}?category=${category.category_id}`}
-      class:list={["category", "category-link", className]}
+      href={href}
+      class:list={[
+        "category",
+        "category-link",
+        type === "filter" ? "category-filter" : "",
+        className,
+      ]}
     >
       {category.name}
     </a>
