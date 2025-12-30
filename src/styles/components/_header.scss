@@ -2,6 +2,7 @@
 @use "../functions" as *;
 @use "../extends" as *;
 .header {
+  border-bottom: 1px solid var(--border-color);
 }
 .header__logo {
   font-size: calcClamp(24, 36);

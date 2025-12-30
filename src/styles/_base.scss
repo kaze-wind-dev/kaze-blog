@@ -1,5 +1,6 @@
 @use "mixin" as *;
 @use "functions" as *;
+@use "extends" as *;
 
 body {
   font-size: var(--font-size-base);
@@ -52,12 +53,29 @@ button {
     border-color 0.3s,
     background-color 0.3s;
 
-  &:hover {
+  &:hover,
+  &:focus-visible,
+  &.is-current {
     color: var(--light-gray-color);
     background-color: var(--dark-gray-color);
   }
 }
+.category-filter {
+  padding: rem(8) rem(16);
+}
 
 .date {
   font-family: var(--font-secondary);
+}
+
+.page-section {
+  padding-block: var(--spacing-6xl);
+  @extend .inner;
+}
+.page-title {
+  font-size: var(--heading-1);
+  font-family: var(--font-secondary);
+  font-weight: 700;
+  line-height: 1;
+  margin-block-end: var(--spacing-4xl);
 }
