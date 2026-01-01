@@ -1,6 +1,6 @@
 ---
 import type { WorksList } from "@/types/microcms";
-import Image from "astro/components/Image.astro";
+import { Image } from "astro:assets";
 type Props = {
   worksList: WorksList;
 };
@@ -34,7 +34,7 @@ const { worksList } = Astro.props;
                   <div class="works-slider-item__image">
                     <Image
                       src={work.thumbnail?.url || ""}
-                      alt={work.title}
+                      alt={work.thumbnail?.alt || ""}
                       width={work.thumbnail?.width || 0}
                       height={work.thumbnail?.height || 0}
                     />
@@ -163,10 +163,6 @@ const { worksList } = Astro.props;
     flex-direction: column;
     gap: var(--spacing-xs);
     padding: var(--spacing-md);
-    // @include mq("md") {
-    //   padding: var(--spacing-md) var(--spacing-lg);
-
-    // }
   }
   .works-slider-item__image {
     width: 100%;
