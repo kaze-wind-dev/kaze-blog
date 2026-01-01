@@ -1,0 +1,78 @@
+---
+import ColumnLayout from "@/layouts/ColumnLayout.astro";
+import Date from "@/components/Date.astro";
+import Category from "@/components/Category.astro";
+import ArticleContent from "@/components/ArticleContent.astro";
+import TocDesktop from "@/components/toc/TocDesktop.astro";
+import TocMobile from "@/components/toc/TocMobile.astro";
+import Button from "@/components/Button.astro";
+import { getAllNotesList, getNoteDetail } from "@/libs/api/microcms";
+export async function getStaticPaths() {
+  const notesList = await getAllNotesList();
+  return notesList.map((note) => ({
+    params: {
+      id: note.id,
+    },
+  }));
+}
+const { id } = Astro.params;
+const note = await getNoteDetail(id);
+---
+
+<ColumnLayout pageTitle={note.title}>
+  <Fragment slot="main">
+    <div class="note-detail">
+      <header class="note-detail__header">
+        <h1 class="note-detail__title">{note.title}</h1>
+        <div class="note-detail__meta">
+          <Date date={note.publishedAt || note.createdAt} />
+          <Category category={note.category} />
+        </div>
+      </header>
+      <ArticleContent content={note.content} className="note-detail__body" />
+      <Button
+        className="note-detail__button"
+        href={`/notes/`}
+        text="一覧に戻る"
+        variant="secondary"
+        size="sm"
+        className="note-detail__button"
+      />
+    </div>
+  </Fragment>
+  <Fragment slot="sidebar">
+    <TocDesktop />
+    <TocMobile />
+  </Fragment>
+</ColumnLayout>
+
+<style lang="scss">
+  @use "../../styles/mixin" as *;
+  @use "../../styles/functions" as *;
+  @use "../../styles/extends" as *;
+
+  .note-detail {
+    &__header {
+      display: flex;
+      flex-direction: column-reverse;
+      align-items: flex-start;
+      gap: var(--spacing-xs);
+      margin-block-end: var(--spacing-lg);
+    }
+    &__title {
+      font-size: var(--font-size-4xl);
+    }
+    &__meta {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-sm);
+    }
+    :global(.column-content__sidebar .toc-wrapper) {
+      display: none;
+    }
+    :global(.note-detail__button) {
+      margin-block-start: var(--spacing-lg);
+      margin-inline: auto;
+    }
+  }
+</style>
