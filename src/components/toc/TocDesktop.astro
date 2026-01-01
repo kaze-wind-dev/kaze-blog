@@ -1,0 +1,152 @@
+---
+
+---
+
+<div class="toc-wrapper" aria-hidden="true">
+  <nav class="toc">
+    <h2 class="toc__title">目次</h2>
+    <ul class="toc__list"></ul>
+  </nav>
+</div>
+
+<style lang="scss" is:global>
+  @use "../../styles/mixin" as *;
+  @use "../../styles/functions" as *;
+  @use "../../styles/extends" as *;
+  .toc-wrapper {
+    padding: rem(24);
+    border: 1px solid var(--border-color);
+    border-radius: rem(8);
+    position: sticky;
+    top: var(--spacing-md);
+    display: none;
+    visibility: hidden;
+    @include mq("lg") {
+      display: block;
+      visibility: visible;
+    }
+  }
+  .toc {
+    &__title {
+      font-size: var(--font-size-md);
+      padding-inline: 1em;
+      position: relative;
+      z-index: 1;
+      width: fit-content;
+      margin-block-end: var(--spacing-sm);
+      &::before,
+      &::after {
+        content: "";
+        width: 0.5em;
+        height: 1px;
+        background-color: var(--dark-gray-color);
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+      &::before {
+        left: 0;
+      }
+      &::after {
+        right: 0;
+      }
+    }
+    &__list {
+      display: grid;
+      gap: 0.75rem;
+      position: relative;
+      z-index: 1;
+      &::before {
+        content: "";
+        width: 2px;
+        background-color: var(--gray-color);
+        opacity: 0.5;
+        position: absolute;
+        top: calc(var(--font-size-base) * 0.5);
+        left: 0;
+        height: calc(100% - var(--font-size-base));
+      }
+    }
+    &__item {
+      font-size: var(--font-size-base);
+      line-height: 1.25;
+      font-weight: 700;
+      color: var(--gray-color);
+      position: relative;
+      z-index: 1;
+
+      &::before {
+        content: "";
+        width: rem(4);
+        height: rem(4);
+        border-radius: 50%;
+        background-color: var(--gray-color);
+        position: absolute;
+        top: 50%;
+        left: 1px;
+        transform: translate(-50%, -50%);
+      }
+      &--h2 {
+        padding-left: 0.875rem;
+        &::before {
+          width: rem(6);
+          height: rem(6);
+        }
+      }
+      &--h3 {
+        padding-left: 0.875rem;
+        font-size: 0.875em;
+      }
+      &:has(.toc__link.is-active) {
+        color: var(--primary-color);
+        &::before {
+          background-color: var(--primary-color);
+        }
+      }
+    }
+    &__link {
+      display: block;
+      width: fit-content;
+      transition: color 0.3s;
+      &:hover,
+      &:focus-visible {
+        color: var(--primary-color);
+      }
+    }
+  }
+</style>
+
+<script>
+  import { generateTocList, handleIntersection, initTocObserver } from "./toc";
+  import { checkMediaQuery } from "@/libs/utils";
+  document.addEventListener("DOMContentLoaded", function () {
+    const result = generateTocList(
+      ".article-content",
+      ".toc__list",
+      "h2, h3",
+      "toc__item",
+      "toc__link",
+    );
+    if (!result) return;
+    const { tocLinks, tocList, headings } = result;
+    const io = new IntersectionObserver(
+      (entries) => {
+        handleIntersection(entries, tocList, tocLinks);
+      },
+      {
+        rootMargin: "0px",
+        threshold: 0,
+      },
+    );
+    initTocObserver(headings, tocList, tocLinks, io);
+    const tocWrapper = document.querySelector<HTMLDivElement>(".toc-wrapper");
+    if (!tocWrapper) return;
+    checkMediaQuery((isMobile) => {
+      if (isMobile) {
+        tocWrapper.setAttribute("aria-hidden", "false");
+      } else {
+        tocWrapper.setAttribute("aria-hidden", "true");
+      }
+    });
+  });
+</script>

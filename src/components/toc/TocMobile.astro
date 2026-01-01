@@ -1,0 +1,248 @@
+---
+
+---
+
+<div class="toc-mobile-container" aria-hidden="false">
+  <button
+    class="toc-mobile-button"
+    aria-expanded="false"
+    aria-controls="toc-mobile"
+  >
+    <span class="toc-mobile-button__text">目次</span>
+    <svg
+      class="toc-mobile-button__arrow"
+      xmlns="http://www.w3.org/2000/svg"
+      height="1em"
+      viewBox="0 -960 960 960"
+      width="1em"
+      fill="var(--gray-color)"
+      ><path d="M480-344 240-584l56-56 184 184 184-184 56 56-240 240Z"
+      ></path></svg
+    >
+  </button>
+  <div class="toc-mobile-wrapper" aria-hidden="false">
+    <nav class="toc-mobile" aria-label="目次" id="toc-mobile">
+      <ul class="toc-mobile__list"></ul>
+    </nav>
+  </div>
+</div>
+
+<style lang="scss" is:global>
+  @use "../../styles/mixin" as *;
+  @use "../../styles/functions" as *;
+  @use "../../styles/extends" as *;
+  .toc-mobile-container {
+    position: fixed;
+    top: calc(var(--header-height) + var(--spacing-sm));
+    left: 5%;
+    width: 90%;
+    max-height: 80%;
+    overflow: auto;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    align-items: flex-end;
+  }
+
+  .toc-mobile-button {
+    display: block;
+    font-weight: 700;
+    font-size: var(--font-size-base);
+    padding: rem(4) rem(8);
+    border: 1px solid var(--border-color);
+    border-radius: rem(4);
+    background-color: var(--white-color);
+    transition: background-color 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: rem(4);
+    &__arrow {
+      transition: transform 0.3s;
+    }
+    &.is-open .toc-mobile-button__arrow {
+      transform: rotate(180deg);
+    }
+
+    @include mq("lg") {
+      display: none;
+    }
+  }
+  .toc-mobile-wrapper {
+    background-color: var(--white-color);
+    padding: rem(24);
+    border: 1px solid var(--border-color);
+    border-radius: rem(8);
+    position: sticky;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s;
+    &.is-open {
+      visibility: visible;
+      opacity: 1;
+    }
+  }
+  .toc-mobile {
+    &__title {
+      font-size: var(--font-size-md);
+      padding-inline: 1em;
+      position: relative;
+      z-index: 1;
+      width: fit-content;
+      margin-block-end: var(--spacing-sm);
+      &::before,
+      &::after {
+        content: "";
+        width: 0.5em;
+        height: 1px;
+        background-color: var(--dark-gray-color);
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+      &::before {
+        left: 0;
+      }
+      &::after {
+        right: 0;
+      }
+    }
+    &__list {
+      display: grid;
+      gap: 0.75rem;
+      position: relative;
+      z-index: 1;
+      &::before {
+        content: "";
+        width: 2px;
+        background-color: var(--gray-color);
+        opacity: 0.5;
+        position: absolute;
+        top: calc(var(--font-size-base) * 0.5);
+        left: 0;
+        height: calc(100% - var(--font-size-base));
+      }
+    }
+    &__item {
+      font-size: var(--font-size-base);
+      line-height: 1.25;
+      font-weight: 700;
+      color: var(--gray-color);
+      position: relative;
+      z-index: 1;
+
+      &::before {
+        content: "";
+        width: rem(4);
+        height: rem(4);
+        border-radius: 50%;
+        background-color: var(--gray-color);
+        position: absolute;
+        top: 50%;
+        left: 1px;
+        transform: translate(-50%, -50%);
+      }
+      &--h2 {
+        padding-left: 0.875rem;
+        &::before {
+          width: rem(6);
+          height: rem(6);
+        }
+      }
+      &--h3 {
+        padding-left: 0.875rem;
+        font-size: 0.875em;
+      }
+      &:has(.toc__link.is-active) {
+        color: var(--primary-color);
+        &::before {
+          background-color: var(--primary-color);
+        }
+      }
+    }
+    &__link {
+      display: block;
+      width: fit-content;
+      transition: color 0.3s;
+      &:hover,
+      &:focus-visible {
+        color: var(--primary-color);
+      }
+    }
+  }
+</style>
+
+<script>
+  import { generateTocList, handleIntersection, initTocObserver } from "./toc";
+  import { checkMediaQuery } from "@/libs/utils";
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const tocMobileContainer = document.querySelector<HTMLDivElement>(
+      ".toc-mobile-container",
+    );
+    const tocMobileWrapper = document.querySelector<HTMLDivElement>(
+      ".toc-mobile-wrapper",
+    );
+    const tocMobileButton =
+      document.querySelector<HTMLButtonElement>(".toc-mobile-button");
+    if (!tocMobileContainer || !tocMobileWrapper || !tocMobileButton) return;
+
+    let isOpen: boolean = false;
+    const result = generateTocList(
+      ".article-content",
+      ".toc-mobile__list",
+      "h2, h3",
+      "toc-mobile__item",
+      "toc-mobile__link",
+    );
+    if (!result) return;
+    const { tocLinks, tocList, headings } = result;
+    const io = new IntersectionObserver(
+      (entries) => {
+        handleIntersection(entries, tocList, tocLinks);
+      },
+      {
+        rootMargin: "0px",
+        threshold: 0,
+      },
+    );
+    initTocObserver(headings, tocList, tocLinks, io);
+    checkMediaQuery((isMobile) => {
+      if (isMobile) {
+        tocMobileContainer.setAttribute("aria-hidden", "true");
+      } else {
+        tocMobileContainer.setAttribute("aria-hidden", "false");
+      }
+    });
+
+    tocMobileButton.addEventListener("click", () => {
+      if (isOpen) {
+        closeTocMobile();
+      } else {
+        openTocMobile();
+      }
+    });
+    tocLinks.forEach((link) => {
+      link.addEventListener("click", () => {
+        closeTocMobile();
+      });
+    });
+    function openTocMobile(): void {
+      if (!tocMobileButton || !tocMobileWrapper) return;
+      tocMobileButton.classList.add("is-open");
+      tocMobileButton.setAttribute("aria-expanded", "true");
+      tocMobileWrapper.setAttribute("aria-hidden", "false");
+      tocMobileWrapper.classList.add("is-open");
+      isOpen = true;
+    }
+    function closeTocMobile(): void {
+      if (!tocMobileButton || !tocMobileWrapper) return;
+      tocMobileButton.classList.remove("is-open");
+      tocMobileButton.setAttribute("aria-expanded", "false");
+      tocMobileWrapper.setAttribute("aria-hidden", "true");
+      tocMobileWrapper.classList.remove("is-open");
+      isOpen = false;
+    }
+  });
+</script>
