@@ -1,12 +1,14 @@
 ---
+import { highlightCodeBlocks } from "@/libs/utils";
 interface Props {
   content: string;
   className?: string;
 }
 const { content, className } = Astro.props;
+const highlightedHtml = await highlightCodeBlocks(content);
 ---
 
-<div class:list={["article-content", className]} set:html={content} />
+<div class:list={["article-content", className]} set:html={highlightedHtml} />
 
 <style lang="scss" is:global>
   @use "../styles/mixin" as *;
@@ -20,6 +22,9 @@ const { content, className } = Astro.props;
     ol,
     div:has(iframe) {
       margin-block: 1em;
+    }
+    div:has(iframe) {
+      width: 100%;
     }
     h1 {
       font-size: var(--heading-1);
@@ -55,15 +60,14 @@ const { content, className } = Astro.props;
     h6 {
       font-size: var(--heading-6);
     }
-    strong{
+    strong {
       font-weight: 700;
     }
     em {
       font-style: italic;
       font-weight: inherit;
-
     }
-    code {
+    code:not(pre > code) {
       font-family: var(--font-tertiary);
       background-color: var(--bg-secondary-color);
       border-radius: rem(4);
@@ -74,7 +78,7 @@ const { content, className } = Astro.props;
       max-width: 100%;
       height: auto;
       display: block;
-      margin-block: 1em;
+      margin-block: 1.25em;
     }
     hr {
       border: none;
@@ -124,6 +128,24 @@ const { content, className } = Astro.props;
           margin-block-start: 0.125em;
         }
       }
+    }
+    div[data-filename] {
+      min-width: 0;
+      max-width: 100%;
+    }
+    pre {
+      padding: 1.5em 0;
+      border-radius: 4px;
+      overflow-x: auto;
+      background-clip: padding-box;
+      width: 100%;
+      font-size: var(--font-size-sm);
+      line-height: 1.75;
+    }
+    pre code {
+      display: block;
+      width: fit-content;
+      padding-inline: 1.5em;
     }
   }
 </style>
