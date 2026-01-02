@@ -19,13 +19,16 @@ import Layout from "./Layout.astro";
   @use "../styles/mixin" as *;
   @use "../styles/functions" as *;
   @use "../styles/extends" as *;
- 
+
   .column-content {
     display: grid;
     column-gap: var(--spacing-3xl);
     grid-template-columns: 1fr;
     @include mq("lg") {
       grid-template-columns: 1fr 300px;
+    }
+    &__main {
+      min-width: 0;
     }
   }
 </style>

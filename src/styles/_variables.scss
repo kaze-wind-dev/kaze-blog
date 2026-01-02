@@ -35,9 +35,9 @@
   --font-size-3xl: #{calcClamp(24, 26, 375, 1024)};
   --font-size-3xl: #{calcClamp(28, 30, 375, 1024)};
   --font-size-4xl: #{calcClamp(32, 34, 375, 1024)};
-  --heading-1: #{calcClamp(36, 48, 375, 1024)};
-  --heading-2: #{calcClamp(32, 40, 375, 1024)};
-  --heading-3: #{calcClamp(22, 28, 375, 1024)};
+  --heading-1: #{calcClamp(32, 40, 375, 1024)};
+  --heading-2: #{calcClamp(28, 32, 375, 1024)};
+  --heading-3: #{calcClamp(24, 28, 375, 1024)};
   --heading-4: #{calcClamp(20, 22, 375, 1024)};
   --heading-5: #{calcClamp(18, 20, 375, 1024)};
   --heading-6: #{calcClamp(16, 17, 375, 1024)};
@@ -70,8 +70,8 @@
     --font-size-3xl: #{rem(32)};
     --font-size-3xl: #{rem(40)};
     --font-size-4xl: #{rem(48)};
-    --heading-1: #{rem(56)};
-    --heading-2: #{rem(48)};
+    --heading-1: #{rem(48)};
+    --heading-2: #{rem(40)};
     --heading-3: #{rem(32)};
     --heading-4: #{rem(24)};
     --heading-5: #{rem(22)};

@@ -34,15 +34,17 @@
   .toc-mobile-container {
     position: fixed;
     top: calc(var(--header-height) + var(--spacing-sm));
-    left: 5%;
-    width: 90%;
-    max-height: 80%;
+    right: 5%;
     overflow: auto;
     z-index: 1000;
     display: flex;
     flex-direction: column;
     gap: var(--spacing-sm);
     align-items: flex-end;
+    &[aria-hidden="true"] {
+      visibility: hidden;
+      opacity: 0;
+    }
   }
 
   .toc-mobile-button {
@@ -75,12 +77,13 @@
     border: 1px solid var(--border-color);
     border-radius: rem(8);
     position: sticky;
-    visibility: hidden;
+    display: none;
     opacity: 0;
     transition: opacity 0.3s;
     &.is-open {
       visibility: visible;
       opacity: 1;
+      display: block;
     }
   }
   .toc-mobile {
@@ -154,7 +157,7 @@
         padding-left: 0.875rem;
         font-size: 0.875em;
       }
-      &:has(.toc__link.is-active) {
+      &:has(.toc-mobile__link.is-active) {
         color: var(--primary-color);
         &::before {
           background-color: var(--primary-color);
