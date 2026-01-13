@@ -1,0 +1,76 @@
+---
+import { TECH_LIMIT } from "@/constants";
+import Layout from "@/layouts/Layout.astro";
+import Pagination from "@/components/Pagination.astro";
+import TechArticleList from "@/components/TechArticleList.astro";
+import { getZennArticlesUnified } from "@/libs/api/zennFunctions";
+import type { UnifiedArticleResponse } from "@/types/zenn";
+import { calcTotalPages } from "@/libs/pagenation";
+
+type Props = UnifiedArticleResponse & {
+  currentPage: number;
+};
+
+type Paths = {
+  params: { slug: string };
+  props: Props;
+};
+
+export async function getStaticPaths() {
+  const paths: Paths[] = [];
+  const {
+    articles: techList,
+    next_page: nextPage,
+    total_count: totalCount,
+    limit: limit,
+  } = await getZennArticlesUnified(1, 999); //全件取得
+  const totalPages = calcTotalPages(totalCount ?? 0, TECH_LIMIT);
+
+  for (let page = 1; page <= totalPages; page++) {
+    const offset = (page - 1) * TECH_LIMIT;
+    const slicedTechList = techList.slice(offset, offset + TECH_LIMIT);
+    paths.push({
+      params: {
+        slug: page === 1 ? "first-page" : `page/${page}`,
+      },
+      props: {
+        articles: slicedTechList,
+        next_page: nextPage,
+        total_count: totalCount,
+        offset: offset,
+        limit: limit,
+        currentPage: page,
+      },
+    });
+  }
+  return paths.filter((path) => path.params.slug !== "first-page");
+}
+
+const pageTitle = "Tech Articles";
+const {
+  articles: techList,
+  total_count: totalCount,
+  currentPage,
+} = Astro.props;
+
+const basePath = "/tech";
+---
+
+<Layout>
+  <section class="page-section">
+    <h1 class="page-title">{pageTitle}</h1>
+    {
+      techList.length > 0 ? (
+        <TechArticleList techList={techList} />
+      ) : (
+        <p>現在投稿はありません</p>
+      )
+    }
+    <Pagination
+      limit={TECH_LIMIT}
+      totalCount={totalCount}
+      page={currentPage}
+      basePath={basePath}
+    />
+  </section>
+</Layout>

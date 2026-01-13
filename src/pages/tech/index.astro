@@ -1,0 +1,26 @@
+---
+import { TECH_LIMIT } from "@/constants";
+import Layout from "@/layouts/Layout.astro";
+import Pagination from "@/components/Pagination.astro";
+import TechArticleList from "@/components/TechArticleList.astro";
+import { getZennArticlesUnified } from "@/libs/api/zennFunctions";
+
+const pageTitle = "Tech Articles";
+const pageNumber = Number(Astro.params.page) || 1;
+
+const { articles: techList, total_count: totalCount } =
+  await getZennArticlesUnified(pageNumber, TECH_LIMIT);
+---
+
+<Layout>
+  <section class="page-section">
+    <h1 class="page-title">{pageTitle}</h1>
+    <TechArticleList techList={techList} />
+    <Pagination
+      limit={TECH_LIMIT}
+      totalCount={totalCount}
+      page={pageNumber}
+      basePath="/tech"
+    />
+  </section>
+</Layout>
