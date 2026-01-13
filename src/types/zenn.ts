@@ -48,3 +48,8 @@ export interface ZennQueries {
 
 export type SortKey = keyof ZennArticle;
 export type Order = "desc" | "asc";
+
+export type UnifiedArticleResponse = {
+  offset: number;
+  limit: number;
+} & ZennArticleResponse;
