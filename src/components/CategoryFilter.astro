@@ -4,12 +4,14 @@ import type { CategoryList } from "@/types/microcms";
 interface Props {
   categoryList: CategoryList;
   className?: string;
+  parentPath?: string;
   basePath?: string;
   currentCategory?: string;
 }
 const {
   categoryList,
   className,
+  parentPath = "/notes",
   basePath = "/notes/category",
   currentCategory = "all",
 } = Astro.props;
@@ -23,7 +25,7 @@ const {
       "category-filter",
       currentCategory === "all" ? "is-current" : "",
     ]}
-    href="/notes">すべて</a
+    href={`${parentPath}`}>すべて</a
   >
   {
     categoryList.map((category) => {
