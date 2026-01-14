@@ -1,0 +1,28 @@
+---
+import type { WorksList } from "@/types/microcms";
+import Card from "@/components/Card/Card.astro";
+type Props = {
+  worksList: WorksList;
+};
+const { worksList } = Astro.props;
+---
+
+<div class="works-list">
+  {worksList.map((works) => <Card works={works} />)}
+</div>
+
+<style lang="scss">
+  @use "../styles/mixin" as *;
+  @use "../styles/functions" as *;
+  @use "../styles/extends" as *;
+  .works-list {
+    display: grid;
+    gap: var(--spacing-2xl) var(--spacing-lg);
+    @include mq("md") {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    @include mq("lg") {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>
