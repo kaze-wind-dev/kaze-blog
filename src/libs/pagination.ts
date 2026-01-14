@@ -45,6 +45,5 @@ export const isPage = (href: URL): boolean => {
 };
 
 export const calcTotalPages = (totalCount: number, limit: number): number => {
-  
   return Math.ceil(totalCount / limit);
 };

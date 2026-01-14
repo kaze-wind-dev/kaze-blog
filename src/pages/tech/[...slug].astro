@@ -5,7 +5,7 @@ import Pagination from "@/components/Pagination.astro";
 import TechArticleList from "@/components/TechArticleList.astro";
 import { getZennArticlesUnified } from "@/libs/api/zennFunctions";
 import type { UnifiedArticleResponse } from "@/types/zenn";
-import { calcTotalPages } from "@/libs/pagenation";
+import { calcTotalPages } from "@/libs/pagination";
 
 type Props = UnifiedArticleResponse & {
   currentPage: number;
