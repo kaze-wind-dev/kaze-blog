@@ -1,0 +1,41 @@
+---
+import { Image } from "astro:assets";
+import type { Works } from "@/types/microcms";
+
+type Props = {
+  title: Works["title"];
+  thumbnail?: Works["thumbnail"];
+};
+
+const { title, thumbnail }: Props = Astro.props;
+---
+
+<header class="card__header">
+  {
+    thumbnail ? (
+      <figure class="card__thumbnail">
+        <Image
+          src={thumbnail?.url || `/images/no_image.jpg`}
+          width={thumbnail?.width || 640}
+          height={thumbnail?.height || 480}
+          alt={thumbnail.url ? title : `no image`}
+          loading="lazy"
+        />
+      </figure>
+    ) : (
+      <figure class="card__thumbnail">
+        <Image
+          src={`/images/no_image.jpg`}
+          width={640}
+          height={480}
+          alt={`no image`}
+          loading="lazy"
+        />
+      </figure>
+    )
+  }
+  <h3 class="card__title">
+    {title}
+  </h3>
+  <slot />
+</header>

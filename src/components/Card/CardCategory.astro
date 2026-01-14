@@ -1,0 +1,14 @@
+---
+import Category from "@/components/Category.astro";
+import type { Works } from "@/types/microcms";
+type Props = {
+  category: Works["category"];
+};
+
+const { category }: Props = Astro.props;
+---
+
+    <div class="card__category-wrapper">
+      <Category category={category} />
+    </div>
+  

@@ -1,0 +1,10 @@
+---
+import type { Works } from "@/types/microcms";
+type Props = {
+  description: Works["description"];
+};
+
+const { description }: Props = Astro.props;
+---
+
+<p class="card__description">{description}</p>

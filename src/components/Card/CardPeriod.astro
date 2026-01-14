@@ -1,0 +1,10 @@
+---
+import type { Works } from "@/types/microcms";
+type Props = {
+  period: Works["period"];
+};
+
+const { period }: Props = Astro.props;
+---
+
+<span class="card__period">制作期間 {period}</span>

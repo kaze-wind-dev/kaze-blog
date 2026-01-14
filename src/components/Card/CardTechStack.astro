@@ -1,0 +1,22 @@
+---
+import type { Works } from "@/types/microcms";
+type Props = {
+  technology_stack: Works["technology_stack"];
+};
+
+const { technology_stack }: Props = Astro.props;
+---
+
+{technology_stack && (
+<div class="card__technology-stack">
+  {
+    technology_stack.map((technology) => (
+      <span
+        class="card__technology-stack__item"
+      >
+        {technology}
+      </span>
+    ))
+  }
+</div>
+)}

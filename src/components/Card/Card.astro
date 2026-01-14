@@ -1,0 +1,120 @@
+---
+import type { Works } from "@/types/microcms";
+import CardHeader from "@/components/Card/CardHeader.astro";
+import CardBody from "@/components/Card/CardBody.astro";
+import CardCategory from "@/components/Card/CardCategory.astro";
+import CardPeriod from "@/components/Card/CardPeriod.astro";
+import CardTime from "@/components/Card/CardTime.astro";
+import CardDescription from "@/components/Card/CardDescription.astro";
+import CardTechStack from "@/components/Card/CardTechStack.astro";
+
+type Props = {
+  works: Works;
+};
+
+const { works }: Props = Astro.props;
+---
+
+<article class="card">
+  <a href={`/works/${works.id}`} class="card__link">
+    <CardHeader title={works.title} thumbnail={works.thumbnail}>
+      <CardCategory category={works.category} />
+    </CardHeader>
+    <CardBody>
+      <CardDescription description={works.description} />
+      <CardPeriod period={works.period} />
+      <CardTime time={works.time} />
+      <CardTechStack technology_stack={works.technology_stack} />
+    </CardBody>
+  </a>
+</article>
+
+<style lang="scss" is:global>
+  @use "../../styles/mixin" as *;
+  @use "../../styles/functions" as *;
+  @use "../../styles/extends" as *;
+  .card {
+    width: 100%;
+    min-width: 0;
+
+    &__header {
+      width: 100%;
+      position: relative;
+      z-index: 1;
+
+      margin-block-end: var(--spacing-sm);
+    }
+    &__link {
+      display: block;
+      &:hover {
+        .card__thumbnail > img {
+          scale: 1.08;
+        }
+      }
+    }
+    &__category-wrapper {
+      position: absolute;
+      z-index: 1;
+      top: var(--spacing-sm);
+      left: var(--spacing-sm);
+      width: fit-content;
+    }
+    &__thumbnail {
+      aspect-ratio: 4 / 3;
+      width: 100%;
+      margin-block-end: var(--spacing-sm);
+      border-radius: rem(8);
+      overflow: hidden;
+      background-color: var(--bg-primary-color);
+      > img {
+        transition: 0.3s;
+        object-fit: contain;
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    &__body {
+      width: 100%;
+    }
+    &__title {
+      width: 100%;
+      font-weight: 700;
+      font-size: var(--font-size-xl);
+      @include lineClamp(1);
+    }
+    &__description {
+      width: 100%;
+      font-weight: 700;
+      font-size: var(--font-size-base);
+      @include lineClamp(2);
+    }
+    &__period,
+    &__time,
+    &__technology-stack {
+      color: var(--dark-gray-color);
+      font-size: rem(12, 16);
+
+      font-weight: 700;
+      display: block;
+    }
+    &__period {
+      margin-block-start: var(--spacing-sm);
+    }
+    &__technology-stack {
+      margin-block-start: var(--spacing-sm);
+      display: flex;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: rem(4);
+
+      &__item {
+        color: var(--dark-gray-color);
+        padding: 0.2em 0.75em 0.3em;
+        border-radius: 2em;
+        border: 1px solid var(--dark-gray-color);
+        line-height: 1;
+      }
+    }
+  }
+</style>
