@@ -1,0 +1,341 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import PageSection from "@/components/PageSection.astro";
+import { Image } from "astro:assets";
+import Date from "@/components/Date.astro";
+import Category from "@/components/Category.astro";
+import Button from "@/components/Button.astro";
+import { getAllWorksList, getWorksDetail } from "@/libs/api/microcms";
+import type { Works } from "@/types/microcms";
+export async function getStaticPaths() {
+  const worksList = await getAllWorksList();
+  return worksList.map((works) => ({
+    params: {
+      id: works.id,
+    },
+  }));
+}
+
+const { id } = Astro.params;
+const works: Works = await getWorksDetail(id);
+---
+
+<Layout>
+  <PageSection>
+    <Fragment>
+      <article class="works-detail">
+        <header class="works-detail__header">
+          <h1 class="works-detail__title">{works.title}</h1>
+          <div class="works-detail__meta">
+            <Date date={works.publishedAt || works.createdAt} />
+            <Category category={works.category} href={`/works/category/${works.category.category_id}`} type="link"/>
+          </div>
+        </header>
+
+        <p class="works-detail__description">
+          {works.description}
+        </p>
+        <div class="works-detail__container">
+          <div class="works-detail__l-content">
+            <figure class="works-detail__thumbnail">
+              <Image
+                src={works.thumbnail?.url || `/images/no_image.jpg`}
+                width={works.thumbnail?.width || 640}
+                height={works.thumbnail?.height || 480}
+                alt={works.thumbnail?.alt || `no image`}
+              />
+            </figure>
+            {
+              works.images && works.images.length > 0 && (
+                <div class="works-detail__gallery">
+                  {works.images.map((image, index) => (
+                    <div class="works-detail__gallery-image">
+                      <Image
+                        src={image?.url || `/images/no_image.jpg`}
+                        width={image?.width || 640}
+                        height={image?.height || 480}
+                        alt={`${works.title} 画像${index + 1}`}
+                      />
+                    </div>
+                  ))}
+                </div>
+              )
+            }
+          </div>
+          <div class="works-detail__r-content">
+            {
+              works.site_url && (
+                <section class="works-detail__item">
+                  <h2 class="works-detail__item-title">サイトURL</h2>
+                  <a
+                    class="works-detail__item-link"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    href={works.site_url}
+                  >
+                    <svg
+                      class="works-detail__item-link__icon"
+                      xmlns="http://www.w3.org/2000/svg"
+                      height="1.25em"
+                      viewBox="0 -960 960 960"
+                      width="1.25em"
+                      fill="var(--secondary-color)"
+                    >
+                      <path d="M440-280H280q-83 0-141.5-58.5T80-480q0-83 58.5-141.5T280-680h160v80H280q-50 0-85 35t-35 85q0 50 35 85t85 35h160v80ZM320-440v-80h320v80H320Zm200 160v-80h160q50 0 85-35t35-85q0-50-35-85t-85-35H520v-80h160q83 0 141.5 58.5T880-480q0 83-58.5 141.5T680-280H520Z" />
+                    </svg>
+                    {works.site_url}
+                  </a>
+                </section>
+              )
+            }
+            {
+              works.github_url && (
+                <section class="works-detail__item">
+                  <h2 class="works-detail__item-title">GitHub URL</h2>
+                  <a
+                    class="works-detail__item-link"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    href={works.github_url}
+                  >
+                    <svg
+                      class="works-detail__item-link__icon"
+                      xmlns="http://www.w3.org/2000/svg"
+                      height="1.25em"
+                      viewBox="0 -960 960 960"
+                      width="1.25em"
+                      fill="var(--secondary-color)"
+                    >
+                      <path d="M440-280H280q-83 0-141.5-58.5T80-480q0-83 58.5-141.5T280-680h160v80H280q-50 0-85 35t-35 85q0 50 35 85t85 35h160v80ZM320-440v-80h320v80H320Zm200 160v-80h160q50 0 85-35t35-85q0-50-35-85t-85-35H520v-80h160q83 0 141.5 58.5T880-480q0 83-58.5 141.5T680-280H520Z" />
+                    </svg>
+
+                    {works.github_url}
+                  </a>
+                </section>
+              )
+            }
+            {
+              works.design_url && (
+                <section class="works-detail__item">
+                  <h2 class="works-detail__item-title">デザインURL</h2>
+                  <a
+                    class="works-detail__item-link"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    href={works.design_url}
+                  >
+                    <svg
+                      class="works-detail__item-link__icon"
+                      xmlns="http://www.w3.org/2000/svg"
+                      height="1.25em"
+                      viewBox="0 -960 960 960"
+                      width="1.25em"
+                      fill="var(--secondary-color)"
+                    >
+                      <path d="M440-280H280q-83 0-141.5-58.5T80-480q0-83 58.5-141.5T280-680h160v80H280q-50 0-85 35t-35 85q0 50 35 85t85 35h160v80ZM320-440v-80h320v80H320Zm200 160v-80h160q50 0 85-35t35-85q0-50-35-85t-85-35H520v-80h160q83 0 141.5 58.5T880-480q0 83-58.5 141.5T680-280H520Z" />
+                    </svg>
+
+                    {works.design_url}
+                  </a>
+                </section>
+              )
+            }
+            {
+              works.period && (
+                <section class="works-detail__item">
+                  <h2 class="works-detail__item-title">制作期間</h2>
+                  <p class="works-detail__item-text">{works.period}</p>
+                </section>
+              )
+            }
+            {
+              works.time_detail && (
+                <section class="works-detail__item">
+                  <h2 class="works-detail__item-title">制作時間</h2>
+                  <p class="works-detail__item-text">{works.time_detail}時間</p>
+                </section>
+              )
+            }
+            {
+              works.background && (
+                <section class="works-detail__item">
+                  <h2 class="works-detail__item-title">制作背景・課題</h2>
+                  <p class="works-detail__item-text">{works.background}</p>
+                </section>
+              )
+            }
+            {
+              works.learned && (
+                <section class="works-detail__item">
+                  <h2 class="works-detail__item-title">学んだこと・成果</h2>
+                  <p class="works-detail__item-text">{works.learned}</p>
+                </section>
+              )
+            }
+            {
+              works.technology_stack && (
+                <section class="works-detail__item">
+                  <h2 class="works-detail__item-title">技術スタック</h2>
+                  <ul class="works-detail__item-list">
+                    {works.technology_stack.map((stack) => (
+                      <li>{stack}</li>
+                    ))}
+                  </ul>
+                </section>
+              )
+            }
+          </div>
+        </div>
+      </article>
+
+      <Button
+        className="works-detail__button"
+        href={`/works/`}
+        text="一覧に戻る"
+        variant="secondary"
+        size="sm"
+      />
+    </Fragment>
+  </PageSection>
+</Layout>
+
+<style lang="scss">
+  @use "../../styles/mixin" as *;
+  @use "../../styles/functions" as *;
+  @use "../../styles/extends" as *;
+
+  .works-detail {
+    &__header {
+      display: flex;
+      flex-direction: column-reverse;
+      align-items: flex-start;
+      gap: var(--spacing-xs);
+      margin-block-end: var(--spacing-lg);
+    }
+    &__title {
+      font-size: var(--font-size-4xl);
+    }
+    &__meta {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-sm);
+    }
+    &__description {
+      margin-block-end: var(--spacing-3xl);
+      line-height: 1.75;
+    }
+    &__container {
+      display: grid;
+      gap: var(--spacing-xl);
+      @include mq("md") {
+        grid-template-columns: 45% 55%;
+      }
+    }
+    &__l-content {
+      min-width: 0;
+      @include mq("md") {
+        display: grid;
+        gap: var(--spacing-md);
+        position: sticky;
+      }
+    }
+    &__thumbnail {
+      width: 100%;
+      min-width: 0;
+
+      aspect-ratio: 3 / 2;
+      background-color: var(--bg-primary-color);
+      border-radius: rem(8);
+
+      > img {
+        object-fit: contain;
+        object-position: center;
+        width: 100%;
+        height: 100%;
+      }
+    }
+    &__gallery {
+      width: 100%;
+      min-width: 0;
+      display: grid;
+
+      gap: var(--spacing-xl);
+      margin-block-start: var(--spacing-xl);
+      grid-template-columns: repeat(3, 1fr);
+      margin-block-end: var(--spacing-xs);
+    }
+    &__gallery-image {
+      aspect-ratio: 1 / 1;
+      background-color: var(--color-background-base);
+      border-radius: rem(8);
+      overflow: hidden;
+      > img {
+        object-fit: contain;
+        object-position: center;
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+    }
+    &__item {
+      &:not(:last-child) {
+        margin-block-end: var(--spacing-md);
+      }
+    }
+    &__item-title {
+      margin-block-end: var(--spacing-sm);
+      font-size: var(--font-size-lg);
+      font-weight: 700;
+      width: fit-content;
+      padding-block-end: 0.25em;
+      border-block-end: 3px solid var(--primary-color);
+    }
+    &__item-link {
+      color: var(--secondary-color);
+      width: fit-content;
+      transition: underline 0.3s;
+      display: inline-flex;
+      align-items: flex-start;
+      gap: rem(4);
+      &__icon {
+    
+        flex-shrink: 0;
+        margin-block-start: 0.375em;
+      }
+      &:hover,&:focus-visible {
+        text-decoration: underline;
+        text-decoration-color: var(--secondary-color);
+        text-decoration-thickness: 2px;
+        text-underline-offset: 2px;
+      }
+    }
+    &__item-text {
+      white-space: pre-wrap;
+      line-height: 1.75;
+    }
+    &__item-list {
+      gap: 0 1.25em;
+      > li {
+        padding-left: 0.75em;
+        position: relative;
+        z-index: 1;
+        &::before {
+          content: "";
+          position: absolute;
+          top: 1em;
+          left: 0;
+          translate: 0% -50%;
+          width: 4px;
+          height: 4px;
+          background-color: var(--color-neutral-900);
+          border-radius: 50%;
+          display: block;
+        }
+      }
+    }
+  }
+  :global(.works-detail__button) {
+    margin-block-start: var(--spacing-3xl);
+    margin-inline: auto;
+  }
+</style>

@@ -1,0 +1,116 @@
+---
+import { WORKS_LIMIT } from "@/constants";
+import Layout from "@/layouts/Layout.astro";
+import Pagination from "@/components/Pagination.astro";
+import WorksList from "@/components/WorksList.astro";
+import CategoryFilter from "@/components/CategoryFilter.astro";
+import type { Works } from "@/types/microcms";
+import { getWorksList, getAllCategoryList } from "@/libs/api/microcms";
+import { calcTotalPages } from "@/libs/pagination";
+import type { Category } from "@/types/microcms";
+
+type Props = {
+  worksList: Works[];
+  category: string;
+  currentPage: number;
+  totalPages: number;
+  totalCount: number;
+  categoryList: Category[];
+};
+
+type Paths = {
+  params: { slug: string };
+  props: Props;
+};
+
+export async function getStaticPaths() {
+  const paths: Paths[] = [];
+  const { contents: worksList, totalCount } = await getWorksList({});
+  const categoryList = await getAllCategoryList({
+    filters: "connection[contains]works",
+  });
+
+  const totalPages = calcTotalPages(totalCount, WORKS_LIMIT);
+
+  const filteredCategoryList = categoryList.filter((category) => {
+    return worksList.some(
+      (works) => works.category.category_id === category.category_id,
+    );
+  });
+
+  for (let page = 1; page <= totalPages; page++) {
+    const offset = (page - 1) * WORKS_LIMIT;
+    const slicedWorksList = worksList.slice(offset, offset + WORKS_LIMIT);
+
+    paths.push({
+      params: {
+        slug: page === 1 ? "first-page" : `page/${page}`,
+      },
+      props: {
+        worksList: slicedWorksList,
+        category: "all",
+        currentPage: page,
+        totalPages,
+        totalCount: totalCount,
+        categoryList: filteredCategoryList,
+      },
+    });
+  }
+
+  categoryList.forEach((category) => {
+    const filteredWorksList = worksList.filter(
+      (works) => works.category.category_id === category.category_id,
+    );
+    const categorySlug = `category/${category.category_id}`;
+    const categoryTotalCount = filteredWorksList.length;
+    const categoryTotalPages = calcTotalPages(categoryTotalCount, WORKS_LIMIT);
+    for (let page = 1; page <= categoryTotalPages; page++) {
+      const offset = (page - 1) * WORKS_LIMIT;
+      const slicedWorksList = filteredWorksList.slice(
+        offset,
+        offset + WORKS_LIMIT,
+      );
+      paths.push({
+        params: {
+          slug: page === 1 ? `${categorySlug}` : `${categorySlug}/page/${page}`,
+        },
+        props: {
+          worksList: slicedWorksList,
+          category: category.category_id,
+          currentPage: page,
+          totalPages: categoryTotalPages,
+          totalCount: categoryTotalCount,
+          categoryList: filteredCategoryList,
+        },
+      });
+    }
+  });
+  // 最初のページ(page/1)は除外
+  return paths.filter((path) => path.params.slug !== "first-page");
+}
+
+const pageTitle = "Works";
+const { worksList, category, currentPage, totalCount, categoryList } =
+  Astro.props;
+const basePath = category === "all" ? "/works" : `/works/category/${category}`;
+---
+
+<Layout>
+  <section class="page-section">
+    <h1 class="page-title">{pageTitle}</h1>
+    <CategoryFilter categoryList={categoryList} currentCategory={category} parentPath="/works" basePath="/works/category"/>
+    {
+      worksList.length > 0 ? (
+        <WorksList worksList={worksList} />
+      ) : (
+        <p>現在投稿はありません</p>
+      )
+    }
+    <Pagination
+      limit={WORKS_LIMIT}
+      totalCount={totalCount}
+      page={currentPage}
+      basePath={basePath}
+    />
+  </section>
+</Layout>
