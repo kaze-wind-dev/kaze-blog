@@ -1,0 +1,11 @@
+---
+type Props = {
+  pageTitle?: string;
+};
+const { pageTitle } = Astro.props;
+---
+
+<section class="page-section">
+  {pageTitle && <h1 class="page-title">{pageTitle}</h1>}
+  <slot />
+</section>
