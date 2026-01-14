@@ -104,7 +104,12 @@ export const getNoteDetail = async (
   queries?: MicroCMSQueries,
   customRequestInit?: CustomRequestInit,
 ) => {
-  return getDetail<Notes>({ endpoint: "notes", contentId, queries, customRequestInit });
+  return getDetail<Notes>({
+    endpoint: "notes",
+    contentId,
+    queries,
+    customRequestInit,
+  });
 };
 
 export const getWorksList = async (
@@ -121,17 +126,36 @@ export const getAllWorksList = async (
   return getAllPosts<Works>({ endpoint: "works", queries, customRequestInit });
 };
 
+export const getWorksDetail = async (
+  contentId: string,
+  queries?: MicroCMSQueries,
+  customRequestInit?: CustomRequestInit,
+) => {
+  return getDetail<Works>({
+    endpoint: "works",
+    contentId,
+    queries,
+    customRequestInit,
+  });
+};
 export const getCategoryList = async (
   queries?: MicroCMSQueries,
   customRequestInit?: CustomRequestInit,
 ) => {
-  return getPosts<Category>({ endpoint: "category", queries, customRequestInit });
+  return getPosts<Category>({
+    endpoint: "category",
+    queries,
+    customRequestInit,
+  });
 };
 
 export const getAllCategoryList = async (
   queries?: MicroCMSQueries,
   customRequestInit?: CustomRequestInit,
 ) => {
-  return getAllPosts<Category>({ endpoint: "category", queries, customRequestInit });
+  return getAllPosts<Category>({
+    endpoint: "category",
+    queries,
+    customRequestInit,
+  });
 };
-
