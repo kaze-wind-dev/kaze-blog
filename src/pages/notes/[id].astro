@@ -27,7 +27,7 @@ const note = await getNoteDetail(id);
         <h1 class="note-detail__title">{note.title}</h1>
         <div class="note-detail__meta">
           <Date date={note.publishedAt || note.createdAt} />
-          <Category category={note.category} />
+          <Category category={note.category} href={`/notes/category/${note.category.category_id}`} type="link"/>
         </div>
       </header>
       <ArticleContent content={note.content} className="note-detail__body" />
