@@ -20,5 +20,5 @@ export const TOP_NOTES_LIMIT = 5;
 export const TOP_WORKS_LIMIT = 5;
 export const TOP_TECH_LIMIT = 6;
 export const NOTES_LIMIT = 10;
-export const WORKS_LIMIT = 10;
+export const WORKS_LIMIT = 12;
 export const TECH_LIMIT = 10;
