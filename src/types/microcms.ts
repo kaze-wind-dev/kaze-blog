@@ -22,9 +22,19 @@ export type NotesList = Notes[];
 export type Works = {
   title: string;
   description: string;
-  content: string;
+  site_url: string;
+  github_url?: string;
+  design_url?: string;
+  period: string;
+  background: string;
+  technical: string;
+  learned: string;
+  time: string;
+  time_detail?: string;
+  thumbnail?: MicroCMSImage;
+  images?: MicroCMSImage[];
   category: Category;
-  thumbnail: MicroCMSImage;
+  technology_stack?: string[];
 } & MicroCMSListContent;
 
 export type WorksList = Works[];
