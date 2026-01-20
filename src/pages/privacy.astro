@@ -1,0 +1,180 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import PageSection from "@/components/PageSection.astro";
+---
+
+<Layout>
+  <PageSection pageTitle="Privacy Policy">
+    <div class="privacy">
+      <section class="privacy__section">
+        <h2 class="privacy__section-title">1. 個人情報の取得について</h2>
+        <p class="privacy__text">
+          当サイトでは、お問い合わせフォームを通じて以下の情報を取得することがあります：
+        </p>
+        <ul class="privacy__list">
+          <li class="privacy__list-item">お名前</li>
+          <li class="privacy__list-item">メールアドレス</li>
+          <li class="privacy__list-item">お問い合わせ内容</li>
+        </ul>
+        <p class="privacy__text">
+          これらの情報は、お客様が任意で入力された場合のみ取得します。
+        </p>
+      </section>
+
+      <section class="privacy__section">
+        <h2 class="privacy__section-title">2. 個人情報の利用目的</h2>
+        <p class="privacy__text">
+          取得した個人情報は、以下の目的でのみ使用します：
+        </p>
+        <ul class="privacy__list">
+          <li class="privacy__list-item">お問い合わせへの回答</li>
+          <li class="privacy__list-item">必要に応じたご連絡</li>
+        </ul>
+      </section>
+
+      <section class="privacy__section">
+        <h2 class="privacy__section-title">3. 個人情報の第三者提供</h2>
+        <p class="privacy__text">
+          お客様の個人情報を第三者に提供することはありません。ただし、法令に基づき開示が求められる場合は除きます。
+        </p>
+      </section>
+
+      <section class="privacy__section">
+        <h2 class="privacy__section-title">4. Cookieについて</h2>
+        <p class="privacy__text">
+          当サイトでは、サイトの利用状況を把握し、サービス向上のためにCookieを使用しています。Cookieはお客様のブラウザ設定により無効にすることができます。
+        </p>
+      </section>
+
+      <section class="privacy__section">
+        <h2 class="privacy__section-title">5. アクセス解析ツールについて</h2>
+        <p class="privacy__text">
+          当サイトでは、Google
+          Analyticsを使用してアクセス状況を分析しています。Google
+          Analyticsでは、Cookieを使用してお客様の行動に関する情報を収集していますが、個人を特定する情報は含まれません。
+        </p>
+        <p class="privacy__text">
+          Google Analyticsの詳細については、以下をご確認ください：
+        </p>
+        <ul class="privacy__list">
+          <li class="privacy__list-item">
+            <a
+              href="https://marketingplatform.google.com/about/analytics/terms/jp/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="privacy__link"
+            >
+              Google Analytics利用規約
+            </a>
+          </li>
+          <li class="privacy__list-item">
+            <a
+              href="https://policies.google.com/privacy"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="privacy__link"
+            >
+              Googleプライバシーポリシー
+            </a>
+          </li>
+        </ul>
+        <p class="privacy__text">
+          データの収集を無効にしたい場合は、
+          <a
+            href="https://tools.google.com/dlpage/gaoptout"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="privacy__link"
+          >
+            Google Analyticsオプトアウト アドオン
+          </a>
+          をご利用ください。
+        </p>
+      </section>
+
+      <section class="privacy__section">
+        <h2 class="privacy__section-title">6. 個人情報の管理</h2>
+        <p class="privacy__text">
+          お客様の個人情報は適切に管理し、利用目的達成後または削除のご要望をいただいた場合は、速やかに削除いたします。
+        </p>
+      </section>
+
+      <section class="privacy__section">
+        <h2 class="privacy__section-title">7. お問い合わせ先</h2>
+        <p class="privacy__text">
+          本プライバシーポリシーに関するお問い合わせは、<a
+            href="https://x.com/kazenotes"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="privacy__link">X</a
+          >よりご連絡ください。
+        </p>
+      </section>
+
+      <section class="privacy__section">
+        <h2 class="privacy__section-title">8. プライバシーポリシーの変更</h2>
+        <p class="privacy__text">
+          本ポリシーは、必要に応じて変更することがあります。変更後の内容は、当サイトに掲載した時点から効力を生じるものとします。
+        </p>
+      </section>
+
+      <div class="privacy__section">
+        <p class="privacy__text">
+          制定日：2026年1月14日
+          <br />
+          最終更新日：2026年1月14日
+        </p>
+      </div>
+    </div></PageSection
+  >
+</Layout>
+<style lang="scss">
+  @use "../styles/mixin" as *;
+  @use "../styles/functions" as *;
+  @use "../styles/extends" as *;
+  .privacy {
+    &__text {
+      line-height: 1.75;
+      margin-block: var(--spacing-sm);
+    }
+    &__section {
+      &:not(:nth-last-of-type(1)) {
+        margin-block-end: var(--spacing-2xl);
+      }
+
+      &-title {
+        font-weight: 700;
+        font-size: var(--font-size-lg);
+        border-block-end: 1px solid var(--border-color);
+        padding-block-end: var(--spacing-xs);
+        margin-block-end: var(--spacing-xs);
+      }
+    }
+    &__list {
+      margin-block: var(--spacing-2xl);
+      &-item {
+        padding-inline-start: 1em;
+        position: relative;
+        z-index: 1;
+        &::before {
+          content: "";
+          width: rem(4);
+          height: rem(4);
+          border-radius: 50%;
+          background: var(--primary-color);
+          position: absolute;
+          top: 1em;
+          left: 0;
+          translate: 0% -50%;
+        }
+        &:not(:nth-last-of-type(1)) {
+          margin-block-end: rem(4);
+        }
+      }
+    }
+    &__link {
+      color: var(--primary-color);
+      text-decoration: underline;
+    }
+  }
+</style>
