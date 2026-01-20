@@ -3,7 +3,8 @@
 @use "../extends" as *;
 
 .footer {
-  background-color: var(--bg-secondary-color);
+  background-color: var(--text-primary);
+  color: var(--white-color);
 }
 .footer__logo {
   font-size: calcClamp(24, 36);
@@ -57,6 +58,11 @@
       width: 1em;
     }
   }
+}
+.footer .sns-list {
+  margin-block-start: var(--spacing-md);
+  --github-color: #fff;
+  --x-color: #fff;
 }
 .copyright {
   margin-top: 2rem;

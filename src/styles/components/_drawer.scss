@@ -98,6 +98,12 @@
       font-size: var(--font-size-2xl);
     }
   }
+  .sns-list {
+    --github-color: #fff;
+    --x-color: #fff;
+    margin-block-start: var(--spacing-4xl);
+    justify-content: flex-start;
+  }
 }
 
 body.is-open {

@@ -7,7 +7,7 @@ export const MAIN_NAVIGATION_LIST: NavigationItem[] = [
 ];
 
 export const SUB_NAVIGATION_LIST: NavigationItem[] = [
-  { href: "/contact", name: "Contact" },
+  // { href: "/contact", name: "Contact" },
   { href: "/privacy", name: "Privacy Policy" },
 ];
 
@@ -22,3 +22,7 @@ export const TOP_TECH_LIMIT = 6;
 export const NOTES_LIMIT = 10;
 export const WORKS_LIMIT = 12;
 export const TECH_LIMIT = 10;
+
+export const X_URL = "https://x.com/kaze_wind_dev";
+export const ZENN_LINK = 'https://zenn.dev/kaze_wind';
+export const GITHUB_LINK = 'https://github.com/kaze-wind-dev';

@@ -1,6 +1,7 @@
 ---
 import { ALL_NAVIGATION_LIST } from "@/constants";
 import type { Navigation as NavigationProps } from "@/types/navigation";
+import SnsList from "./SnsList.astro";
 import Navigation from "./Navigation.astro";
 const footerClasses: NavigationProps["className"] = {
   nav: "footer__navigation",
@@ -20,6 +21,7 @@ const footerClasses: NavigationProps["className"] = {
       className={footerClasses}
       ariaLabel="フッターナビゲーション"
     />
+    <SnsList/>
     <small class="copyright">&copy; Kaze Notes</small>
   </div>
 </footer>
