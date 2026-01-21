@@ -11,11 +11,11 @@ const { pageTitle, description, keywords } = Astro.props;
 <Layout pageTitle={pageTitle} description={description} keywords={keywords}>
   <section class="page-section">
     <div class="column-content">
-      <div class="column-content__main">
-        <slot name="main" />
-      </div>
       <div class="column-content__sidebar">
         <slot name="sidebar" />
+      </div>
+      <div class="column-content__main">
+        <slot name="main" />
       </div>
     </div>
   </section>
@@ -35,6 +35,10 @@ const { pageTitle, description, keywords } = Astro.props;
     }
     &__main {
       min-width: 0;
+      order:1;
+    }
+    &__sidebar {
+      order: 2;
     }
   }
 </style>
