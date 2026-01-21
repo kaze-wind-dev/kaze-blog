@@ -37,13 +37,7 @@ const { articles: techList } = await getZennArticles({
           className="note__button"
         />
       </header>
-      {
-        notesList.length > 0 ? (
-          <NoteArticleList notesList={notesList} />
-        ) : (
-          <p>現在投稿はありません</p>
-        )
-      }
+      <NoteArticleList notesList={notesList} />
     </div>
   </section>
   <section class="tech">
@@ -53,13 +47,7 @@ const { articles: techList } = await getZennArticles({
         subText="Tech Articles"
         className="tech__title"
       />
-      {
-        techList.length > 0 ? (
-          <TechArticleList techList={techList} />
-        ) : (
-          <p>現在投稿はありません</p>
-        )
-      }
+      <TechArticleList techList={techList} />
       <Button
         href="/tech"
         text="一覧はこちら"

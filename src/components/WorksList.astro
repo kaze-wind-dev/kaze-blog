@@ -7,9 +7,17 @@ type Props = {
 const { worksList } = Astro.props;
 ---
 
-<div class="works-list">
-  {worksList.map((works) => <Card works={works} />)}
-</div>
+{
+  worksList.length > 0 ? (
+    <div class="works-list">
+      {worksList.map((works) => (
+        <Card works={works} />
+      ))}
+    </div>
+  ) : (
+    <p>現在投稿はありません</p>
+  )
+}
 
 <style lang="scss">
   @use "../styles/mixin" as *;

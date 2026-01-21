@@ -7,9 +7,17 @@ type Props = {
 const { techList } = Astro.props;
 ---
 
-<div class="tech-list">
-  {techList.map((tech) => <TechArticle tech={tech} />)}
-</div>
+{
+  techList.length > 0 ? (
+    <div class="tech-list">
+      {techList.map((tech) => (
+        <TechArticle tech={tech} />
+      ))}
+    </div>
+  ) : (
+    <p>現在投稿はありません</p>
+  )
+}
 
 <style lang="scss">
   @use "../styles/mixin" as *;

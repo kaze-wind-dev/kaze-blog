@@ -8,13 +8,17 @@ interface Props {
 const { notesList } = Astro.props;
 ---
 
-<div class="note-list">
-  {
-    notesList.map((note) => {
-      return <NoteArticle note={note} />;
-    })
-  }
-</div>
+{
+  notesList.length > 0 ? (
+    <div class="note-list">
+      {notesList.map((note) => {
+        return <NoteArticle note={note} />;
+      })}
+    </div>
+  ) : (
+    <p>現在投稿はありません</p>
+  )
+}
 
 <style lang="scss">
   .note-list {
