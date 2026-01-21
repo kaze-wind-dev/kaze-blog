@@ -1,8 +1,14 @@
 ---
 import Layout from "./Layout.astro";
+type Props = {
+  pageTitle?: string;
+  description?: string;
+  keywords?: string;
+};
+const { pageTitle, description, keywords } = Astro.props;
 ---
 
-<Layout>
+<Layout pageTitle={pageTitle} description={description} keywords={keywords}>
   <section class="page-section">
     <div class="column-content">
       <div class="column-content__main">

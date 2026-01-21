@@ -8,11 +8,17 @@ import "@fontsource/zen-kaku-gothic-new/500.css";
 import "@fontsource/zen-kaku-gothic-new/700.css";
 import "@fontsource-variable/outfit";
 import "kiso.css";
+type Props = {
+  pageTitle?: string;
+  description?: string;
+  keywords?: string;
+};
+const { pageTitle, description, keywords } = Astro.props;
 ---
 
 <!doctype html>
 <html lang="ja">
-  <Head/>
+  <Head pageTitle={pageTitle} description={description} keywords={keywords} />
   <body>
     <Header />
     <Drawer />
