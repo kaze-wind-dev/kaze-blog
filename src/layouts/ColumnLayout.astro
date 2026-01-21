@@ -14,9 +14,9 @@ const { pageTitle, description, keywords } = Astro.props;
       <div class="column-content__main">
         <slot name="main" />
       </div>
-      <aside class="column-content__sidebar">
+      <div class="column-content__sidebar">
         <slot name="sidebar" />
-      </aside>
+      </div>
     </div>
   </section>
 </Layout>
