@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
         autoplay: false,
       },
     },
-    gap: "-7.5rem",
+    gap: "-8rem",
     interval: 6000,
     speed: 1000,
     focus: "center",
@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
     paginationKeyboard: true,
     breakpoints: {
       480: {
-        gap: "-7.5rem",
+        gap: "-8rem",
         perPage: 1.2,
       },
       768: {
