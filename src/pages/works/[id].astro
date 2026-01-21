@@ -18,9 +18,11 @@ export async function getStaticPaths() {
 
 const { id } = Astro.params;
 const works: Works = await getWorksDetail(id);
+const pageTitle = works.title;
+const description = works.description;
 ---
 
-<Layout>
+<Layout pageTitle={pageTitle} description={description}>
   <PageSection>
     <Fragment>
       <article class="works-detail">

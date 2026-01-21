@@ -20,7 +20,7 @@ const { id } = Astro.params;
 const note = await getNoteDetail(id);
 ---
 
-<ColumnLayout pageTitle={note.title}>
+<ColumnLayout pageTitle={note.title} description={note.description}>
   <Fragment slot="main">
     <div class="note-detail">
       <header class="note-detail__header">

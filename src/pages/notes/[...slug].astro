@@ -89,12 +89,13 @@ export async function getStaticPaths() {
 }
 
 const pageTitle = "Notes";
+const description = "Kaze Notesの技術メモ一覧です。技術的な知識や学習したことをまとめています。";
 const { notesList, category, currentPage, totalCount, categoryList } =
   Astro.props;
 const basePath = category === "all" ? "/notes" : `/notes/category/${category}`;
 ---
 
-<Layout>
+<Layout pageTitle={pageTitle} description={description}>
   <section class="page-section">
     <h1 class="page-title">{pageTitle}</h1>
     <CategoryFilter categoryList={categoryList} currentCategory={category} />

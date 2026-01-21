@@ -10,7 +10,7 @@ const {
   description = SITE_DESCRIPTION,
   keywords = SITE_KEYWORDS,
 } = Astro.props;
-const title = pageTitle ? ` | ${pageTitle}` : SITE_NAME;
+const title = pageTitle ? `${SITE_NAME} | ${pageTitle}` : SITE_NAME;
 ---
 
 <head>

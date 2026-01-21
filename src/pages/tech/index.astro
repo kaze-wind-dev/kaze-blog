@@ -6,13 +6,14 @@ import TechArticleList from "@/components/TechArticleList.astro";
 import { getZennArticlesUnified } from "@/libs/api/zennFunctions";
 
 const pageTitle = "Tech Articles";
+const description = "Kaze Notesの技術記事一覧です。Zennで公開した技術的な知識や学習したことをまとめています。";
 const pageNumber = Number(Astro.params.page) || 1;
 
 const { articles: techList, total_count: totalCount } =
   await getZennArticlesUnified(pageNumber, TECH_LIMIT);
 ---
 
-<Layout>
+<Layout pageTitle={pageTitle} description={description}>
   <section class="page-section">
     <h1 class="page-title">{pageTitle}</h1>
     <TechArticleList techList={techList} />
