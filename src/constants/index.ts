@@ -1,5 +1,11 @@
 import type { NavigationItem } from "@/types/navigation";
 
+export const SITE_URL = "https://kaze-develop.com";
+export const SITE_NAME = "Kaze Notes";
+export const SITE_DESCRIPTION = "Kaze Notesは技術メモや作品紹介をしているブログです。";
+export const SITE_KEYWORDS = "Kaze, Notes, Blog, かぜ, フロントエンドエンジニア, Kaze Notes";
+export const SITE_IMAGE = `${SITE_URL}/ogp_image.jpg`;
+
 export const MAIN_NAVIGATION_LIST: NavigationItem[] = [
   { href: "/notes", name: "Notes" },
   { href: "/tech", name: "Tech Articles" },

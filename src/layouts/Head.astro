@@ -1,0 +1,33 @@
+---
+import { SITE_URL, SITE_NAME, SITE_DESCRIPTION, SITE_KEYWORDS, SITE_IMAGE } from "@/constants";
+type Props = {
+  pageTitle?: string;
+  description?: string;
+  keywords?: string;
+};
+const {
+  pageTitle,
+  description = SITE_DESCRIPTION,
+  keywords = SITE_KEYWORDS,
+} = Astro.props;
+const title = pageTitle ? ` | ${pageTitle}` : SITE_NAME;
+---
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
+  <meta name="generator" content={Astro.generator} />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <meta name="keywords" content={keywords} />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content={SITE_URL} />
+  <meta property="og:image" content={SITE_IMAGE} />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={title} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content={SITE_IMAGE} />
+</head>
