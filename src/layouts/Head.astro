@@ -6,6 +6,7 @@ import {
   SITE_KEYWORDS,
   SITE_IMAGE,
 } from "@/constants";
+import GoogleAnalytics from "@/components/GoogleAnalytics.astro";
 type Props = {
   pageTitle?: string;
   description?: string;
@@ -17,6 +18,7 @@ const {
   keywords = SITE_KEYWORDS,
 } = Astro.props;
 const title = pageTitle ? `${SITE_NAME} | ${pageTitle}` : SITE_NAME;
+const isProd = import.meta.env.PROD;
 ---
 
 <head>
@@ -37,4 +39,5 @@ const title = pageTitle ? `${SITE_NAME} | ${pageTitle}` : SITE_NAME;
   <meta name="twitter:title" content={title} />
   <meta name="twitter:description" content={description} />
   <meta name="twitter:image" content={SITE_IMAGE} />
+  {isProd && <GoogleAnalytics />}
 </head>
