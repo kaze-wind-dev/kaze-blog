@@ -1,6 +1,6 @@
 // @ts-check
 import { defineConfig, envField } from "astro/config";
-import netlify from '@astrojs/netlify';
+import netlify from "@astrojs/netlify";
 import { SITE_URL } from "./src/constants";
 import sitemap from "@astrojs/sitemap";
 
@@ -8,7 +8,6 @@ import partytown from "@astrojs/partytown";
 
 // https://astro.build/config
 export default defineConfig({
-
   site: SITE_URL,
   adapter: netlify(),
 
@@ -33,12 +32,17 @@ export default defineConfig({
   },
 
   image: {
-    remotePatterns: [{ protocol: "https", hostname: "images.microcms-assets.io" }],
+    remotePatterns: [
+      { protocol: "https", hostname: "images.microcms-assets.io" },
+    ],
   },
 
-  integrations: [sitemap(), partytown({
-    config: {
-      forward: ['dataLayer.push'],
-    },
-  })]
+  integrations: [
+    sitemap(),
+    partytown({
+      config: {
+        forward: ["dataLayer.push"],
+      },
+    }),
+  ],
 });
