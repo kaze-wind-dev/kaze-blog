@@ -1,6 +1,6 @@
 // @ts-check
 import { defineConfig, envField } from "astro/config";
-import cloudflare from '@astrojs/cloudflare';
+import cloudflare from "@astrojs/cloudflare";
 import { SITE_URL } from "./src/constants";
 import sitemap from "@astrojs/sitemap";
 
@@ -9,7 +9,9 @@ import partytown from "@astrojs/partytown";
 // https://astro.build/config
 export default defineConfig({
   site: SITE_URL,
-  adapter: cloudflare(),
+  adapter: cloudflare({
+    imageService: "passthrough",
+  }),
 
   env: {
     schema: {
@@ -32,6 +34,9 @@ export default defineConfig({
   },
 
   image: {
+    service: { 
+      entrypoint: 'astro/assets/services/noop'
+    },
     remotePatterns: [
       { protocol: "https", hostname: "images.microcms-assets.io" },
     ],
