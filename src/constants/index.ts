@@ -9,7 +9,8 @@ export const SITE_IMAGE = `${SITE_URL}/ogp_image.jpg`;
 export const MAIN_NAVIGATION_LIST: NavigationItem[] = [
   { href: "/notes", name: "Notes" },
   { href: "/tech", name: "Tech Articles" },
-  { href: "/works", name: "Works" },
+  // { href: "/works", name: "Works" },
+  { href: "/patterns", name: "Patterns" },
 ];
 
 export const SUB_NAVIGATION_LIST: NavigationItem[] = [

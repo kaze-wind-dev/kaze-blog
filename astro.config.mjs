@@ -1,6 +1,6 @@
 // @ts-check
 import { defineConfig, envField } from "astro/config";
-import netlify from "@astrojs/netlify";
+import cloudflare from '@astrojs/cloudflare';
 import { SITE_URL } from "./src/constants";
 import sitemap from "@astrojs/sitemap";
 
@@ -9,7 +9,7 @@ import partytown from "@astrojs/partytown";
 // https://astro.build/config
 export default defineConfig({
   site: SITE_URL,
-  adapter: netlify(),
+  adapter: cloudflare(),
 
   env: {
     schema: {
