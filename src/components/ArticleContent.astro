@@ -21,7 +21,7 @@ const highlightedHtml = await highlightCodeBlocks(content);
     ul,
     ol,
     div:has(iframe) {
-      margin-block: 1em;
+      margin-block: 1rem;
     }
     div:has(iframe) {
       width: 100%;
@@ -29,26 +29,28 @@ const highlightedHtml = await highlightCodeBlocks(content);
     h1 {
       font-size: var(--heading-1);
       line-height: 1.25;
-      margin-block: 1em 0.75em;
+      margin-block: var(--spacing-2xl) var(--spacing-lg);
     }
 
     h2 {
       font-size: var(--heading-2);
-      line-height: 1.25;
-      margin-block: 1.25em 0.75em;
+      line-height: 1.5;
+      margin-block: calc(var(--spacing-lg) * 2.5) var(--spacing-lg);
+      border-inline-start: 4px solid var(--primary-color);
+      padding-inline-start: 0.5em;
     }
 
     h3 {
       font-size: var(--heading-3);
       line-height: 1.5;
-      margin-block: 1.25em 0.75em;
+      margin-block: calc(var(--spacing-md) * 2) var(--spacing-md);
     }
 
     h4,
     h5,
     h6 {
       line-height: 1.5;
-      margin-block: 1.25em 0.75em;
+      margin-block: 1.5rem 1.125rem;
     }
 
     h4 {
