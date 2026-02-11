@@ -3,6 +3,7 @@
   "compilerOptions": {
     "target": "es2020",
     "strict": true,
+    "strictNullChecks": true,
     "module": "esnext",
     "moduleResolution": "bundler",
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
