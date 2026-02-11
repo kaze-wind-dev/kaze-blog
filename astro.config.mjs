@@ -34,8 +34,8 @@ export default defineConfig({
   },
 
   image: {
-    service: { 
-      entrypoint: 'astro/assets/services/noop'
+    service: {
+      entrypoint: "astro/assets/services/noop",
     },
     remotePatterns: [
       { protocol: "https", hostname: "images.microcms-assets.io" },

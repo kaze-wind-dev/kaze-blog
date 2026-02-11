@@ -7,16 +7,12 @@ type Props = {
 const { technology_stack }: Props = Astro.props;
 ---
 
-{technology_stack && (
-<div class="card__technology-stack">
-  {
-    technology_stack.map((technology) => (
-      <span
-        class="card__technology-stack__item"
-      >
-        {technology}
-      </span>
-    ))
-  }
-</div>
-)}
+{
+  technology_stack && (
+    <div class="card__technology-stack">
+      {technology_stack.map((technology) => (
+        <span class="card__technology-stack__item">{technology}</span>
+      ))}
+    </div>
+  )
+}

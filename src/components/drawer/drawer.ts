@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", function (): void {
 
   // フォーカス可能な要素
   const focusableSelectors =
-  'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+    'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
   // drawer内のフォーカス可能な要素を取得し、nullの場合は除外する
   const getFocusableElements = (): HTMLElement[] => {
     const drawerElements = Array.from(
@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", function (): void {
     // 閉じた時にボタンにフォーカスを置く
     button.focus();
   };
-  
+
   // ボタン操作による開閉
   button.addEventListener("click", handleDrawer);
   // wrapper要素をクリック時に閉じる
@@ -77,9 +77,9 @@ document.addEventListener("DOMContentLoaded", function (): void {
       const currentElement = document.activeElement;
       // アクティブ要素がfocus可能な要素の配列のどこにあるか
       const currentIndex =
-      currentElement instanceof HTMLElement
-      ? focusableElements.indexOf(currentElement)
-      : -1;
+        currentElement instanceof HTMLElement
+          ? focusableElements.indexOf(currentElement)
+          : -1;
       // Shift Keyが押された時の制御
       if (e.shiftKey) {
         if (currentIndex <= 0) {

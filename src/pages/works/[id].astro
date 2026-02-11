@@ -30,7 +30,11 @@ const description = works.description;
           <h1 class="works-detail__title">{works.title}</h1>
           <div class="works-detail__meta">
             <Date date={works.publishedAt || works.createdAt} />
-            <Category category={works.category} href={`/works/category/${works.category.category_id}`} type="link"/>
+            <Category
+              category={works.category}
+              href={`/works/category/${works.category.category_id}`}
+              type="link"
+            />
           </div>
         </header>
 
@@ -300,11 +304,11 @@ const description = works.description;
       align-items: flex-start;
       gap: rem(4);
       &__icon {
-    
         flex-shrink: 0;
         margin-block-start: 0.375em;
       }
-      &:hover,&:focus-visible {
+      &:hover,
+      &:focus-visible {
         text-decoration: underline;
         text-decoration-color: var(--secondary-color);
         text-decoration-thickness: 2px;

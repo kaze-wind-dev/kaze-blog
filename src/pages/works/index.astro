@@ -14,7 +14,8 @@ import {
 } from "@/libs/api/microcms";
 
 const pageTitle = "Works";
-const description = "Kaze Notesの作品一覧です。自主制作や学習用として作成した作品を紹介しています。";
+const description =
+  "Kaze Notesの作品一覧です。自主制作や学習用として作成した作品を紹介しています。";
 const pageNumber = Number(Astro.params.page) || 1;
 const { contents: worksList, totalCount } = await getWorksList({
   limit: WORKS_LIMIT,
@@ -34,8 +35,18 @@ const filteredCategoryList: CategoryList = categoryList.filter((category) => {
 
 <Layout pageTitle={pageTitle} description={description}>
   <PageSection pageTitle={pageTitle}>
-    <CategoryFilter categoryList={filteredCategoryList} currentCategory="all" parentPath="/works" basePath="/works/category"/>
+    <CategoryFilter
+      categoryList={filteredCategoryList}
+      currentCategory="all"
+      parentPath="/works"
+      basePath="/works/category"
+    />
     <WorksList worksList={worksList} />
-    <Pagination limit={WORKS_LIMIT} totalCount={totalCount} page={pageNumber} basePath="/works" />
+    <Pagination
+      limit={WORKS_LIMIT}
+      totalCount={totalCount}
+      page={pageNumber}
+      basePath="/works"
+    />
   </PageSection>
 </Layout>

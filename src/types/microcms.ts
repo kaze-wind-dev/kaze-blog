@@ -1,4 +1,4 @@
-import type { MicroCMSListContent , MicroCMSImage} from "microcms-js-sdk";
+import type { MicroCMSListContent, MicroCMSImage } from "microcms-js-sdk";
 
 export type MicroCMSEndPoint = "notes" | "works";
 

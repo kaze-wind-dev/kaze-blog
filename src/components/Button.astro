@@ -6,7 +6,7 @@ type Props = {
   size?: "sm" | "md" | "lg";
   className?: string;
 };
-const { href, text, variant = "primary", size = "md", className } = Astro.props;
+const { href, text, variant = "primary", size, className } = Astro.props;
 ---
 
 <a
@@ -33,14 +33,16 @@ const { href, text, variant = "primary", size = "md", className } = Astro.props;
     &--primary {
       background-color: var(--primary-color);
       color: var(--white-color);
-      &:hover ,&:focus-visible{
+      &:hover,
+      &:focus-visible {
         background-color: var(--dark-gray-color);
       }
     }
     &--secondary {
       background-color: var(--text-primary);
       color: var(--white-color);
-      &:hover ,&:focus-visible{
+      &:hover,
+      &:focus-visible {
         background-color: var(--primary-color);
       }
     }

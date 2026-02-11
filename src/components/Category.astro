@@ -9,6 +9,7 @@ interface Props {
 }
 const { category, className, href, type = "default" } = Astro.props;
 ---
+
 {
   href && type !== "default" ? (
     <a

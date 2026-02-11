@@ -7,16 +7,10 @@ export function getDisplayPages(
     return Array.from({ length: totalPages }, (_, i) => i + 1);
   }
   if (currentPage <= 3) {
-    return [1, 2, 3,  NaN, totalPages];
+    return [1, 2, 3, NaN, totalPages];
   }
   if (currentPage > totalPages - 3) {
-    return [
-      1,
-      NaN,
-      totalPages - 2,
-      totalPages - 1,
-      totalPages,
-    ];
+    return [1, NaN, totalPages - 2, totalPages - 1, totalPages];
   }
   return [
     1,

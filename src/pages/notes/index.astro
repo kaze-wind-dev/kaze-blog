@@ -12,7 +12,8 @@ import {
 } from "@/libs/api/microcms";
 
 const pageTitle = "Notes";
-const description = "Kaze Notesの技術メモ一覧です。技術的な知識や学習したことをまとめています。";
+const description =
+  "Kaze Notesの技術メモ一覧です。技術的な知識や学習したことをまとめています。";
 const pageNumber = Number(Astro.params.page) || 1;
 const { contents: notesList, totalCount } = await getNotesList({
   limit: NOTES_LIMIT,
