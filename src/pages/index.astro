@@ -4,16 +4,17 @@ import SectionTitle from "@/components/SectionTitle.astro";
 import Button from "@/components/Button.astro";
 import NoteArticleList from "@/components/NoteArticleList.astro";
 import TechArticleList from "@/components/TechArticleList.astro";
-import WorksSlider from "@/components/WorksSlider/WorksSlider.astro";
-import { getNotesList, getWorksList } from "@/libs/api/microcms";
+// import WorksSlider from "@/components/WorksSlider/WorksSlider.astro";
+// import { getNotesList, getWorksList } from "@/libs/api/microcms";
+import { getNotesList } from "@/libs/api/microcms";
 import { getZennArticles } from "@/libs/api/zennFunctions";
 
 const { contents: notesList } = await getNotesList({
   limit: 5,
 });
-const { contents: worksList } = await getWorksList({
-  limit: 5,
-});
+// const { contents: worksList } = await getWorksList({
+//   limit: 5,
+// });
 const { articles: techList } = await getZennArticles({
   count: 6,
   order: "latest",
@@ -57,7 +58,7 @@ const { articles: techList } = await getZennArticles({
       />
     </div>
   </section>
-  <section class="works">
+  <!-- <section class="works">
     <div class="works__inner">
       <SectionTitle heading="作品" subText="Works" className="works__title" />
       {
@@ -75,7 +76,7 @@ const { articles: techList } = await getZennArticles({
       size="sm"
       className="works__button"
     />
-  </section>
+  </section> -->
   <style lang="scss">
     @use "../styles/mixin" as *;
     @use "../styles/functions" as *;
