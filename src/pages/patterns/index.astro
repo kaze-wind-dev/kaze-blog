@@ -1,0 +1,140 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "@/layouts/Layout.astro";
+import PageSection from "@/components/PageSection.astro";
+import Date from "@/components/Date.astro";
+const pageTitle = "Patterns";
+const description =
+  "アクセシビリティやモーションの実装パターンを備忘録として残しています";
+const patterns = await getCollection("patterns");
+---
+
+<Layout pageTitle={pageTitle} description={description}>
+  <PageSection pageTitle={pageTitle}>
+    <div class="patterns">
+      <p class="patterns__lead">
+        このページではアウトプットを目的として、アクセシビリティの実装パターンやモーション実装についてまとめています。
+      </p>
+      <div class="patterns__list">
+        {
+          patterns.length > 0 ? (
+            patterns.map((pattern) => {
+              const slug = pattern.id.split("/").pop();
+              return (
+                <article class="article">
+                  <a href={`/patterns/${slug}`} class="article__link">
+                    <header class="article__header">
+                      <h2 class="article__title">{pattern.data.title}</h2>
+                      <div class="article__header__meta">
+                        <Date
+                          date={
+                            pattern.data.publishedAt.toString() ||
+                            pattern.data.updatedAt.toString()
+                          }
+                          className={"article__date"}
+                        />
+                        <p class="category article__category">
+                          {pattern.data.category}
+                        </p>
+                      </div>
+                    </header>
+                    <p class="article__description">
+                      {pattern.data.description}
+                    </p>
+                  </a>
+                </article>
+              );
+            })
+          ) : (
+            <p class="patterns__empty">現在投稿はありません</p>
+          )
+        }
+      </div>
+    </div>
+  </PageSection>
+</Layout>
+<style lang="scss">
+  @use "../../styles/mixin" as *;
+  @use "../../styles/functions" as *;
+  @use "../../styles/extends" as *;
+  .patterns {
+    &__lead {
+      margin-block-end: var(--spacing-4xl);
+    }
+    &__link-list {
+      margin-block-start: var(--spacing-3xl);
+      display: grid;
+      gap: var(--spacing-md);
+      @include mq("sm") {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    &__link-item {
+    }
+    &__link {
+      display: block;
+      color: var(--text-secondary);
+      padding-block-end: var(--spacing-sm);
+      border-block-end: 2px solid var(--border-color);
+      transition:
+        color 0.3s,
+        border-color 0.3s;
+      &:hover,
+      &:focus-visible {
+        color: var(--primary-color);
+        border-color: var(--primary-color);
+      }
+    }
+    &__list {
+      display: grid;
+      gap: var(--spacing-lg);
+    }
+  }
+  .article {
+    &__link {
+      display: block;
+      padding: var(--spacing-lg);
+      background-color: var(--white-color);
+      border-radius: rem(8);
+      transition: box-shadow 0.3s;
+      box-shadow: 0 0 rem(12) rgb(0 0 0 /0.1);
+      &:hover,
+      &:focus-visible {
+        box-shadow: 0 0 rem(8) rgb(0 0 0 /0.2);
+        .article__title {
+          @extend %line-hover;
+        }
+      }
+    }
+    &__header {
+      margin-block-end: var(--spacing-sm);
+      display: grid;
+      gap: var(--spacing-sm);
+      &__meta {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        gap: var(--spacing-sm);
+        order: -1;
+      }
+    }
+    &__title {
+      font-weight: 700;
+      font-size: var(--font-size-xl);
+      position: relative;
+      z-index: 1;
+      padding-block-end: 0.25em;
+      width: fit-content;
+      @extend %line;
+    }
+    &__date {
+      font-family: var(--font-secondary);
+      font-weight: 700;
+    }
+    &__category {
+    }
+    &__description {
+      @include lineClamp(3);
+    }
+  }
+</style>
