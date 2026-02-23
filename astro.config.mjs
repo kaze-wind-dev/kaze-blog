@@ -1,10 +1,13 @@
 // @ts-check
 import { defineConfig, envField } from "astro/config";
+import mdx from '@astrojs/mdx';
 import cloudflare from "@astrojs/cloudflare";
 import { SITE_URL } from "./src/constants";
 import sitemap from "@astrojs/sitemap";
 
 import partytown from "@astrojs/partytown";
+
+import react from "@astrojs/react";
 
 // https://astro.build/config
 export default defineConfig({
@@ -42,12 +45,9 @@ export default defineConfig({
     ],
   },
 
-  integrations: [
-    sitemap(),
-    partytown({
-      config: {
-        forward: ["dataLayer.push"],
-      },
-    }),
-  ],
+  integrations: [sitemap(), mdx(), partytown({
+    config: {
+      forward: ["dataLayer.push"],
+    },
+  }), react()],
 });

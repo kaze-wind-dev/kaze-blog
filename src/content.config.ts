@@ -8,7 +8,7 @@ const patterns = defineCollection({
     title: z.string(),
     description: z.string(),
     publishedAt: z.coerce.date(),
-    updatedAt: z.coerce.date(),
+    updatedAt: z.coerce.date().optional(),
     category: z.enum(["accessibility", "motion"]),
   }),
 });

@@ -28,8 +28,7 @@ const patterns = await getCollection("patterns");
                       <div class="article__header__meta">
                         <Date
                           date={
-                            pattern.data.publishedAt.toString() ||
-                            pattern.data.updatedAt.toString()
+                            pattern.data.updatedAt?.toString() || pattern.data.publishedAt.toString()
                           }
                           className={"article__date"}
                         />

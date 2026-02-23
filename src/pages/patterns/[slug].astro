@@ -40,7 +40,7 @@ const description = pattern.data.description;
           <p class="category">{pattern.data.category}</p>
         </div>
       </header>
-      <div class="article-content" set:html={entry?.rendered?.html || ""}></div>
+      <div class="article-content" set:html={entry?.rendered?.html || entry?.rendered || ""}></div>
       <Button
         className="pattern-detail__button"
         href={`/patterns/`}
