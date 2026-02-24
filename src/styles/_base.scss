@@ -8,9 +8,9 @@ body {
   font-weight: 500;
   letter-spacing: 0.05em;
   color: var(--text-primary);
-  overflow-wrap: anywhere;
-  word-break: normal;
-  line-break: strict;
+  // overflow-wrap: anywhere;
+  // word-break: normal;
+  // line-break: strict;
   line-height: 1.5;
   position: relative;
 }
@@ -45,6 +45,7 @@ button {
   border-radius: rem(4);
   background-color: var(--light-gray-color);
   color: var(--dark-gray-color);
+  width: fit-content;
 }
 
 .category-link {

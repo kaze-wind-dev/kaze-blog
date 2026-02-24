@@ -1,0 +1,31 @@
+---
+import type { CollectionArticleList } from "@/types/collections";
+import CollectionArticle from "./CollectionArticle.astro";
+type Props = {
+  posts: CollectionArticleList;
+  parentPath: string;
+};
+const { posts, parentPath } = Astro.props;
+---
+
+<div class="article-list">
+  {
+    posts.length > 0 ? (
+      posts.map((post) => {
+        return <CollectionArticle post={post} parentPath={parentPath} />;
+      })
+    ) : (
+      <p class="article__empty">現在投稿はありません</p>
+    )
+  }
+</div>
+
+<style lang="scss">
+  @use "../styles/mixin" as *;
+  @use "../styles/functions" as *;
+  @use "../styles/extends" as *;
+  .article-list {
+    display: grid;
+    gap: var(--spacing-lg);
+  }
+</style>

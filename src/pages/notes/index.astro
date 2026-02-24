@@ -1,46 +1,25 @@
 ---
-import { NOTES_LIMIT } from "@/constants";
+import { getCollection } from "astro:content";
 import Layout from "@/layouts/Layout.astro";
-import Pagination from "@/components/Pagination.astro";
-import NoteArticleList from "@/components/NoteArticleList.astro";
-import CategoryFilter from "@/components/CategoryFilter.astro";
-import type { CategoryList } from "@/types/microcms";
-import {
-  getNotesList,
-  getAllCategoryList,
-  getAllNotesList,
-} from "@/libs/api/microcms";
-
+import PageSection from "@/components/PageSection.astro";
+import CollectionArticleList from "@/components/CollectionArticleList.astro";
+import { orderedContentsCollection } from "@/libs/contentsCollection";
 const pageTitle = "Notes";
 const description =
   "Kaze Notesの技術メモ一覧です。技術的な知識や学習したことをまとめています。";
-const pageNumber = Number(Astro.params.page) || 1;
-const { contents: notesList, totalCount } = await getNotesList({
-  limit: NOTES_LIMIT,
-  offset: (pageNumber - 1) * NOTES_LIMIT,
-});
-const allNotesList = await getAllNotesList();
-const categoryList = await getAllCategoryList({
-  filters: "connection[contains]notes",
-});
-
-const filteredCategoryList: CategoryList = categoryList.filter((category) => {
-  return allNotesList.some(
-    (note) => note.category.category_id === category.category_id,
-  );
-});
+const notes = await getCollection("notes");
+const orderedNotes = orderedContentsCollection(notes.filter((note) => !note.data.draft), "desc");
 ---
 
 <Layout pageTitle={pageTitle} description={description}>
-  <section class="page-section">
-    <h1 class="page-title">{pageTitle}</h1>
-    <CategoryFilter categoryList={filteredCategoryList} currentCategory="all" />
-    <NoteArticleList notesList={notesList} />
-    <Pagination
-      limit={NOTES_LIMIT}
-      totalCount={totalCount}
-      page={pageNumber}
-      basePath="/notes"
-    />
-  </section>
+  <PageSection pageTitle={pageTitle}>
+    <div class="notes">
+      <CollectionArticleList posts={orderedNotes} parentPath="notes" />
+    </div>
+  </PageSection>
 </Layout>
+<style lang="scss">
+  @use "../../styles/mixin" as *;
+  @use "../../styles/functions" as *;
+  @use "../../styles/extends" as *;
+</style>

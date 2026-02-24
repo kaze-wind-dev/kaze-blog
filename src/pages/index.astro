@@ -1,17 +1,22 @@
 ---
+import { getCollection } from "astro:content";
 import Layout from "../layouts/Layout.astro";
 import SectionTitle from "@/components/SectionTitle.astro";
 import Button from "@/components/Button.astro";
-import NoteArticleList from "@/components/NoteArticleList.astro";
+// import NoteArticleList from "@/components/NoteArticleList.astro";
 import TechArticleList from "@/components/TechArticleList.astro";
 // import WorksSlider from "@/components/WorksSlider/WorksSlider.astro";
 // import { getNotesList, getWorksList } from "@/libs/api/microcms";
-import { getNotesList } from "@/libs/api/microcms";
+// import { getNotesList } from "@/libs/api/microcms";
 import { getZennArticles } from "@/libs/api/zennFunctions";
+import { orderedContentsCollection } from "@/libs/contentsCollection";
+import CollectionArticleList from "@/components/CollectionArticleList.astro";
 
-const { contents: notesList } = await getNotesList({
-  limit: 5,
-});
+const notes = await getCollection("notes");
+const orderedNotes = orderedContentsCollection(notes, "desc").slice(0, 4);
+// const { contents: notesList } = await getNotesList({
+//   limit: 5,
+// });
 // const { contents: worksList } = await getWorksList({
 //   limit: 5,
 // });
@@ -38,7 +43,7 @@ const { articles: techList } = await getZennArticles({
           className="note__button"
         />
       </header>
-      <NoteArticleList notesList={notesList} />
+      <CollectionArticleList posts={orderedNotes} parentPath="notes" />
     </div>
   </section>
   <section class="tech">

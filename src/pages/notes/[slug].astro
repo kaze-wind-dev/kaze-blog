@@ -6,26 +6,26 @@ import TocMobile from "@/components/toc/TocMobile.astro";
 import CollectionDetail from "@/components/CollectionDetail.astro";
 
 export async function getStaticPaths() {
-  const patterns = await getCollection("patterns");
-  return patterns.map((pattern) => {
-    const id = pattern.id;
+  const notes = await getCollection("notes");
+  return notes.map((note) => {
+    const id = note.id;
     const slug = id.split("/").pop();
     return {
       params: { slug },
-      props: { pattern, id },
+      props: { note, id },
     };
   });
 }
 
-const { pattern, id } = Astro.props;
+const { note, id } = Astro.props;
 
-const pageTitle = pattern.data.title;
-const description = pattern.data.description;
+const pageTitle = note.data.title;
+const description = note.data.description;
 ---
 
 <ColumnLayout pageTitle={pageTitle} description={description}>
   <Fragment slot="main">
-    <CollectionDetail post={pattern} parentPath="patterns" id={id} />
+    <CollectionDetail post={note} parentPath="notes" id={id} />
   </Fragment>
   <Fragment slot="sidebar">
     <TocDesktop />

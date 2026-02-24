@@ -10,7 +10,33 @@ const patterns = defineCollection({
     publishedAt: z.coerce.date(),
     updatedAt: z.coerce.date().optional(),
     category: z.enum(["accessibility", "motion"]),
+    draft: z.boolean().optional(),
   }),
 });
 
-export const collections = { patterns };
+const notes = defineCollection({
+  loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/notes" }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    publishedAt: z.coerce.date(),
+    updatedAt: z.coerce.date().optional(),
+    category: z.enum([
+      "インフラ",
+      "typescript",
+      "react",
+      "accessibility",
+      "motion",
+      "nextjs",
+      "astro",
+      "javascript",
+      "css",
+      "html",
+      "git",
+      "environment",
+    ]),
+    draft: z.boolean().optional(),
+  }),
+});
+
+export const collections = { patterns, notes };

@@ -1,0 +1,198 @@
+---
+import type { CollectionArticle } from "@/types/collections";
+import Button from "./Button.astro";
+import Date from "./Date.astro";
+import { getEntry } from "astro:content";
+interface Props {
+  post: CollectionArticle;
+  parentPath: string;
+  id: string;
+}
+const { post, parentPath, id } = Astro.props;
+const entry = await getEntry(post.collection, id);
+---
+
+<div class="detail">
+  <header class="detail__header">
+    <h1 class="detail__title">{post.data.title}</h1>
+    <div class="detail__meta">
+      <Date date={post.data.publishedAt.toString()} className="date" />
+      <p class="category">{post.data.category}</p>
+    </div>
+  </header>
+  <div
+    class="article-content"
+    set:html={entry?.rendered?.html || entry?.rendered || ""}
+  />
+  <Button
+    className="detail__button"
+    href={`/${parentPath}/`}
+    text="一覧に戻る"
+    variant="secondary"
+    size="sm"
+  />
+</div>
+
+<style lang="scss" is:global>
+  @use "../styles/mixin" as *;
+  @use "../styles/functions" as *;
+  @use "../styles/extends" as *;
+  .detail {
+    &__header {
+      display: flex;
+      flex-direction: column-reverse;
+      align-items: flex-start;
+      gap: var(--spacing-xs);
+      margin-block-end: var(--spacing-3xl);
+    }
+    &__title {
+      font-size: var(--font-size-4xl);
+    }
+    &__meta {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-sm);
+    }
+  }
+  .detail__button {
+    margin-block-start: var(--spacing-3xl);
+    margin-inline: auto;
+  }
+  .article-content {
+    line-height: 2;
+    font-size: var(--font-size-base);
+    p,
+    ul,
+    ol,
+    div:has(iframe) {
+      margin-block: 1rem;
+    }
+    div:has(iframe) {
+      width: 100%;
+    }
+    h1 {
+      font-size: var(--heading-1);
+      line-height: 1.25;
+      margin-block: var(--spacing-2xl) var(--spacing-lg);
+    }
+
+    h2 {
+      font-size: var(--heading-2);
+      line-height: 1.5;
+      margin-block: calc(var(--spacing-lg) * 2.5) var(--spacing-lg);
+      border-inline-start: 4px solid var(--primary-color);
+      padding-inline-start: 0.5em;
+    }
+
+    h3 {
+      font-size: var(--heading-3);
+      line-height: 1.5;
+      margin-block: calc(var(--spacing-md) * 2) var(--spacing-md);
+    }
+
+    h4,
+    h5,
+    h6 {
+      line-height: 1.5;
+      margin-block: 1.5rem 1.125rem;
+    }
+
+    h4 {
+      font-size: var(--heading-4);
+    }
+    h5 {
+      font-size: var(--heading-5);
+    }
+    h6 {
+      font-size: var(--heading-6);
+    }
+    strong {
+      font-weight: 700;
+    }
+    em {
+      font-style: italic;
+      font-weight: inherit;
+    }
+    code:not(pre > code) {
+      font-family: var(--font-tertiary);
+      background-color: var(--bg-secondary-color);
+      border-radius: rem(4);
+      border: 1px solid var(--border-color);
+      padding: rem(4) rem(4);
+    }
+    img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin-block: 1.25em;
+    }
+    hr {
+      border: none;
+      border-block-start: 1px solid var(--border-color);
+      margin-block: var(--spacing-6xl);
+    }
+    ul li {
+      padding-inline-start: 1em;
+      position: relative;
+      z-index: 1;
+      &::before {
+        content: "";
+        width: 4px;
+        height: 4px;
+        border-radius: 50%;
+        background-color: var(--dark-gray-color);
+        position: absolute;
+        top: 1em;
+        left: 0;
+        transform: translateY(-50%);
+      }
+    }
+    ol {
+      list-style-type: decimal-leading-zero;
+      padding-inline-start: 1.75em;
+    }
+    a {
+      color: var(--primary-color);
+      text-decoration: underline;
+      &:hover,
+      &:focus-visible {
+        color: var(--secondary-color);
+      }
+      &[target="_blank"] {
+        display: inline-flex;
+        align-items: center;
+        &::after {
+          content: "";
+          background-color: var(--primary-color);
+          mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='24' viewBox='0 -960 960 960' width='24'%3E%3Cpath d='M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h560v-280h80v280q0 33-23.5 56.5T760-120H200Zm188-212-56-56 372-372H560v-80h280v280h-80v-144L388-332Z'/%3E%3C/svg%3E");
+          mask-size: contain;
+          mask-repeat: no-repeat;
+          vertical-align: middle;
+          width: 1em;
+          height: 1em;
+          margin-inline: 0.125em;
+          margin-block-start: 0.125em;
+        }
+      }
+    }
+    div[data-filename] {
+      min-width: 0;
+      max-width: 100%;
+    }
+    pre {
+      padding: 1.5em 0;
+      border-radius: 4px;
+      overflow-x: auto;
+      background-clip: padding-box;
+      width: 100%;
+      font-size: var(--font-size-sm);
+      line-height: 1.75;
+      margin-block: 1.5rem;
+    }
+    pre code {
+      display: block;
+      width: fit-content;
+      padding-inline: 1.5em;
+    }
+  }
+</style>
