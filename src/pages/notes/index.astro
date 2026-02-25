@@ -8,7 +8,10 @@ const pageTitle = "Notes";
 const description =
   "Kaze Notesの技術メモ一覧です。技術的な知識や学習したことをまとめています。";
 const notes = await getCollection("notes");
-const orderedNotes = orderedContentsCollection(notes.filter((note) => !note.data.draft), "desc");
+const orderedNotes = orderedContentsCollection(
+  notes.filter((note) => !note.data.draft),
+  "desc",
+);
 ---
 
 <Layout pageTitle={pageTitle} description={description}>

@@ -8,7 +8,10 @@ const pageTitle = "Patterns";
 const description =
   "アクセシビリティやモーションの実装パターンを備忘録として残しています";
 const patterns = await getCollection("patterns");
-const orderedPatterns = orderedContentsCollection(patterns.filter((pattern) => !pattern.data.draft), "desc");
+const orderedPatterns = orderedContentsCollection(
+  patterns.filter((pattern) => !pattern.data.draft),
+  "desc",
+);
 ---
 
 <Layout pageTitle={pageTitle} description={description}>
