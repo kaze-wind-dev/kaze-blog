@@ -1,0 +1,32 @@
+.memo {
+  margin-block: 1.5rem;
+  background-color: var(--_memo-bg-color, var(--memo-color-5));
+  border: 1px solid var(--_memo-border-color, var(--memo-color));
+  padding: var(--spacing-md);
+  border-radius: 0.25rem;
+  &.-warning {
+    --_memo-bg-color: var(--warning-color-5);
+    --_memo-title-color: var(--warning-color);
+    --_memo-border-color: var(--warning-color);
+  }
+  &.-success {
+    --_memo-bg-color: var(--success-color-5);
+    --_memo-title-color: var(--success-color);
+    --_memo-border-color: var(--success-color);
+  }
+  &.-error {
+    --_memo-bg-color: var(--error-color-5);
+    --_memo-title-color: var(--error-color);
+    --_memo-border-color: var(--error-color);
+  }
+}
+.title {
+  font-size: var(--font-size-md);
+  font-weight: 700;
+  margin-block: 0 var(--spacing-xs);
+  color: var(--_memo-title-color, var(--memo-color));
+}
+.description {
+  font-size: var(--font-size-sm);
+  margin-block: 0;
+}

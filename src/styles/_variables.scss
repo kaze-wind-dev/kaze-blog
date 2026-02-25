@@ -28,6 +28,14 @@
   --github-color: #24292f;
   --zenn-color: #3ea8ff;
   --x-color: #000;
+  --memo-color: #67696c;
+  --memo-color-5: color-mix(in srgb, var(--memo-color) 5%, transparent);
+  --warning-color: #b45309;
+  --warning-color-5: color-mix(in srgb, var(--warning-color) 5%, transparent);
+  --success-color: #15803d;
+  --success-color-5: color-mix(in srgb, var(--success-color) 5%, transparent);
+  --error-color: #dc2626;
+  --error-color-5: color-mix(in srgb, var(--error-color) 5%, transparent);
   --font-size-xs: #{calcClamp(11, 12, 375, 1024)};
   --font-size-sm: #{calcClamp(13, 14, 375, 1024)};
   --font-size-base: #{calcClamp(14, 15, 375, 1024)};
