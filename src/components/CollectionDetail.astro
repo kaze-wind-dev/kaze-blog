@@ -2,7 +2,8 @@
 import type { CollectionArticle } from "@/types/collections";
 import Button from "./Button.astro";
 import Date from "./Date.astro";
-import { getEntry } from "astro:content";
+import { getEntry, render } from "astro:content";
+import { mdxComponents } from "@/components/mdx";
 interface Props {
   post: CollectionArticle;
   parentPath: string;
@@ -10,6 +11,9 @@ interface Props {
 }
 const { post, parentPath, id } = Astro.props;
 const entry = await getEntry(post.collection, id);
+
+if (!entry) return Astro.redirect(`/404`);
+const { Content } = await render(entry);
 ---
 
 <div class="detail">
@@ -20,10 +24,10 @@ const entry = await getEntry(post.collection, id);
       <p class="category">{post.data.category}</p>
     </div>
   </header>
-  <div
-    class="article-content"
-    set:html={entry?.rendered?.html || entry?.rendered || ""}
-  />
+  <div class="article-content">
+    {post.data.description && <p>{post.data.description}</p>}
+    <Content components={mdxComponents} />
+  </div>
   <Button
     className="detail__button"
     href={`/${parentPath}/`}
@@ -61,22 +65,22 @@ const entry = await getEntry(post.collection, id);
   .article-content {
     line-height: 2;
     font-size: var(--font-size-base);
-    p,
-    ul,
-    ol,
-    div:has(iframe) {
+    > p,
+    > ul,
+    > ol,
+    > div:has(iframe) {
       margin-block: 1rem;
     }
-    div:has(iframe) {
+    > div:has(iframe) {
       width: 100%;
     }
-    h1 {
+    > h1 {
       font-size: var(--heading-1);
       line-height: 1.25;
       margin-block: var(--spacing-2xl) var(--spacing-lg);
     }
 
-    h2 {
+    > h2 {
       font-size: var(--heading-2);
       line-height: 1.5;
       margin-block: calc(var(--spacing-lg) * 2.5) var(--spacing-lg);
@@ -84,54 +88,54 @@ const entry = await getEntry(post.collection, id);
       padding-inline-start: 0.5em;
     }
 
-    h3 {
+    > h3 {
       font-size: var(--heading-3);
       line-height: 1.5;
       margin-block: calc(var(--spacing-md) * 2) var(--spacing-md);
     }
 
-    h4,
-    h5,
-    h6 {
+    > h4,
+    > h5,
+    > h6 {
       line-height: 1.5;
       margin-block: 1.5rem 1.125rem;
     }
 
-    h4 {
+    > h4 {
       font-size: var(--heading-4);
     }
-    h5 {
+    > h5 {
       font-size: var(--heading-5);
     }
-    h6 {
+    > h6 {
       font-size: var(--heading-6);
     }
-    strong {
+    > strong {
       font-weight: 700;
     }
-    em {
+    > em {
       font-style: italic;
       font-weight: inherit;
     }
-    code:not(pre > code) {
+    > code:not(pre > code) {
       font-family: var(--font-tertiary);
       background-color: var(--bg-secondary-color);
       border-radius: rem(4);
       border: 1px solid var(--border-color);
       padding: rem(4) rem(4);
     }
-    img {
+    > img {
       max-width: 100%;
       height: auto;
       display: block;
       margin-block: 1.25em;
     }
-    hr {
+    > hr {
       border: none;
       border-block-start: 1px solid var(--border-color);
       margin-block: var(--spacing-6xl);
     }
-    ul li {
+    > ul li {
       padding-inline-start: 1em;
       position: relative;
       z-index: 1;
@@ -147,11 +151,11 @@ const entry = await getEntry(post.collection, id);
         transform: translateY(-50%);
       }
     }
-    ol {
+    > ol {
       list-style-type: decimal-leading-zero;
       padding-inline-start: 1.75em;
     }
-    a {
+    > a {
       color: var(--primary-color);
       text-decoration: underline;
       &:hover,
@@ -175,24 +179,54 @@ const entry = await getEntry(post.collection, id);
         }
       }
     }
-    div[data-filename] {
+    > div[data-filename] {
       min-width: 0;
       max-width: 100%;
     }
-    pre {
-      padding: 1.5em 0;
-      border-radius: 4px;
-      overflow-x: auto;
-      background-clip: padding-box;
-      width: 100%;
-      font-size: var(--font-size-sm);
-      line-height: 1.75;
+    .expressive-code {
       margin-block: 1.5rem;
     }
-    pre code {
-      display: block;
+    table {
       width: fit-content;
-      padding-inline: 1.5em;
+      margin-block: 1.5rem;
+      border-collapse: collapse;
+      overflow: hidden;
+      display: block;
+      max-width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      background-color: var(--white-color);
+      font-size: var(--font-size-sm);
+      line-height: 1.75;
+
+      thead {
+        background-color: color-mix(
+          in srgb,
+          var(--primary-color) 8%,
+          var(--white-color)
+        );
+        border-block-end: 1px solid var(--border-color);
+      }
+
+      tbody tr:nth-child(even) {
+        background-color: color-mix(
+          in srgb,
+          var(--bg-primary-color) 45%,
+          var(--white-color)
+        );
+      }
+
+      th,
+      td {
+        padding: 0.625em 0.875em;
+        border: 1px solid var(--border-color);
+        vertical-align: top;
+      }
+
+      th {
+        font-weight: 700;
+        color: var(--text-primary);
+      }
     }
   }
 </style>
