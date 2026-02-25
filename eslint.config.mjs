@@ -38,6 +38,6 @@ export default [
     },
   },
   {
-    ignores: ["dist/**", "node_modules/**", ".astro/**", "public/**"],
+    ignores: ["dist/**", "node_modules/**", ".astro/**", "public/**", ".netlify/**"],
   },
 ];

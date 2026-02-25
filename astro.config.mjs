@@ -4,10 +4,10 @@ import mdx from "@astrojs/mdx";
 import cloudflare from "@astrojs/cloudflare";
 import { SITE_URL } from "./src/constants";
 import sitemap from "@astrojs/sitemap";
-
 import partytown from "@astrojs/partytown";
-
 import react from "@astrojs/react";
+import expressiveCode from "astro-expressive-code";
+import { pluginLineNumbers } from "@expressive-code/plugin-line-numbers";
 
 // https://astro.build/config
 export default defineConfig({
@@ -47,6 +47,17 @@ export default defineConfig({
 
   integrations: [
     sitemap(),
+    expressiveCode({
+      themes: ["dark-plus"],
+      plugins: [pluginLineNumbers()],
+      frames: {
+        showCopyToClipboardButton: true,
+        extractFileNameFromCode: true,
+      },
+      defaultProps: {
+        showLineNumbers: true,
+      },
+    }),
     mdx(),
     partytown({
       config: {

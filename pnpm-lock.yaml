@@ -22,6 +22,9 @@ importers:
       "@astrojs/sitemap":
         specifier: ^3.7.0
         version: 3.7.0
+      "@expressive-code/plugin-line-numbers":
+        specifier: ^0.41.7
+        version: 0.41.7
       "@fontsource-variable/outfit":
         specifier: ^5.2.8
         version: 5.2.8
@@ -43,9 +46,15 @@ importers:
       astro:
         specifier: ^5.16.4
         version: 5.16.4(@netlify/blobs@10.5.0)(@types/node@24.10.1)(jiti@2.6.1)(rollup@4.53.3)(sass@1.94.2)(typescript@5.9.3)(yaml@2.8.2)
+      astro-expressive-code:
+        specifier: ^0.41.7
+        version: 0.41.7(astro@5.16.4(@netlify/blobs@10.5.0)(@types/node@24.10.1)(jiti@2.6.1)(rollup@4.53.3)(sass@1.94.2)(typescript@5.9.3)(yaml@2.8.2))
       cheerio:
         specifier: ^1.1.2
         version: 1.1.2
+      clsx:
+        specifier: ^2.1.1
+        version: 2.1.1
       dayjs:
         specifier: ^1.11.19
         version: 1.11.19
@@ -426,6 +435,13 @@ packages:
         integrity: sha512-IchNf6dN4tHoMFIn/7OE8LWZ19Y6q/67Bmf6vnGREv8RSbBVb9LPJxEcnwrcwX6ixSvaiGoomAUvu4YSxXrVgw==,
       }
     engines: { node: ">=12" }
+
+  "@ctrl/tinycolor@4.2.0":
+    resolution:
+      {
+        integrity: sha512-kzyuwOAQnXJNLS9PSyrk0CWk35nWJW/zl/6KvnTBMFK65gm7U1/Z5BqjxeapjZCIhQcM/DsrEmcbRwDyXyXK4A==,
+      }
+    engines: { node: ">=14" }
 
   "@emnapi/runtime@1.7.1":
     resolution:
@@ -963,6 +979,36 @@ packages:
         integrity: sha512-43/qtrDUokr7LJqoF2c3+RInu/t4zfrpYdoSDfYyhg52rwLV6TnOvdG4fXm7IkSB3wErkcmJS9iEhjVtOSEjjA==,
       }
     engines: { node: ^18.18.0 || ^20.9.0 || >=21.1.0 }
+
+  "@expressive-code/core@0.41.7":
+    resolution:
+      {
+        integrity: sha512-ck92uZYZ9Wba2zxkiZLsZGi9N54pMSAVdrI9uW3Oo9AtLglD5RmrdTwbYPCT2S/jC36JGB2i+pnQtBm/Ib2+dg==,
+      }
+
+  "@expressive-code/plugin-frames@0.41.7":
+    resolution:
+      {
+        integrity: sha512-diKtxjQw/979cTglRFaMCY/sR6hWF0kSMg8jsKLXaZBSfGS0I/Hoe7Qds3vVEgeoW+GHHQzMcwvgx/MOIXhrTA==,
+      }
+
+  "@expressive-code/plugin-line-numbers@0.41.7":
+    resolution:
+      {
+        integrity: sha512-wI9D5NBcgE9ksiJJV8YfOC0RPI3283+9AYWIb8pBUM5TSM8msIs1YRPDt8c8Ub0XGQvbjJKtB+f9fAl2RiHJ2A==,
+      }
+
+  "@expressive-code/plugin-shiki@0.41.7":
+    resolution:
+      {
+        integrity: sha512-DL605bLrUOgqTdZ0Ot5MlTaWzppRkzzqzeGEu7ODnHF39IkEBbFdsC7pbl3LbUQ1DFtnfx6rD54k/cdofbW6KQ==,
+      }
+
+  "@expressive-code/plugin-text-markers@0.41.7":
+    resolution:
+      {
+        integrity: sha512-Ewpwuc5t6eFdZmWlFyeuy3e1PTQC0jFvw2Q+2bpcWXbOZhPLsT7+h8lsSIJxb5mS7wZko7cKyQ2RLYDyK6Fpmw==,
+      }
 
   "@fastify/busboy@3.2.0":
     resolution:
@@ -2439,6 +2485,14 @@ packages:
       }
     engines: { node: ^18.18.0 || ^20.9.0 || >=21.1.0 }
 
+  astro-expressive-code@0.41.7:
+    resolution:
+      {
+        integrity: sha512-hUpogGc6DdAd+I7pPXsctyYPRBJDK7Q7d06s4cyP0Vz3OcbziP3FNzN0jZci1BpCvLn9675DvS7B9ctKKX64JQ==,
+      }
+    peerDependencies:
+      astro: ^4.0.0-beta || ^5.0.0-beta || ^3.3.0 || ^6.0.0-beta
+
   astro@5.16.4:
     resolution:
       {
@@ -2521,6 +2575,12 @@ packages:
         integrity: sha512-ipDqC8FrAl/76p2SSWKSI+H9tFwm7vYqXQrItCuiVPt26Km0jS+NzSsBWAaBusvSbQcfJG+JitdMm+wZAgTYqg==,
       }
     hasBin: true
+
+  bcp-47-match@2.0.3:
+    resolution:
+      {
+        integrity: sha512-JtTezzbAibu8G0R9op9zb3vcWZd9JF6M0xOYGPn0fNCd7wOpRB1mU2mH9T8gaBGbAAyIIVgB2G7xG0GP98zMAQ==,
+      }
 
   blake3-wasm@2.1.5:
     resolution:
@@ -2814,6 +2874,12 @@ packages:
         integrity: sha512-TizTzUddG/xYLA3NXodFM0fSbNizXjOKhqiQQwvhlspadZokn1KDy0NZFS0wuEubIYAV5/c1/lAr0TaaFXEXzw==,
       }
 
+  css-selector-parser@3.3.0:
+    resolution:
+      {
+        integrity: sha512-Y2asgMGFqJKF4fq4xHDSlFYIkeVfRsm69lQC1q9kbEsH5XtnINTMrweLkjYMeaUgiXBy/uvKeO/a1JHTNnmB2g==,
+      }
+
   css-tree@2.2.1:
     resolution:
       {
@@ -3004,6 +3070,13 @@ packages:
         integrity: sha512-uIFDxqpRZGZ6ThOk84hEfqWoHx2devRFvpTZcTHur85vImfaxUbTW9Ryh4CpCuDnToOP1CEtXKIgytHBPVff5A==,
       }
     engines: { node: ">=0.3.1" }
+
+  direction@2.0.1:
+    resolution:
+      {
+        integrity: sha512-9S6m9Sukh1cZNknO1CWAr2QAWsbKLafQiyM5gZ7VgXHeuaoUwffKN4q6NC4A/Mf9iiPlOXQEKW/Mv/mh9/3YFA==,
+      }
+    hasBin: true
 
   dlv@1.1.3:
     resolution:
@@ -3389,6 +3462,12 @@ packages:
       }
     engines: { node: ">=6" }
 
+  expressive-code@0.41.7:
+    resolution:
+      {
+        integrity: sha512-2wZjC8OQ3TaVEMcBtYY4Va3lo6J+Ai9jf3d4dbhURMJcU4Pbqe6EcHe424MIZI0VHUA1bR6xdpoHYi3yxokWqA==,
+      }
+
   extend@3.0.2:
     resolution:
       {
@@ -3693,6 +3772,12 @@ packages:
         integrity: sha512-3kxEVkEKt0zvcZ3hCRYI8rqrgwtlIOFMWkbclACvjlDw8Li9S2hk/d51OI0nr/gIpdMHNepwgOKqZ/sy0Clpyg==,
       }
 
+  hast-util-has-property@3.0.0:
+    resolution:
+      {
+        integrity: sha512-MNilsvEKLFpV604hwfhVStK0usFY/QmM5zX16bo7EjnAEGofr5YyI37kzopBlZJkHD4t887i+q/C8/tr5Q94cA==,
+      }
+
   hast-util-is-element@3.0.0:
     resolution:
       {
@@ -3709,6 +3794,12 @@ packages:
     resolution:
       {
         integrity: sha512-Y8/SBAHkZGoNkpzqqfCldijcuUKh7/su31kEBp67cFY09Wy0mTRgtsLYsiIxMJxlu0f6AA5SUTbDR8K0rxnbUw==,
+      }
+
+  hast-util-select@6.0.4:
+    resolution:
+      {
+        integrity: sha512-RqGS1ZgI0MwxLaKLDxjprynNzINEkRHY2i8ln4DDjgv9ZhcYVIHN9rlpiYsqtFwrgpYU361SyWDQcGNIBVu3lw==,
       }
 
   hast-util-to-estree@3.1.3:
@@ -3733,6 +3824,12 @@ packages:
     resolution:
       {
         integrity: sha512-3KKrV5ZVI8if87DVSi1vDeByYrkGzg4mEfeu4alwgmmIeARiBLKCZS2uw5Gb6nU9x9Yufyj3iudm6i7nl52PFw==,
+      }
+
+  hast-util-to-string@3.0.1:
+    resolution:
+      {
+        integrity: sha512-XelQVTDWvqcl3axRfI0xSeoVKzyIFPwsAGSLIsKdJKQMXDYJS4WYrBNF/8J7RdhIcFI2BOHgAifggsvsxp/3+A==,
       }
 
   hast-util-to-text@4.0.2:
@@ -4985,6 +5082,22 @@ packages:
       }
     engines: { node: ">= 0.4" }
 
+  postcss-nested@6.2.0:
+    resolution:
+      {
+        integrity: sha512-HQbt28KulC5AJzG+cZtj9kvKB93CFCdLvog1WFLf1D+xmMvPGlBstkpTEZfK5+AN9hfJocyBFCNiqyS48bpgzQ==,
+      }
+    engines: { node: ">=12.0" }
+    peerDependencies:
+      postcss: ^8.2.14
+
+  postcss-selector-parser@6.1.2:
+    resolution:
+      {
+        integrity: sha512-Q8qQfPiZ+THO/3ZrOrO0cJJKfpYCagtMUkXbnEfmgUjwXg6z/WBeOyS9APBBPCTSiDV+s4SwQGu8yFsiMRIudg==,
+      }
+    engines: { node: ">=4" }
+
   postcss-selector-parser@7.1.1:
     resolution:
       {
@@ -5152,6 +5265,12 @@ packages:
         integrity: sha512-dYqgNSZbDwkaJ2ceRd9ojCGjBq+mOm9LmtXnAnEGyHhN/5R7iDW2TRw3h+o/jCFxus3P2LfWIIiwowAjANm7IA==,
       }
     engines: { node: ">= 0.4" }
+
+  rehype-expressive-code@0.41.7:
+    resolution:
+      {
+        integrity: sha512-25f8ZMSF1d9CMscX7Cft0TSQIqdwjce2gDOvQ+d/w0FovsMwrSt3ODP4P3Z7wO1jsIJ4eYyaDRnIR/27bd/EMQ==,
+      }
 
   rehype-parse@9.0.1:
     resolution:
@@ -6638,6 +6757,8 @@ snapshots:
     dependencies:
       "@jridgewell/trace-mapping": 0.3.9
 
+  "@ctrl/tinycolor@4.2.0": {}
+
   "@emnapi/runtime@1.7.1":
     dependencies:
       tslib: 2.8.1
@@ -6847,6 +6968,35 @@ snapshots:
     dependencies:
       "@eslint/core": 0.17.0
       levn: 0.4.1
+
+  "@expressive-code/core@0.41.7":
+    dependencies:
+      "@ctrl/tinycolor": 4.2.0
+      hast-util-select: 6.0.4
+      hast-util-to-html: 9.0.5
+      hast-util-to-text: 4.0.2
+      hastscript: 9.0.1
+      postcss: 8.5.6
+      postcss-nested: 6.2.0(postcss@8.5.6)
+      unist-util-visit: 5.0.0
+      unist-util-visit-parents: 6.0.2
+
+  "@expressive-code/plugin-frames@0.41.7":
+    dependencies:
+      "@expressive-code/core": 0.41.7
+
+  "@expressive-code/plugin-line-numbers@0.41.7":
+    dependencies:
+      "@expressive-code/core": 0.41.7
+
+  "@expressive-code/plugin-shiki@0.41.7":
+    dependencies:
+      "@expressive-code/core": 0.41.7
+      shiki: 3.20.0
+
+  "@expressive-code/plugin-text-markers@0.41.7":
+    dependencies:
+      "@expressive-code/core": 0.41.7
 
   "@fastify/busboy@3.2.0":
     optional: true
@@ -7746,6 +7896,11 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  astro-expressive-code@0.41.7(astro@5.16.4(@netlify/blobs@10.5.0)(@types/node@24.10.1)(jiti@2.6.1)(rollup@4.53.3)(sass@1.94.2)(typescript@5.9.3)(yaml@2.8.2)):
+    dependencies:
+      astro: 5.16.4(@netlify/blobs@10.5.0)(@types/node@24.10.1)(jiti@2.6.1)(rollup@4.53.3)(sass@1.94.2)(typescript@5.9.3)(yaml@2.8.2)
+      rehype-expressive-code: 0.41.7
+
   astro@5.16.4(@netlify/blobs@10.5.0)(@types/node@24.10.1)(jiti@2.6.1)(rollup@4.53.3)(sass@1.94.2)(typescript@5.9.3)(yaml@2.8.2):
     dependencies:
       "@astrojs/compiler": 2.13.0
@@ -7876,6 +8031,8 @@ snapshots:
   base64-js@1.5.1: {}
 
   baseline-browser-mapping@2.9.19: {}
+
+  bcp-47-match@2.0.3: {}
 
   blake3-wasm@2.1.5: {}
 
@@ -8048,6 +8205,8 @@ snapshots:
       domutils: 3.2.2
       nth-check: 2.1.1
 
+  css-selector-parser@3.3.0: {}
+
   css-tree@2.2.1:
     dependencies:
       mdn-data: 2.0.28
@@ -8144,6 +8303,8 @@ snapshots:
   dfa@1.2.0: {}
 
   diff@5.2.0: {}
+
+  direction@2.0.1: {}
 
   dlv@1.1.3: {}
 
@@ -8511,6 +8672,13 @@ snapshots:
 
   exit-hook@2.2.1: {}
 
+  expressive-code@0.41.7:
+    dependencies:
+      "@expressive-code/core": 0.41.7
+      "@expressive-code/plugin-frames": 0.41.7
+      "@expressive-code/plugin-shiki": 0.41.7
+      "@expressive-code/plugin-text-markers": 0.41.7
+
   extend@3.0.2: {}
 
   fast-deep-equal@3.1.3: {}
@@ -8703,6 +8871,10 @@ snapshots:
       vfile-location: 5.0.3
       web-namespaces: 2.0.1
 
+  hast-util-has-property@3.0.0:
+    dependencies:
+      "@types/hast": 3.0.4
+
   hast-util-is-element@3.0.0:
     dependencies:
       "@types/hast": 3.0.4
@@ -8725,6 +8897,24 @@ snapshots:
       unist-util-visit: 5.0.0
       vfile: 6.0.3
       web-namespaces: 2.0.1
+      zwitch: 2.0.4
+
+  hast-util-select@6.0.4:
+    dependencies:
+      "@types/hast": 3.0.4
+      "@types/unist": 3.0.3
+      bcp-47-match: 2.0.3
+      comma-separated-tokens: 2.0.3
+      css-selector-parser: 3.3.0
+      devlop: 1.1.0
+      direction: 2.0.1
+      hast-util-has-property: 3.0.0
+      hast-util-to-string: 3.0.1
+      hast-util-whitespace: 3.0.0
+      nth-check: 2.1.1
+      property-information: 7.1.0
+      space-separated-tokens: 2.0.2
+      unist-util-visit: 5.0.0
       zwitch: 2.0.4
 
   hast-util-to-estree@3.1.3:
@@ -8791,6 +8981,10 @@ snapshots:
       space-separated-tokens: 2.0.2
       web-namespaces: 2.0.1
       zwitch: 2.0.4
+
+  hast-util-to-string@3.0.1:
+    dependencies:
+      "@types/hast": 3.0.4
 
   hast-util-to-text@4.0.2:
     dependencies:
@@ -9740,6 +9934,16 @@ snapshots:
 
   possible-typed-array-names@1.1.0: {}
 
+  postcss-nested@6.2.0(postcss@8.5.6):
+    dependencies:
+      postcss: 8.5.6
+      postcss-selector-parser: 6.1.2
+
+  postcss-selector-parser@6.1.2:
+    dependencies:
+      cssesc: 3.0.0
+      util-deprecate: 1.0.2
+
   postcss-selector-parser@7.1.1:
     dependencies:
       cssesc: 3.0.0
@@ -9847,6 +10051,10 @@ snapshots:
       get-proto: 1.0.1
       gopd: 1.2.0
       set-function-name: 2.0.2
+
+  rehype-expressive-code@0.41.7:
+    dependencies:
+      expressive-code: 0.41.7
 
   rehype-parse@9.0.1:
     dependencies:
