@@ -1,0 +1,32 @@
+---
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+
+type Props = {
+  src: ImageMetadata | string;
+  alt?: string;
+  width?: number;
+  height?: number;
+};
+
+const { src, alt, width, height, ...rest }: Props = Astro.props;
+const isStringSrc = typeof src === "string";
+---
+
+{
+  isStringSrc ? (
+    typeof width === "number" && typeof height === "number" ? (
+      <Image
+        src={src}
+        alt={alt ?? ""}
+        width={width}
+        height={height}
+        {...rest}
+      />
+    ) : (
+      <Image src={src} alt={alt ?? ""} inferSize {...rest} />
+    )
+  ) : (
+    <Image src={src} alt={alt ?? ""} {...rest} />
+  )
+}
