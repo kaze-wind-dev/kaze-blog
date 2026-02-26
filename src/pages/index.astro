@@ -13,7 +13,7 @@ import { orderedContentsCollection } from "@/libs/contentsCollection";
 import CollectionArticleList from "@/components/CollectionArticleList.astro";
 
 const notes = await getCollection("notes");
-const orderedNotes = orderedContentsCollection(notes, "desc").slice(0, 4);
+const orderedNotes = orderedContentsCollection(notes.filter((note) => !note.data.draft), "desc").slice(0, 4);
 // const { contents: notesList } = await getNotesList({
 //   limit: 5,
 // });
