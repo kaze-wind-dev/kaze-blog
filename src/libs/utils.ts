@@ -56,7 +56,7 @@ export const highlightCodeBlocks = async (html: string): Promise<string> => {
       "zsh",
       "cmd",
     ],
-    themes: ["github-dark"],
+    themes: ["dark-plus"],
   });
   codeBlocks.each((_, elm) => {
     const $code = $(elm);
@@ -66,7 +66,7 @@ export const highlightCodeBlocks = async (html: string): Promise<string> => {
     try {
       const highlighted = highlighter.codeToHtml(code, {
         lang: lang,
-        theme: "github-dark",
+        theme: "dark-plus",
       });
       const pre = $code.parent("pre");
       pre.replaceWith(highlighted);
