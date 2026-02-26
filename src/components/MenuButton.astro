@@ -1,0 +1,62 @@
+---
+import type { HTMLAttributes } from "astro/types";
+const { open = false } = Astro.props;
+const classList: HTMLAttributes<"button">["class"] = `${open ? "menu-button close-button" : "menu-button open-button"}`;
+---
+
+<button
+  class={classList}
+  aria-label="メニューを開く"
+  aria-expanded="false"
+  aria-controls="menu"
+>
+  <span class="menu-button__line -first" aria-hidden="true"></span>
+  <span class="menu-button__line -second" aria-hidden="true"></span>
+</button>
+
+<style lang="scss">
+  @use "../styles/mixin" as *;
+  @use "../styles/functions" as *;
+  @use "../styles/extends" as *;
+  .menu-button {
+    width: 50px;
+    height: 50px;
+    background-color: var(--primary-color);
+    position: fixed;
+    top: calc(var(--header-height) / 2);
+    transform: translateY(-50%);
+    right: var(--spacing-md);
+    z-index: 10001;
+      border-radius: rem(4);
+    &__line {
+      height: 2px;
+      border-radius: 1px;
+      background-color: var(--white-color);
+      display: block;
+      width: 28px;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      transition:
+        top 0.3s,
+        transform 0.3s;
+        &.-first {
+          top: 20px;
+        }
+        &.-second {
+          top: 28px;
+        }
+      }
+     
+    &.-open > .menu-button__line {
+      &.-first {
+        top: 50%;
+        transform: translate(-50%, -50%) rotate(210deg);
+      }
+      &.-second {
+        top: 50%;
+        transform: translate(-50%, -50%) rotate(-30deg);
+      }
+    }
+  }
+</style>

@@ -1,0 +1,235 @@
+---
+import { ALL_NAVIGATION_LIST } from "@/constants";
+import type { Navigation as NavigationProps } from "@/types/navigation";
+import MenuButton from "../components/MenuButton.astro";
+import Navigation from "@/components/Navigation.astro";
+import SnsList from "@/components/SnsList.astro";
+const menuClasses: NavigationProps["className"] = {
+  nav: "menu__navigation",
+  list: "menu__navigation__list",
+  item: "menu__navigation__list__item",
+  link: "menu__navigation__list__link",
+};
+---
+
+<div class="menu-container">
+  <MenuButton />
+  <div
+    class="menu"
+    id="menu"
+    role="dialog"
+    aria-modal="true"
+    aria-hidden="true"
+    aria-label="メニュー"
+  >
+    <Navigation items={ALL_NAVIGATION_LIST} className={menuClasses} />
+    <SnsList />
+  </div>
+  <div class="menu-overlay" aria-hidden="true"></div>
+</div>
+
+<style lang="scss">
+  @use "../styles/mixin" as *;
+  @use "../styles/functions" as *;
+  @use "../styles/extends" as *;
+  .menu {
+    background-color: var(--text-primary);
+    position: fixed;
+    width: 80%;
+    max-width: 360px;
+    height: 100dvh;
+    z-index: 9999;
+    overflow: auto;
+    top: 0;
+  right: 0;
+    transform: translateX(100%);
+
+    padding:var(--spacing-6xl) var(--spacing-md);
+    color: var(--black-color);
+    transition:
+      transform 0.5s,
+      opacity 0.5s,
+      visibility 0.5s;
+    opacity: 0;
+    visibility: hidden;
+
+    &.-open {
+      transform: translateX(0);
+
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+  :global(.menu__navigation__list) {
+    display: flex;
+    flex-direction: column;
+    gap: .75rem;
+  }
+  :global(.menu__navigation__list__item) {
+    color: var(--white-color);
+    font-size: var(--font-size-3xl);
+    font-family: var(--font-secondary);
+  }
+  :global(.sns-list) {
+    --github-color: #fff;
+    --x-color: #fff;
+    margin-block-start: var(--spacing-4xl);
+    justify-content: flex-start;
+  }
+  .menu-overlay {
+    transition:
+      opacity 0.5s,
+      visibility 0.5s;
+    background-color: rgb(0 0 0 / 0.8);
+    position: fixed;
+    z-index: 5001;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    visibility: hidden;
+    cursor: pointer;
+    &.-open {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+
+  body.-open {
+    overflow: hidden;
+  }
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", (): void => {
+    /* 要素の取得 */
+    const body = document.querySelector<HTMLBodyElement>("body");
+    const menu = document.querySelector<HTMLDivElement>(".menu");
+    const button = document.querySelector<HTMLButtonElement>(".menu-button");
+    const container = document.querySelector<HTMLDivElement>(".menu-container");
+    const overlay = document.querySelector<HTMLDivElement>(".menu-overlay");
+
+    /* 要素が存在しない場合は処理を中断 */
+    if (!menu || !button || !body || !container || !overlay) return;
+
+    /* フォーカス可能な要素を取得 */
+    const focusableAllElements = menu.querySelectorAll<HTMLElement>(
+      'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])',
+    );
+    /* フォーカス可能な要素の配列を作成 */
+    const focusableElements = [...Array.from(focusableAllElements), button];
+    /* フォーカス可能な要素の最初の要素を取得*/
+    const firstFocusableElement = focusableElements[0];
+
+    const lastFocusableElement =
+      focusableElements[focusableElements.length - 1];
+
+    let isMenuOpen = false;
+
+    /* メニューを開く関数 */
+    const openMenu = (isKeyboardEvent = false): void => {
+      isMenuOpen = true;
+      addOpenClass(menu);
+      addOpenClass(body);
+      addOpenClass(button);
+      addOpenClass(overlay);
+      button.setAttribute("aria-expanded", "true");
+      button.setAttribute("aria-label", "メニューを閉じる");
+      menu.setAttribute("aria-hidden", "false");
+
+      // フォーカス移動: DOM更新とレンダリング完了を待つ
+      if (isKeyboardEvent) {
+        // キーイベントの時だけ、requestAnimationFrameを2回使用して確実に動作させる
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            // メニューが表示可能な状態であることを確認してからフォーカス移動
+            if (
+              menu.classList.contains("-open") &&
+              menu.getAttribute("aria-hidden") === "false"
+            ) {
+              firstFocusableElement?.focus();
+            }
+          });
+        });
+      }
+    };
+
+    /* メニューを閉じる関数 */
+    const closeMenu = (): void => {
+      isMenuOpen = false;
+      removeOpenClass(menu);
+      removeOpenClass(body);
+      removeOpenClass(button);
+      removeOpenClass(overlay);
+      button.setAttribute("aria-expanded", "false");
+      button.setAttribute("aria-label", "メニューを開く");
+      menu.setAttribute("aria-hidden", "true");
+    };
+
+    /* 開閉状態を管理するクラスを追加する関数 */
+    const addOpenClass = (el: HTMLElement): void => el.classList.add("-open");
+
+    /* 開閉状態を管理するクラスを削除する関数 */
+    const removeOpenClass = (el: HTMLElement): void =>
+      el.classList.remove("-open");
+
+    /* メニューを開くボタンをクリックした時の処理 */
+    button.addEventListener("click", (): void => {
+      if (!isMenuOpen) {
+        openMenu();
+      } else {
+        closeMenu();
+      }
+    });
+
+    /* ボタンのキーボードイベント処理（Enterでメニューを開閉） */
+    button.addEventListener("keydown", (e: KeyboardEvent): void => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        if (!isMenuOpen) {
+          openMenu(true);
+        } else {
+          closeMenu();
+        }
+      }
+    });
+
+    overlay.addEventListener("click", (): void => {
+      if (!isMenuOpen) {
+        openMenu();
+      } else {
+        closeMenu();
+      }
+    });
+
+    /* メニューのキーイベント処理 */
+    container.addEventListener("keydown", (e: KeyboardEvent): void => {
+      if (e.key === "Escape" && isMenuOpen) {
+        e.preventDefault();
+        closeMenu();
+        button.focus();
+      }
+      /* フォーカストラップの処理 */
+      if (e.key === "Tab" && isMenuOpen) {
+        e.preventDefault();
+        const activeElement = document.activeElement;
+        if (!(activeElement instanceof HTMLElement)) return;
+        const currentIndex = focusableElements.indexOf(activeElement);
+        if (e.shiftKey) {
+          if (currentIndex === 0) {
+            lastFocusableElement?.focus();
+          } else {
+            focusableElements[currentIndex - 1]?.focus();
+          }
+        } else {
+          if (currentIndex === focusableElements.length - 1) {
+            firstFocusableElement?.focus();
+          } else {
+            focusableElements[currentIndex + 1]?.focus();
+          }
+        }
+      }
+    });
+  });
+</script>

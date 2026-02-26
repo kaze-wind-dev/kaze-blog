@@ -2,7 +2,7 @@
 import { MAIN_NAVIGATION_LIST } from "@/constants";
 import type { Navigation as NavigationProps } from "@/types/navigation";
 import Navigation from "./Navigation.astro";
-import DrawerButton from "./drawer/DrawerButton.astro";
+import Menu from "../layouts/Menu.astro";
 const headerClasses: NavigationProps["className"] = {
   nav: "header__navigation",
   list: "header__navigation__list",
@@ -22,6 +22,6 @@ const headerClasses: NavigationProps["className"] = {
       className={headerClasses}
       ariaLabel="ヘッダーナビゲーション"
     />
-    <DrawerButton />
+    <Menu/>
   </div>
 </header>
