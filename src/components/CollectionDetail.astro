@@ -68,10 +68,10 @@ const { Content } = await render(entry);
     > p,
     > ul,
     > ol,
-    > div:has(iframe) {
+    div:has(iframe) {
       margin-block: 1rem;
     }
-    > div:has(iframe) {
+    div:has(iframe) {
       width: 100%;
     }
     > h1 {
@@ -110,32 +110,32 @@ const { Content } = await render(entry);
     > h6 {
       font-size: var(--heading-6);
     }
-    > strong {
+    strong {
       font-weight: 700;
     }
-    > em {
+    em {
       font-style: italic;
       font-weight: inherit;
     }
-    > code:not(pre > code) {
+    code:not(pre > code) {
       font-family: var(--font-tertiary);
       background-color: var(--bg-secondary-color);
       border-radius: rem(4);
       border: 1px solid var(--border-color);
       padding: rem(4) rem(4);
     }
-    > img {
+    img {
       max-width: 100%;
       height: auto;
       display: block;
       margin-block: 1.25em;
     }
-    > hr {
+    hr {
       border: none;
       border-block-start: 1px solid var(--border-color);
       margin-block: var(--spacing-6xl);
     }
-    > ul li {
+    ul li {
       padding-inline-start: 1em;
       position: relative;
       z-index: 1;
@@ -151,11 +151,11 @@ const { Content } = await render(entry);
         transform: translateY(-50%);
       }
     }
-    > ol {
+    ol {
       list-style-type: decimal-leading-zero;
       padding-inline-start: 1.75em;
     }
-    > a {
+    a {
       color: var(--primary-color);
       text-decoration: underline;
       &:hover,
@@ -179,12 +179,15 @@ const { Content } = await render(entry);
         }
       }
     }
-    > div[data-filename] {
+    div[data-filename] {
       min-width: 0;
       max-width: 100%;
     }
     .expressive-code {
       margin-block: 1.5rem;
+      max-height: 70dvh;
+      overflow-y: scroll;
+      border-radius: rem(8);
     }
     table {
       width: fit-content;
