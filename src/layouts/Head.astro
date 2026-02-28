@@ -20,7 +20,7 @@ const {
 } = Astro.props;
 const title = pageTitle ? `${SITE_NAME} | ${pageTitle}` : SITE_NAME;
 const isProd = import.meta.env.PROD;
-const canonicalUrl = `${SITE_URL}${path}`;
+const canonicalUrl = `${SITE_URL}${path.pathname}`;
 ---
 
 <head>
