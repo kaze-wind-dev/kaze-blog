@@ -8,9 +8,9 @@ body {
   font-weight: 500;
   letter-spacing: 0.05em;
   color: var(--text-primary);
-  // overflow-wrap: anywhere;
-  // word-break: normal;
-  // line-break: strict;
+  overflow-wrap: anywhere;
+  word-break: normal;
+  line-break: strict;
   line-height: 1.5;
   position: relative;
 }
@@ -22,11 +22,6 @@ h4,
 h5,
 h6 {
   margin: 0;
-}
-
-a:focus,
-button:focus {
-  outline: none;
 }
 
 :focus-visible,

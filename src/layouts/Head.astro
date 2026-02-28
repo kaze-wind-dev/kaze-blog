@@ -12,6 +12,7 @@ type Props = {
   description?: string;
   keywords?: string;
 };
+const path = Astro.url;
 const {
   pageTitle,
   description = SITE_DESCRIPTION,
@@ -19,6 +20,7 @@ const {
 } = Astro.props;
 const title = pageTitle ? `${SITE_NAME} | ${pageTitle}` : SITE_NAME;
 const isProd = import.meta.env.PROD;
+console.log(path)
 ---
 
 <head>
@@ -26,6 +28,7 @@ const isProd = import.meta.env.PROD;
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
   <link rel="sitemap" href="/sitemap-index.xml" />
+  <link rel="canonical" href="">
   <meta name="generator" content={Astro.generator} />
   <title>{title}</title>
   <meta name="description" content={description} />

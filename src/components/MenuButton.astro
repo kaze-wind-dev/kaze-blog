@@ -9,6 +9,7 @@ const classList: HTMLAttributes<"button">["class"] = `${open ? "menu-button clos
   aria-label="メニューを開く"
   aria-expanded="false"
   aria-controls="menu"
+  data-menu-button
 >
   <span class="menu-button__line -first" aria-hidden="true"></span>
   <span class="menu-button__line -second" aria-hidden="true"></span>
@@ -25,9 +26,10 @@ const classList: HTMLAttributes<"button">["class"] = `${open ? "menu-button clos
     position: fixed;
     top: calc(var(--header-height) / 2);
     transform: translateY(-50%);
-    right: var(--spacing-md);
+    right: 5%;
     z-index: 10001;
-      border-radius: rem(4);
+    border-radius: rem(4);
+    
     &__line {
       height: 2px;
       border-radius: 1px;

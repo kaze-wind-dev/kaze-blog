@@ -12,9 +12,11 @@
 .header__inner {
   @extend .inner;
   padding-block: calc(var(--px) * 5);
+  padding-inline-end: calc(50px + rem(30));
   display: flex;
   align-items: center;
   height: var(--header-height);
+
 }
 .header__navigation {
   margin-left: auto;
