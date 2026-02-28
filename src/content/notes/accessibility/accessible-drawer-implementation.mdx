@@ -1,0 +1,905 @@
+---
+title: アクセシブルなドロワーの実装方法
+description: この記事ではアクセシブルなドロワーを実装し、デモコードを交えながらアクセシブルなドロワーについて考えます。
+publishedAt: 2026/03/01
+category: accessibility
+draft: false
+---
+
+## ドロワーがアクセシブルと言える条件とは
+
+[WCAG2.2の早見表](https://www.jidaikobo.com/uploads/archives/40/wcag22_cheatsheet_202405_AAA.pdf)を参照させていただきました。
+
+WCAGの項目で言えば、以下の対応が必要になってくると思います。
+
+- キーボード操作ができること（達成基準 2.1.1 キーボード）
+- キーボード操作時にフォーカストラップが適切についており、Tabキーで閉じられること（達成基準 2.1.2 キーボードトラップなし）
+- ナビゲーションに適切な名前が付けられていること（非テキストコンテンツ）
+- ナビゲーションの開閉状態がわかること（非テキストコンテンツ）
+
+**その他ドロワーに限らず、対応が必要なもの**
+
+- テキストと背景の十分なコントラスト（達成基準 1.4.3 コントラスト (最低限)）
+- テキストサイズの変更に対応していること（達成基準 1.4.4 テキストのサイズ変更）
+- フォーカスの可視化ができること（達成基準 2.4.13 フォーカスの外観）
+
+## 実装パターン
+
+今回作成したデモサイトは以下になります。
+
+- [dialogパターンのデモ](https://kaze-wind-dev.github.io/astro-play-ground/dialog-menu/)
+- [divパターンのデモ](https://kaze-wind-dev.github.io/astro-play-ground/normal-menu/)
+
+コードの全文はGitHubで公開しています。
+
+- [dialogパターン](https://github.com/kaze-wind-dev/astro-play-ground/tree/main/src/pages/dialog-menu)
+- [divパターン](https://github.com/kaze-wind-dev/astro-play-ground/tree/main/src/pages/normal-menu)
+
+## 実装パターン: dialogタグ
+
+### MenuButtonコンポーネント
+
+```astro
+---
+import type { HTMLAttributes } from "astro/types";
+type Props = {
+  menuIsOpen?: boolean;
+  class?: string;
+} & Omit<
+  HTMLAttributes<"button">,
+  "aria-label" | "aria-expanded" | "aria-controls" | "class"
+>;
+
+const { menuIsOpen = true, class: className, ...rest } = Astro.props;
+const ariaControls: HTMLAttributes<"button">["aria-controls"] = "menu";
+const ariaLabel: HTMLAttributes<"button">["aria-label"] = menuIsOpen
+  ? "メニューを閉じる"
+  : "メニューを開く";
+const dataAttribute = menuIsOpen
+  ? { "data-menu-close-button": true }
+  : { "data-menu-open-button": true };
+---
+
+<button
+  class:list={[
+    "menu-button",
+    className ?? "",
+    menuIsOpen ? "close-button" : "open-button",
+  ]}
+  aria-label={ariaLabel}
+  aria-expanded="false"
+  aria-controls={ariaControls}
+  {...dataAttribute}
+  {...rest}
+>
+  <span class="line -first" aria-hidden="true"></span>
+  <span class="line -second" aria-hidden="true"></span>
+</button>
+
+<style lang="scss">
+  @use "@/styles/mixin" as *;
+  @use "@/styles/functions" as *;
+  @use "@/styles/extends" as *;
+
+  .menu-button {
+    width: 50px;
+    height: 50px;
+    background-color: var(--black-color);
+    position: relative;
+    z-index: 1;
+
+    &.open-button {
+      position: fixed;
+      top: calc(var(--header-height) / 2);
+      right: var(--spacing-md);
+      transform: translateY(-50%);
+      z-index: 1;
+    }
+
+    &.open-button > .line {
+      &.-first {
+        top: 20px;
+      }
+
+      &.-second {
+        top: 28px;
+      }
+    }
+
+    &.close-button > .line {
+      &.-first {
+        top: 50%;
+        transform: translate(-50%, -50%) rotate(210deg);
+      }
+
+      &.-second {
+        top: 50%;
+        transform: translate(-50%, -50%) rotate(-30deg);
+      }
+    }
+  }
+
+  .line {
+    height: 2px;
+    border-radius: 1px;
+    background-color: var(--white-color);
+    display: block;
+    width: 28px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    transition:
+      top 0.3s,
+      transform 0.3s;
+  }
+</style>
+```
+
+### Menuコンポーネント
+
+```astro
+---
+import MenuButton from "./MenuButton.astro";
+---
+
+<dialog class="menu" id="menu" aria-label="メニュー" data-dialog-menu>
+  <div class="container" data-menu-container>
+    <nav class="navigation">
+      <ul class="list">
+        <li class="item">
+          <a class="link" href="#">ページ1</a>
+        </li>
+        <li class="item">
+          <a class="link" href="#">ページ2</a>
+        </li>
+        <li class="item">
+          <a class="link" href="#">ページ3</a>
+        </li>
+        <li class="item">
+          <a class="link" href="#">ページ4</a>
+        </li>
+        <li class="item">
+          <a class="link" href="#">ページ5</a>
+        </li>
+        <li class="item">
+          <a class="link" href="#">ページ6</a>
+        </li>
+        <li class="item">
+          <a class="link" href="#">ページ7</a>
+        </li>
+        <li class="item">
+          <a class="link" href="#">ページ8</a>
+        </li>
+        <li class="item">
+          <a class="link" href="#">ページ9</a>
+        </li>
+        <li class="item">
+          <a class="link" href="#">ページ10</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+  <MenuButton />
+</dialog>
+
+<style lang="scss">
+  @use "@/styles/mixin" as *;
+  @use "@/styles/functions" as *;
+  @use "@/styles/extends" as *;
+
+  .menu {
+    width: 100%;
+    max-height: 100vh;
+    transition: opacity 0.5s;
+    opacity: 0;
+    margin: 0;
+
+    &::backdrop {
+      background-color: rgb(0 0 0 / 50%);
+      transition: opacity 0.5s;
+      opacity: 0;
+    }
+
+    &.-open {
+      opacity: 1;
+
+      &::backdrop {
+        opacity: 1;
+      }
+    }
+  }
+
+  .container {
+    background-color: var(--white-color);
+    padding: 100px var(--inner-inline-padding);
+    height: 100%;
+    max-height: 100%;
+    overflow-y: scroll;
+  }
+
+  .list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .item {
+    font-size: var(--font-size-3xl);
+    font-weight: 700;
+  }
+
+  .menu-button {
+    position: fixed;
+    top: calc(var(--header-height) / 2);
+    transform: translateY(-50%);
+    right: var(--spacing-md);
+  }
+
+  body.-open {
+    overflow: hidden;
+  }
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", (): void => {
+    /* 要素の取得 */
+    const body = document.querySelector<HTMLBodyElement>("body");
+    const menu =
+      document.querySelector<HTMLDialogElement>("[data-dialog-menu]");
+    const container = document.querySelector<HTMLDivElement>(
+      "[data-menu-container]",
+    );
+    const openButton = document.querySelector<HTMLButtonElement>(
+      "[data-menu-open-button]",
+    );
+    const closeButton = document.querySelector<HTMLButtonElement>(
+      "[data-menu-close-button]",
+    );
+
+    /* 要素が存在しない場合は処理を中断 */
+    if (!menu || !container || !openButton || !closeButton || !body) return;
+
+    /* フォーカス可能な要素を取得 */
+    const focusableAllElements = menu.querySelectorAll<HTMLElement>(
+      'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])',
+    );
+    /* フォーカス可能な要素の配列を作成 */
+    const focusableElements = Array.from(focusableAllElements);
+    /* フォーカス可能な要素の最初の要素を取得 */
+    const firstFocusableElement = focusableElements[0];
+
+    /* メニューを開く関数 */
+    const openMenu = (): void => {
+      menu.showModal();
+      setExpanded(true);
+      addOpenClass(menu);
+      addOpenClass(body);
+      firstFocusableElement?.focus();
+    };
+
+    /* メニューを閉じる関数 */
+    const closeMenu = (): void => {
+      removeOpenClass(menu);
+      removeOpenClass(body);
+      setExpanded(false);
+      menu.addEventListener(
+        "transitionend",
+        () => {
+          menu.close();
+        },
+        { once: true },
+      );
+    };
+
+    const setExpanded = (expanded: boolean): void => {
+      if (expanded) {
+        openButton.setAttribute("aria-expanded", "true");
+        closeButton.setAttribute("aria-expanded", "true");
+      } else {
+        openButton.setAttribute("aria-expanded", "false");
+        closeButton.setAttribute("aria-expanded", "false");
+      }
+    };
+
+    /* 開閉状態を管理するクラスを追加する関数 */
+    const addOpenClass = (el: HTMLElement): void => el.classList.add("-open");
+
+    /* 開閉状態を管理するクラスを削除する関数 */
+    const removeOpenClass = (el: HTMLElement): void =>
+      el.classList.remove("-open");
+
+    /* メニューが開いているかどうかを判定する関数 */
+    const isMenuOpen = (): boolean => menu.classList.contains("-open");
+
+    /* メニューを開くボタンをクリックした時の処理 */
+    openButton.addEventListener("click", openMenu);
+    /* メニューを閉じるボタンをクリックした時の処理 */
+    closeButton.addEventListener("click", closeMenu);
+
+    /* メニューの外をクリックした時の処理 */
+    menu.addEventListener("click", (e: MouseEvent) => {
+      console.log(e.target);
+      if (e.target !== container && e.target === menu && isMenuOpen()) {
+        closeMenu();
+      }
+    });
+
+    /* メニューが閉じた時の処理（Escapeキー対応） */
+    menu.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && isMenuOpen()) {
+        e.preventDefault();
+        closeMenu();
+      }
+    });
+  });
+</script>
+```
+
+### ポイント
+
+#### 1. aria-expandedとaria-controlsを使用する
+
+```typescript
+aria-expanded="false"  // メニューの開閉状態
+aria-controls="menu"   // 対象の要素ID
+```
+
+この2つは**必ずセット**で使用します。
+どちらもコントロール先のトリガーとなる要素に指定します。
+`aria-expanded`はコントロール先の開閉状態を表し、`aria-controls`はコントロール対象の要素をID名で指定します。
+こちらをつけ忘れると、操作しているのがどの要素なのかが不明になってしまいます。
+また、スクリーンリーダで読み上げた際には、「展開された」「折り畳まれた」と読み上げられるため忘れずにつけましょう。
+
+#### 2. dialog要素の開閉メソッド
+
+```typescript
+menu.showModal(); // モーダルとして開く（::backdropとEscapeで閉じる機能が使える）
+menu.show(); // 非モーダルとして開く
+menu.close(); // 閉じる
+```
+
+これらは`dialog`要素で使用できるメソッドです。
+`::backdrop`要素を使用する場合は、`showModal()`、使用しない場合は`show()`を使います。
+
+アニメーションをつける場合は、クラスの付与を合わせて行うと良いかと思います。
+
+<Memo type="warning" title="注意点">
+  `showModal()`を使用するとEscapeで閉じる機能が使えるようになりますが、メニュー自体に`transition`を使用してアニメーションさせる場合はアニメーション終了後に閉じる必要があります。
+</Memo>
+
+#### 3. アニメーション対応
+
+```typescript
+const closeMenu = (): void => {
+  removeOpenClass(menu);
+  // transitionの完了を待つ
+  menu.addEventListener(
+    "transitionend",
+    () => {
+      menu.close();
+    },
+    { once: true },
+  );
+};
+```
+
+閉じる時には、イベントリスナーの`transitionend`を使用します。
+そのままだと`transition`の完了を待たずに閉じてしまうため、うまくアニメーションしません。
+また、`{ once: true }`を設定し忘れると、`transition`中に何度もコールバック関数がよばれてしまい、意図しない挙動になるので、注意が必要です。
+
+#### 4. Escapeキー対応
+
+```typescript
+menu.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && isMenuOpen()) {
+    e.preventDefault();
+    closeMenu();
+  }
+});
+```
+
+何もせずに使うと、`Escape`押下時にメニューが閉じられてしまい、アニメーションしません。
+クラスを付与した場合は、`.-open`クラスが残ってしまうという問題があります。
+これを回避するために、`Escape`キー押下時に、デフォルトのイベントを止め、トランジションが完了したら閉じるようにします。
+
+## 実装パターン: divとARIA属性
+
+`dialog`タグが持っている機能を手動で実装する必要があります。
+
+### MenuButtonコンポーネント
+
+```astro
+---
+import type { HTMLAttributes } from "astro/types";
+const { open = false } = Astro.props;
+const classList: HTMLAttributes<"button">["class"] = `${open ? "menu-button close-button" : "menu-button open-button"}`;
+---
+
+<button
+  class={classList}
+  aria-label="メニューを開く"
+  aria-expanded="false"
+  aria-controls="menu"
+  data-menu-button
+>
+  <span class="line -first" aria-hidden="true"></span>
+  <span class="line -second" aria-hidden="true"></span>
+</button>
+
+<style lang="scss">
+  @use "@/styles/mixin" as *;
+  @use "@/styles/functions" as *;
+  @use "@/styles/extends" as *;
+
+  .menu-button {
+    width: 50px;
+    height: 50px;
+    background-color: var(--black-color);
+    position: fixed;
+    top: calc(var(--header-height) / 2);
+    right: var(--spacing-md);
+    transform: translateY(-50%);
+    z-index: 100001;
+
+    &.-open > .line {
+      &.-first {
+        top: 50%;
+        transform: translate(-50%, -50%) rotate(210deg);
+      }
+
+      &.-second {
+        top: 50%;
+        transform: translate(-50%, -50%) rotate(-30deg);
+      }
+    }
+  }
+
+  .line {
+    height: 2px;
+    border-radius: 1px;
+    background-color: var(--white-color);
+    display: block;
+    width: 28px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    transition:
+      top 0.3s,
+      transform 0.3s;
+
+    &.-first {
+      top: 20px;
+    }
+
+    &.-second {
+      top: 28px;
+    }
+  }
+</style>
+```
+
+### Menuコンポーネント
+
+```astro
+---
+import MenuButton from "./MenuButton.astro";
+---
+
+<div class="menu-container" data-menu-container>
+  <MenuButton open={false} />
+  <div
+    class="menu"
+    id="menu"
+    role="dialog"
+    aria-modal="true"
+    aria-hidden="true"
+    aria-label="メニュー"
+    data-menu
+  >
+    <nav class="navigation" aria-label="メニュー">
+      <ul class="list">
+        <li class="item">
+          <a class="link" href="#">ページ1</a>
+        </li>
+        <li class="item">
+          <a class="link" href="#">ページ2</a>
+        </li>
+        <li class="item">
+          <a class="link" href="#">ページ3</a>
+        </li>
+        <li class="item">
+          <a class="link" href="#">ページ4</a>
+        </li>
+        <li class="item">
+          <a class="link" href="#">ページ5</a>
+        </li>
+        <li class="item">
+          <a class="link" href="#">ページ6</a>
+        </li>
+        <li class="item">
+          <a class="link" href="#">ページ7</a>
+        </li>
+        <li class="item">
+          <a class="link" href="#">ページ8</a>
+        </li>
+        <li class="item">
+          <a class="link" href="#">ページ9</a>
+        </li>
+        <li class="item">
+          <a class="link" href="#">ページ10</a>
+        </li>
+        <li class="item">
+          <a class="link" href="#">ページ11</a>
+        </li>
+        <li class="item">
+          <a class="link" href="#">ページ12</a>
+        </li>
+        <li class="item">
+          <a class="link" href="#">ページ13</a>
+        </li>
+        <li class="item">
+          <a class="link" href="#">ページ14</a>
+        </li>
+        <li class="item">
+          <a class="link" href="#">ページ15</a>
+        </li>
+        <li class="item">
+          <a class="link" href="#">ページ16</a>
+        </li>
+        <li class="item">
+          <a class="link" href="#">ページ17</a>
+        </li>
+        <li class="item">
+          <a class="link" href="#">ページ18</a>
+        </li>
+        <li class="item">
+          <a class="link" href="#">ページ19</a>
+        </li>
+        <li class="item">
+          <a class="link" href="#">ページ20</a>
+        </li>
+        <li class="item">
+          <a class="link" href="#">ページ30</a>
+        </li>
+        <li class="item">
+          <a class="link" href="#">ページ31</a>
+        </li>
+        <li class="item">
+          <a class="link" href="#">ページ32</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</div>
+
+<style lang="scss">
+  @use "@/styles/mixin" as *;
+  @use "@/styles/functions" as *;
+  @use "@/styles/extends" as *;
+
+  .menu {
+    background-color: var(--light-gray-color);
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    max-height: 100dvh;
+    z-index: 9999;
+    overflow: auto;
+    top: 0;
+    left: 0;
+    padding: var(--spacing-8xl) var(--inner-inline-padding);
+    color: var(--black-color);
+    transition:
+      opacity 0.5s,
+      visibility 0.5s;
+    opacity: 0;
+    visibility: hidden;
+    overflow-y: scroll;
+
+    &.-open {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+
+  .list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .item {
+    font-size: var(--font-size-3xl);
+    font-weight: 700;
+  }
+
+  body.-open {
+    overflow: hidden;
+  }
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", (): void => {
+    /* 要素の取得 */
+    const menu = document.querySelector<HTMLDivElement>("[data-menu]");
+    const button =
+      document.querySelector<HTMLButtonElement>("[data-menu-button]");
+    const body = document.querySelector<HTMLBodyElement>("body");
+    const container = document.querySelector<HTMLDivElement>(
+      "[data-menu-container]",
+    );
+
+    /* 要素が存在しない場合は処理を中断 */
+    if (!menu || !button || !body || !container) return;
+
+    /* フォーカス可能な要素を取得 */
+    const focusableAllElements = menu.querySelectorAll<HTMLElement>(
+      'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])',
+    );
+
+    /* フォーカス可能な要素の配列を作成 */
+    const focusableElements = [...Array.from(focusableAllElements), button];
+
+    /* フォーカス可能な要素の最初の要素を取得*/
+    const firstFocusableElement = focusableElements[0];
+
+    /* フォーカス可能な要素の最後の要素を取得 */
+    const lastFocusableElement =
+      focusableElements[focusableElements.length - 1];
+
+    /* メニューが開いているかどうかを管理する変数 */
+    let isMenuOpen = false;
+
+    /* メニューを開く関数 */
+    const openMenu = (isKeyboardEvent = false): void => {
+      isMenuOpen = true;
+
+      addOpenClass(menu);
+      addOpenClass(body);
+      addOpenClass(button);
+
+      button.setAttribute("aria-expanded", "true");
+      button.setAttribute("aria-label", "メニューを閉じる");
+      menu.setAttribute("aria-hidden", "false");
+      // フォーカス移動: Transition時間分待つ
+      if (isKeyboardEvent) {
+        setTimeout(() => {
+          if (isMenuOpen) firstFocusableElement?.focus();
+        }, 50);
+      }
+    };
+
+    /* メニューを閉じる関数 */
+    const closeMenu = (): void => {
+      isMenuOpen = false;
+      removeOpenClass(menu);
+      removeOpenClass(body);
+      removeOpenClass(button);
+
+      button.setAttribute("aria-expanded", "false");
+      button.setAttribute("aria-label", "メニューを開く");
+      menu.setAttribute("aria-hidden", "true");
+    };
+
+    /* 開閉状態を管理するクラスを追加する関数 */
+    const addOpenClass = (el: HTMLElement): void => el.classList.add("-open");
+
+    /* 開閉状態を管理するクラスを削除する関数 */
+    const removeOpenClass = (el: HTMLElement): void =>
+      el.classList.remove("-open");
+
+    /* メニューを開くボタンをクリックした時の処理 */
+    button.addEventListener("click", (): void => {
+      if (!isMenuOpen) {
+        openMenu();
+      } else {
+        closeMenu();
+      }
+    });
+
+    /* ボタンのキーボードイベント処理（Enterでメニューを開閉） */
+    button.addEventListener("keydown", (e: KeyboardEvent): void => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        if (!isMenuOpen) {
+          openMenu(true);
+        } else {
+          closeMenu();
+        }
+      }
+    });
+
+    /* メニューのキーイベント処理 */
+    container.addEventListener("keydown", (e: KeyboardEvent): void => {
+      if (e.key === "Escape" && isMenuOpen) {
+        e.preventDefault();
+        closeMenu();
+        button.focus();
+      }
+      /* フォーカストラップの処理 */
+      if (e.key === "Tab" && isMenuOpen) {
+        e.preventDefault();
+        const activeElement = document.activeElement;
+        if (!(activeElement instanceof HTMLElement)) return;
+        const currentIndex = focusableElements.indexOf(activeElement);
+        if (e.shiftKey) {
+          if (currentIndex === 0) {
+            lastFocusableElement?.focus();
+          } else {
+            focusableElements[currentIndex - 1]?.focus();
+          }
+        } else {
+          if (currentIndex === focusableElements.length - 1) {
+            firstFocusableElement?.focus();
+          } else {
+            focusableElements[currentIndex + 1]?.focus();
+          }
+        }
+      }
+    });
+  });
+</script>
+```
+
+### ポイント
+
+#### 実装が必要な機能
+
+`dialog`を使用しない場合、以下を自前で実装しなければなりません。
+
+- フォーカストラップ
+- Escapeキーで閉じる
+- ARIA属性 の切り替え
+
+#### 1.　role="dialog"の実装
+
+```astro
+<div
+  class="menu"
+  id="menu"
+  role="dialog"
+  aria-modal="true"
+  aria-hidden="true"
+  aria-label="メニュー"
+  data-menu
+>
+  ...
+</div>
+```
+
+`aria-modal`と`aria-hidden`を実装しました。
+`aria-modal`はモーダルが開いているときに、アクセシビリティツリーからモーダルの外の要素を除外する役割がありますが、一部スクリーンリーダーでは対応されていないこともあるようです。
+そのため、`aria-hidden`をセットで使用しています。
+
+#### ２. フォーカストラップの実装
+
+```typescript
+/* フォーカス可能な要素を取得 */
+const focusableAllElements = menu.querySelectorAll<HTMLElement>(
+  'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])',
+);
+
+/* フォーカス可能な要素の配列を作成 */
+const focusableElements = [...Array.from(focusableAllElements), button];
+
+if (e.key === "Tab" && isMenuOpen) {
+  e.preventDefault();
+  const activeElement = document.activeElement;
+  if (!(activeElement instanceof HTMLElement)) return;
+  const currentIndex = focusableElements.indexOf(activeElement);
+  if (e.shiftKey) {
+    if (currentIndex === 0) {
+      lastFocusableElement?.focus();
+    } else {
+      focusableElements[currentIndex - 1]?.focus();
+    }
+  } else {
+    if (currentIndex === focusableElements.length - 1) {
+      firstFocusableElement?.focus();
+    } else {
+      focusableElements[currentIndex + 1]?.focus();
+    }
+  }
+}
+```
+
+はじめにメニュー内のフォーカス可能な要素を配列として全て取得しておきます。
+ボタンは一番最後にフォーカスを当てたいため、配列の一番最後に追加しています。こうすることで、メニュー要素の外にあるボタンにしっかりとフォーカスを当てることができます。
+
+また、`Tab`キーで次の要素、`Tab`キーと`Shift`キーで一つ前の要素にフォーカスが当たるようにしています。
+
+#### ３. Escapeキーで閉じる
+
+```typescript
+/* メニューのキーイベント処理 */
+container.addEventListener("keydown", (e: KeyboardEvent): void => {
+  if (e.key === "Escape" && isMenuOpen) {
+    e.preventDefault();
+    closeMenu();
+    button.focus();
+  }
+});
+```
+
+`Escape`キーでメニューを閉じる処理を追加しています。
+
+#### ４. ARIA属性の切り替え
+
+```typescript title="メニューを開くとき"
+button.setAttribute("aria-expanded", "true");
+button.setAttribute("aria-label", "メニューを閉じる");
+menu.setAttribute("aria-hidden", "false");
+```
+
+```typescript title="メニューを閉じるとき"
+button.setAttribute("aria-expanded", "false");
+button.setAttribute("aria-label", "メニューを開く");
+menu.setAttribute("aria-hidden", "true");
+```
+
+`dialog`タグの使用時と同様に、トリガー要素となるボタンの`aria-expanded`と`aria-label`の制御が必要になります。
+加えて、`menu`要素に`aria-hidden`を加えて制御を行い、要素が表示されていないときにはスクリーンリーダーに読み上げされないようにしています。
+
+## どちらを使えば良いのか
+
+どちらを使うべきかは、以下の理由から`dialog`を使用する方法が推奨されるかと思います。
+
+- デフォルトでフォーカストラップがかかる
+- `Escape`キーによる閉じる動作がかかる
+- ドロワーはサブウィンドウであるため、dialogを使うことでHTMLのセマンティック性が保たれる
+- 非表示にデフォルトでアクセシビリティツリーから除外される
+
+#### そもそもdialogタグとは
+
+dialogはモーダルや非モーダルダイアログモックス、アラート、サブウィンドウなどで使用できる要素です。
+サブウィンドウとは、ウィンドウの中に重ねて表示される、補助的なウィンドウやパネルを表します。
+タグ単体では開閉まで提供していないので、JavaScriptによって制御をする必要があります。
+
+開閉のためのメソッドが用意されており、とても便利です。
+デフォルトでフォーカストラップがかかったり、`Escape`キーで閉じることができたり、`::backdrop`によってスタイルの制御もしやすいです。
+
+スクリーンリーダーで読み上げた際には、「ダイアログ」と言う単語を含めて読み上げられます。（VoiceOver使用時）
+
+#### dialogタグと role="dialog" とは違うのか
+
+`dialog`タグはHTML要素そのものであり、ブラウザがネイティブにダイアログとして認識します。
+一方で`role="dialog"`はdivなどの非セマンティックな要素に対して、スクリーンリーダーに「この要素はダイアログである」と伝えるためのARIA属性です。
+
+|                       | ブラウザ                         | スクリーンリーダー       |
+| --------------------- | -------------------------------- | ------------------------ |
+| `<dialog>`            | ネイティブにダイアログとして認識 | ダイアログとして読み上げ |
+| `<div role="dialog">` | ただの`div`                      | ダイアログとして読み上げ |
+
+`dialog`タグを使用できる場合は、ネイティブの機能（フォーカストラップ・Escapeキー・`::backdrop`など）が利用できるため、`dialog`タグを使う方が実装コストが低くなります。
+
+#### 　dialogの対応ブラウザ
+
+全てのモダンブラウザで対応できます。
+ただし古いバージョンでは使えないこともあるので、使用するか否かはどこまで対応するかで決めても問題ないのかなと思います。
+
+dialog" | Can I use　https://caniuse.com/?search=dialog
+
+## 最後に
+
+結論としては、以下のことが言えるのではないかと思いました。
+
+- **モダンブラウザのみ**: dialogタグを使用する
+- **レガシー対応必要**: divとARIA属性を使用する
+- どちらもアクセシビリティに配慮した実装が可能だが、div実装は実装コストが高い
+
+実際にコードを書いてみて、思ったよりも考えることや書くコードの量が多いように感じました。
+今回はここまでにしたいと思います。
+
+## 参考
+
+以下の記事を参考にさせていただきました。
+
+- [\<dialog\>: ダイアログ要素 - HTML | MDN](https://developer.mozilla.org/ja/docs/Web/HTML/Reference/Elements/dialog)
+- [ARIA: dialog ロール - ARIA | MDN](https://developer.mozilla.org/ja/docs/Web/Accessibility/ARIA/Reference/Roles/dialog_role)
+- [Dialog (Modal) Pattern | APG | WAI | W3C](https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/)
+- [【a11y】アクセシビリティを考慮したドロワー実装 | 株式会社Gizumo - 人の未来を創る -](https://gizumo-inc.jp/media/a11y-drawer/)
+- [Vanilla JSでアクセシビリティを考慮したハンバーガーメニューをつくる](https://zenn.dev/h_ymt/articles/69b9ee1b43b14d)
+- [アクセシブルなハンバーガーメニュー](https://zenn.dev/m0r1m1ch1/articles/58f8c4f062fafc)
+- [ドロワー（概要）｜デジタル庁デザインシステムβ版](https://design.digital.go.jp/dads/components/drawer/)
+- [フォーカストラップとは? 〜アクセシブルなモーダル〜](https://azukiazusa.dev/blog/fucus-trap-accessible-modal/)
+- [「PDF版 WCAG 2.2 早見表」をアップしました - 有限会社時代工房](https://www.jidaikobo.com/news/82.html)
