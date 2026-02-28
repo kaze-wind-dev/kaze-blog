@@ -318,7 +318,6 @@ import MenuButton from "./MenuButton.astro";
 
     /* メニューの外をクリックした時の処理 */
     menu.addEventListener("click", (e: MouseEvent) => {
-      console.log(e.target);
       if (e.target !== container && e.target === menu && isMenuOpen()) {
         closeMenu();
       }
@@ -877,7 +876,7 @@ dialogはモーダルや非モーダルダイアログモックス、アラー�
 全てのモダンブラウザで対応できます。
 ただし古いバージョンでは使えないこともあるので、使用するか否かはどこまで対応するかで決めても問題ないのかなと思います。
 
-dialog" | Can I use　https://caniuse.com/?search=dialog
+[dialog" | Can I use](https://caniuse.com/?search=dialog)
 
 ## 最後に
 
