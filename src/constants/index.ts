@@ -12,12 +12,12 @@ export const MAIN_NAVIGATION_LIST: NavigationItem[] = [
   { href: "/notes", name: "Notes" },
   { href: "/tech", name: "Tech Articles" },
   // { href: "/works", name: "Works" },
-  { href: "/patterns", name: "Patterns" },
+  // { href: "/patterns", name: "Patterns" },
 ];
 
 export const SUB_NAVIGATION_LIST: NavigationItem[] = [
   // { href: "/contact", name: "Contact" },
-  { href: "/privacy", name: "Privacy Policy" },
+  // { href: "/privacy", name: "Privacy Policy" },
 ];
 
 export const ALL_NAVIGATION_LIST: NavigationItem[] = [
